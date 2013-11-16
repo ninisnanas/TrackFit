@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Home extends Activity implements OnClickListener {
-	Button home;
 	Button tracker;
 	Button history;
 	Button dashboard;
@@ -20,13 +19,11 @@ public class Home extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 		
-		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
 		dashboard = (Button) findViewById(R.id.DashboardIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
 		
-		home.setOnClickListener(this);
 		tracker.setOnClickListener(this);
 		history.setOnClickListener(this);
 		dashboard.setOnClickListener(this);
@@ -43,11 +40,10 @@ public class Home extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v.equals(home)) startActivity(new Intent(getApplicationContext(), Home.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-		else if (v.equals(tracker)) startActivity(new Intent(getApplicationContext(), Tracking.class));
-		else if (v.equals(history)) startActivity(new Intent(getApplicationContext(), History.class));
-		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), Dashboard.class));
-		else if (v.equals(about)) startActivity(new Intent(getApplicationContext(), About.class));
+		if (v.equals(tracker)) startActivity(new Intent(getApplicationContext(), Tracking.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		else if (v.equals(history)) startActivity(new Intent(getApplicationContext(), History.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), Dashboard.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		else if (v.equals(about)) startActivity(new Intent(getApplicationContext(), About.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 	}
 
 }
