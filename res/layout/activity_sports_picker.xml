@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SportsPicker" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/cream"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick any sport"
+            android:textSize="30sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupSportsPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            
+            <RadioButton
+	            android:id="@+id/radioButtonWalking"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Walking"
+	            android:textSize="20sp" />
+	
+	        <RadioButton
+	            android:id="@+id/radioButtonRunning"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Running"
+	            android:textSize="20sp" />
+	
+	        <RadioButton
+	            android:id="@+id/radioButtonCycling"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Cycling"
+	            android:textSize="20sp" />
+        </RadioGroup>
+
+        
+
+        <Button
+            android:id="@+id/buttonConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next" />
+    </LinearLayout>
+
+</RelativeLayout>
