@@ -8,7 +8,7 @@ import com.mapquest.android.maps.MapActivity;
 import com.mapquest.android.maps.MapView;
 
 
-
+/*
 public class Tracking extends MapActivity {
 
 	@Override
@@ -37,8 +37,8 @@ public class Tracking extends MapActivity {
     }
 
 }
+*/
 
-/*
 public class Tracking extends MapActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,4 +58,3 @@ public class Tracking extends MapActivity {
       return false;
     }
   }
-*/

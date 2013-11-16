@@ -67,14 +67,15 @@ public final class R {
         public static final int walking_white=0x7f02001d;
     }
     public static final class id {
-        public static final int DashboardIconButton=0x7f0a001e;
+        public static final int AboutIconButton=0x7f0a0021;
+        public static final int DashboardIconButton=0x7f0a0020;
         public static final int FrameTitle=0x7f0a0001;
         public static final int Header=0x7f0a0000;
         public static final int HistoryIconButton=0x7f0a001f;
         public static final int HomeIconButton=0x7f0a001d;
         public static final int Title=0x7f0a0002;
         public static final int Title1=0x7f0a0003;
-        public static final int aboutIconButton=0x7f0a0021;
+        public static final int TrackerIconButton=0x7f0a001e;
         public static final int action_settings=0x7f0a0023;
         public static final int button1=0x7f0a0009;
         public static final int button2=0x7f0a000a;
@@ -95,7 +96,6 @@ public final class R {
         public static final int radio1=0x7f0a0007;
         public static final int radio2=0x7f0a0008;
         public static final int radioGroup1=0x7f0a0005;
-        public static final int social_share=0x7f0a0020;
         public static final int textView1=0x7f0a0004;
         public static final int textViewAge=0x7f0a000d;
         public static final int textViewDistance=0x7f0a0015;

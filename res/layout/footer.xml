@@ -23,7 +23,7 @@
             android:background="@drawable/home_ico_white" />
 
         <Button
-            android:id="@+id/DashboardIconButton"
+            android:id="@+id/TrackerIconButton"
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:layout_marginTop="5dp"
@@ -39,7 +39,7 @@
             android:background="@drawable/printed_matter_books_icon_white" />
 
         <Button
-            android:id="@+id/social_share"
+            android:id="@+id/DashboardIconButton"
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:layout_marginTop="5dp"
@@ -47,7 +47,7 @@
             android:background="@drawable/charts_line_chart_icon_white" />
         
         <Button 
-            android:id="@+id/aboutIconButton"
+            android:id="@+id/AboutIconButton"
             android:layout_width="50sp"
             android:layout_height="50sp"
             android:layout_marginTop="5dp"
