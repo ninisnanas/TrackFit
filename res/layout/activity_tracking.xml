@@ -15,22 +15,9 @@
 
         <include layout="@layout/header" />
     </LinearLayout>
+    
+    
 
-    <FrameLayout
-        android:id="@+id/FrameTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Header" >
-
-        <TextView
-            android:id="@+id/Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/title_activity_tracking"
-            android:textSize="25sp" />
-    </FrameLayout>
- 
     <include
         android:id="@+id/include1"
         android:layout_width="wrap_content"
@@ -40,13 +27,13 @@
         layout="@layout/footer" />
 
     <LinearLayout
+        android:id="@+id/layoutBawah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/include1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:orientation="vertical"
-        android:padding="5dp" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,9 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
-                android:gravity="center"
+                android:gravity=""
                 android:text="0:00:00"
-                android:textSize="40sp"/>
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/textViewDistance"
@@ -75,8 +62,9 @@
                 android:id="@+id/textViewKM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:gravity="right"
                 android:text="km" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -88,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/white"
+                android:background="@color/blue"
                 android:padding="20dp"
                 android:text="Start"
                 android:textSize="20sp" />
@@ -98,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/white"
+                android:background="@color/green"
                 android:padding="20dp"
                 android:text="Stop"
                 android:textSize="20sp" />
@@ -108,7 +96,7 @@
             android:id="@+id/buttonVoiceCommand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/blue"
             android:padding="20dp"
             android:text="Voice Command"
             android:textSize="20sp" />
@@ -117,20 +105,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="160dp"
+        android:layout_above="@+id/layoutBawah"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/FrameTitle"
+        android:layout_below="@+id/Header"
         android:orientation="vertical" >
 
         <com.mapquest.android.maps.MapView
-		    xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:id="@+id/map"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:clickable="true"
-		    android:apiKey="YOUR_APPKEY_HERE"
-		  />
-
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:apiKey="YOUR_APPKEY_HERE"
+            android:clickable="true" />
     </LinearLayout>
 
 </RelativeLayout>

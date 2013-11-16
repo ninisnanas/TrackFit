@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/footer_5_lines"
+        android:background="@drawable/footer_no_border"
         android:paddingBottom="5dp" >
 
         <Button

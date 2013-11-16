@@ -13,9 +13,6 @@
     <string name="title_jarak">Jarak</string>
     <string name="jarak">3.4 km</string>
     <string name="appsTitle">Track-fit</string>
-
-    
-
     <string name="title_activity_tracking">Tracking</string>
     <string name="title_activity_graph">Graph</string>
     <string name="sport_prompt">Choose a country</string>
@@ -31,5 +28,7 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_about">About</string>
+    <string name="title_activity_sports_picker">SportsPicker</string>
+    <string name="title_activity_set_goals">SetGoals</string>
 
 </resources>
