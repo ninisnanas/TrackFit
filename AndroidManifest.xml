@@ -3,6 +3,7 @@
     package="sport.app"
     android:versionCode="1"
     android:versionName="1.0" >
+    
     <uses-permission android:name="android.permission.INTERNET" />
     
 
@@ -34,6 +35,11 @@
             android:name="sport.app.Tracking"
             android:label="@string/title_activity_tracking"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="sport.app.Graph"
@@ -59,11 +65,7 @@
             android:name="sport.app.About"
             android:label="@string/title_activity_about"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
     </application>
 
