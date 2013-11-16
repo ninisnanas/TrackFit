@@ -9,7 +9,7 @@
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="9" />
+        android:targetSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +23,6 @@
         </activity>
         <activity
             android:name="sport.app.SelectSport"
-            android:label="@string/title_activity_select_sport"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
