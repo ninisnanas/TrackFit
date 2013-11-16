@@ -41,15 +41,6 @@ reports/
 # Mac OS X
 .DS_Store
 
-# Eclipse GitIgnore
-*.pydevproject
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
 
 # External tool builders
 .externalToolBuilders/
