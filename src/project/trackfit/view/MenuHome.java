@@ -62,7 +62,8 @@ public class MenuHome extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				Intent intent = new Intent(getApplicationContext(), MenuProfile.class);
+				Intent intent = new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				intent.putExtra("newUser", true);
 				startActivity(intent);
 				}
 			});
@@ -75,7 +76,7 @@ public class MenuHome extends Activity implements OnClickListener {
 			}
 		});
 		
-		builder.setMessage("You haven't create a profile! Create now?");
+		builder.setMessage("You haven't created a profile! Create now?");
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
