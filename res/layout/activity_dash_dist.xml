@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Graph"
-    android:background="@color/red" >
+    tools:context=".MenuDashDist"
+    android:background="@drawable/background_5_lines" >
 
     <LinearLayout
         android:id="@+id/Header"
@@ -17,20 +17,26 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/Title"
+        android:id="@+id/FrameTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Header"
-        android:paddingTop="5sp" >
+        android:layout_below="@+id/Header" >
 
         <TextView
-            android:id="@+id/Title1"
+            android:id="@+id/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/title_activity_graph"
+            android:text="@string/title_activity_dashboard"
             android:textSize="25sp" />
 
     </FrameLayout>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/footer" />
 
 </RelativeLayout>

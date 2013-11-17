@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuAbout"
+    tools:context=".MenuDashCal"
     android:background="@drawable/background_5_lines" >
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/title_activity_about"
+            android:text="@string/title_activity_dashboard"
             android:textSize="25sp" />
 
     </FrameLayout>
@@ -38,14 +38,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         layout="@layout/footer" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/FrameTitle"
-        android:orientation="vertical" >
-        
-    </LinearLayout>
 
 </RelativeLayout>
