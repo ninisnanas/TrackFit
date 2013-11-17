@@ -4,33 +4,39 @@
     android:layout_height="match_parent"
     android:background="@color/cream"
     tools:context=".MenuSportTrack" >
-
+    
     <LinearLayout
         android:id="@+id/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:background="@color/red" >
 
         <include layout="@layout/header" />
     </LinearLayout>
     
-    
-
-    <include
-        android:id="@+id/include1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+    <LinearLayout
+        android:id="@+id/layoutMap"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_below="@+id/Header"
         android:layout_alignParentLeft="true"
-        layout="@layout/footer" />
+        android:layout_alignParentRight="true"
+        android:orientation="vertical" >
+
+        <com.mapquest.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:apiKey="Fmjtd%7Cluubn9uzl1%2Cax%3Do5-902x9a"
+            android:clickable="true" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutBawah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/include1"
+        android:layout_below="@+id/layoutMap"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:orientation="vertical">
@@ -102,22 +108,20 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <LinearLayout
+    
+    
+    <RelativeLayout 
+        android:id="@+id/Footer"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_above="@+id/layoutBawah"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/Header"
-        android:orientation="vertical" >
-
-        <com.mapquest.android.maps.MapView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:apiKey="YOUR_APPKEY_HERE"
-            android:clickable="true" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        
+        
+        >
+   		
+   		<include 
+   		    layout="@layout/footer"
+   		    android:layout_alignParentBottom="true" />
+        
+    </RelativeLayout>
 
 </RelativeLayout>

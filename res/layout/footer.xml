@@ -6,53 +6,58 @@
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom|center_horizontal">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/footer_no_border"
-        android:paddingBottom="5dp" >
-
-        <Button
-            android:id="@+id/HomeIconButton"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="1dp"
-            android:background="@drawable/home_ico_white" />
-
-        <Button
-            android:id="@+id/TrackerIconButton"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/walking_white" />
-
-        <Button
-            android:id="@+id/HistoryIconButton"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="23dp"
-            android:background="@drawable/printed_matter_books_icon_white" />
-
-        <Button
-            android:id="@+id/DashboardIconButton"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="25dp"
-            android:background="@drawable/charts_line_chart_icon_white" />
-        
-        <Button 
-            android:id="@+id/AboutIconButton"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="18dp"
-            android:background="@drawable/about_white"/>
-    </LinearLayout>
-        
+    <FrameLayout
+           android:id="@+id/Footer1"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_gravity="bottom|center_horizontal"
+           android:background="@color/red" >
+    
+	    <RelativeLayout
+	        android:id="@+id/linearLayout2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom|center_horizontal">
+	
+	        <Button
+	            android:id="@+id/HomeIconButton"
+	            android:layout_width="54dp"
+				android:layout_height="54dp"
+	            android:layout_alignParentBottom="true"
+	            android:layout_alignParentLeft="true"
+	            android:background="@drawable/home_ico" />
+	
+	        <Button
+	            android:id="@+id/TrackerIconButton"
+	            android:layout_width="54dp"
+				android:layout_height="54dp"
+	            android:layout_alignParentBottom="true"
+				android:layout_toRightOf="@+id/HomeIconButton"
+	            android:background="@drawable/sport_tracker_ico" />
+	
+	        <Button
+	            android:id="@+id/HistoryIconButton"
+	            android:layout_width="54dp"
+	            android:layout_height="54dp"
+	            android:layout_alignParentBottom="true"
+				android:layout_toRightOf="@+id/TrackerIconButton"
+	            android:background="@drawable/history_ico" />
+	
+	        <Button
+	            android:id="@+id/DashboardIconButton"
+	            android:layout_width="54dp"
+				android:layout_height="54dp"
+	            android:layout_alignParentBottom="true"
+	            android:layout_toRightOf="@+id/HistoryIconButton"
+	            android:background="@drawable/dashboard_ico" />
+	        
+	        <Button 
+	            android:id="@+id/AboutIconButton"
+	            android:layout_width="54dp"
+	            android:layout_height="54dp"
+	            android:layout_alignParentBottom="true"
+	            android:layout_toRightOf="@+id/DashboardIconButton"
+	            android:background="@drawable/about_ico"/>
+	    </RelativeLayout>
+	</FrameLayout>
 </RelativeLayout>

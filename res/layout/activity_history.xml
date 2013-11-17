@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MenuActHistory"
-    android:background="@drawable/background_5_lines" >
+    android:background="@color/cream" >
+
     <LinearLayout
         android:id="@+id/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:background="@color/red" >
-        	<include layout="@layout/header" />
+        <include layout="@layout/header" />
     </LinearLayout>
+
     <FrameLayout
         android:id="@+id/FrameTitle"
         android:layout_width="match_parent"
@@ -29,11 +29,13 @@
 
     </FrameLayout>
     
-	<include
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true"
-	        layout="@layout/footer" />
+    <RelativeLayout 
+        android:id="@+id/Footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+   		<include 
+   		    layout="@layout/footer"
+   		    android:layout_alignParentBottom="true" />
+    </RelativeLayout>
     
 </RelativeLayout>
