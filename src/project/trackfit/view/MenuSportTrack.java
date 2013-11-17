@@ -13,8 +13,6 @@ import com.mapquest.android.maps.MapView;
 import com.mapquest.android.maps.MyLocationOverlay;
 import com.mapquest.android.maps.RouteManager;
 
-
-
 public class MenuSportTrack extends MapActivity implements OnClickListener {
 	protected MapView map;
     private MyLocationOverlay myLocationOverlay;
@@ -23,25 +21,28 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	Button history;
 	Button dashboard;
 	Button about;
+	Button profile;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_sport_track);
+		overridePendingTransition(0,0);
 	    setupMapView();
 	    setupMyLocation();
 	    displayRoute();
 	    
-	      
 	    home = (Button) findViewById(R.id.HomeIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
 		dashboard = (Button) findViewById(R.id.DashboardIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
+		profile = (Button) findViewById(R.id.ProfileIconButton);
 		
 		home.setOnClickListener(this);
 		history.setOnClickListener(this);
 		dashboard.setOnClickListener(this);
 		about.setOnClickListener(this);
+		profile.setOnClickListener(this);
 
 		// set the zoom level, center point and enable the default zoom controls 
 		MapView map = (MapView) findViewById(R.id.map);
@@ -101,19 +102,19 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			finish();
-		}
-		else if (v.equals(about)) {
+		} else if (v.equals(about)) {
 			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
-		}
-		else if (v.equals(history)) {
+		} else if (v.equals(history)) {
 			startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
-		}
-		else if (v.equals(dashboard)) {
+		} else if (v.equals(dashboard)) {
 			startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		} else if (v.equals(profile)) {
+			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 	}

@@ -20,6 +20,8 @@ public class MenuHome extends Activity implements OnClickListener {
 	Button history;
 	Button dashboard;
 	Button about;
+	Button profile;
+	
 	TextView userName;
 	Context context;
 	HomeController homeController;
@@ -29,6 +31,7 @@ public class MenuHome extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		overridePendingTransition(0,0);
 		context = this;
 		
 		homeController = new HomeController(this);
@@ -37,6 +40,7 @@ public class MenuHome extends Activity implements OnClickListener {
 		history = (Button) findViewById(R.id.HistoryIconButton);
 		dashboard = (Button) findViewById(R.id.DashboardIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
+		profile = (Button) findViewById(R.id.ProfileIconButton);
 		
 		userName = (TextView) findViewById(R.id.textViewUserName);
 		
@@ -44,15 +48,21 @@ public class MenuHome extends Activity implements OnClickListener {
 		history.setOnClickListener(this);
 		dashboard.setOnClickListener(this);
 		about.setOnClickListener(this);
+		profile.setOnClickListener(this);
 		
 		if (checkUser()) {
 			// User has created a profile, load last activity
-			user = homeController.getUser();
-			userName.setText("Hello, " + user.getName() + "!");
+			loadLastActivity();
 		} else {
 			// User needs to fill profile first
 			createProfile(context);
 		}
+	}
+
+	private void loadLastActivity() {
+		// TODO Auto-generated method stub
+		user = homeController.getUser();
+		userName.setText("Hello, " + user.getName() + "!");
 	}
 
 	private void createProfile(Context context) {
@@ -100,10 +110,17 @@ public class MenuHome extends Activity implements OnClickListener {
 		else if (v.equals(history)) startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(about)) startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		else if (v.equals(profile)) startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 	}
 
 	public void onBackPressed() {
+		loadLastActivity();
 		super.onBackPressed();
 		overridePendingTransition(0,0);
+	}
+	
+	public void onResume() {
+		loadLastActivity();
+		super.onResume();
 	}
 }

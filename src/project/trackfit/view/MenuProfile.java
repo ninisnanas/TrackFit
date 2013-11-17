@@ -22,6 +22,7 @@ public class MenuProfile extends Activity implements OnClickListener {
 	Button history;
 	Button dashboard;
 	Button about;
+	Button profile;
 	Button confirm;
 	EditText name;
 	EditText age;
@@ -37,6 +38,7 @@ public class MenuProfile extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
+		overridePendingTransition(0,0);
 		
 		context = this;
 		profileController = new ProfileController(context);
@@ -50,12 +52,14 @@ public class MenuProfile extends Activity implements OnClickListener {
 		name = (EditText) findViewById(R.id.editTextName);
 		age = (EditText) findViewById(R.id.editTextAge);
 		weight = (EditText) findViewById(R.id.editTextWeight);
+		profile = (Button) findViewById(R.id.ProfileIconButton);
 		
 		home.setOnClickListener(this);
 		tracker.setOnClickListener(this);
 		history.setOnClickListener(this);
 		dashboard.setOnClickListener(this);
 		about.setOnClickListener(this);
+		profile.setOnClickListener(this);
 		confirm.setOnClickListener(this);
 		
 		Intent intent = getIntent();
@@ -90,7 +94,7 @@ public class MenuProfile extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		} else if (v.equals(tracker)) {
 			startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -100,6 +104,9 @@ public class MenuProfile extends Activity implements OnClickListener {
 			finish();
 		} else if (v.equals(dashboard)) {
 			startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		} else if (v.equals(profile)) {
+			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		} else if (v.equals(confirm)) {
 			String message;

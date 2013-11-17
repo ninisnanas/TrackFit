@@ -14,21 +14,34 @@ public class MenuDashTime extends Activity implements OnClickListener {
 	Button tracker;
 	Button history;
 	Button about;
+	Button profile;
+	Button calorie;
+	Button distance;
+	Button speed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dash_dist);
+		overridePendingTransition(0,0);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
+		profile = (Button) findViewById(R.id.ProfileIconButton);
+		calorie = (Button) findViewById(R.id.buttonCalories);
+		distance = (Button) findViewById(R.id.buttonDistance);
+		speed = (Button) findViewById(R.id.buttonSpeed);
 		
 		home.setOnClickListener(this);
 		tracker.setOnClickListener(this);
 		history.setOnClickListener(this);
 		about.setOnClickListener(this);
+		profile.setOnClickListener(this);
+		calorie.setOnClickListener(this);
+		distance.setOnClickListener(this);
+		speed.setOnClickListener(this);
 	}
 
 	@Override
@@ -42,7 +55,7 @@ public class MenuDashTime extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			finish();
 		}
 		else if (v.equals(tracker)) {
@@ -56,8 +69,21 @@ public class MenuDashTime extends Activity implements OnClickListener {
 		else if (v.equals(about)) {
 			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
+		} else if (v.equals(profile)) {
+			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		} else if (v.equals(distance)) {
+			startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		} else if (v.equals(calorie)) {
+			startActivity(new Intent(getApplicationContext(), MenuDashCal.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		} else if (v.equals(speed)) {
+			startActivity(new Intent(getApplicationContext(), MenuDashSpeed.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
 		}
 	}
+	
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
