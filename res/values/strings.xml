@@ -14,13 +14,6 @@
     <string name="appsTitle">Track-fit</string>
     <string name="title_activity_tracking">Tracking</string>
     <string name="title_activity_graph">Graph</string>
-    <string name="sport_prompt">Choose a country</string>
-
-    <string-array name="sport_array">
-        <item>Running</item>
-        <item>Walking</item>
-        <item>Cycling</item>
-    </string-array>
 
     <string name="title_activity_history">History</string>
     <string name="imageDesc">gambar</string>

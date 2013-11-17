@@ -6,6 +6,8 @@
    	<color name="grey">#E6E6E6</color>
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
+    <color name="purple">#51214D</color>
+    <color name="yellow">#FFFF00</color>
     
     <color name="default_blue">#0099CC</color>
    	<color name="bright_blue">#3268C6</color>
