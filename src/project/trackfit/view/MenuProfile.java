@@ -70,6 +70,8 @@ public class MenuProfile extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 		newUser = intent.getBooleanExtra("newUser", false);
 		if (newUser) {
+			user = new User();
+			
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Create New Profile");
     		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -110,13 +112,13 @@ public class MenuProfile extends Activity implements OnClickListener {
 		} else if (v.equals(dashboard)) {
 			startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
-		} else if (v.equals(profile)) {
-			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		} else if (v.equals(about)) {
+			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		} else if (v.equals(confirm)) {
 			String message;
 			if (newUser) {
-				editUser();
+				createUser();
 				message = "User data has been created";
 			} else {
 				editUser();
@@ -138,6 +140,17 @@ public class MenuProfile extends Activity implements OnClickListener {
     		AlertDialog dialog = builder.create();
     		dialog.show();
 		}
+	}
+	
+	private void createUser() {
+		// TODO Auto-generated method stub
+		user.setName(name.getText().toString());
+		user.setAge(Integer.parseInt(age.getText().toString()));
+		user.setWeight(Integer.parseInt(weight.getText().toString()));
+		user.setHeight(Integer.parseInt(height.getText().toString()));
+		user.setBodyMass(profileController.calculateBodyMass(user.getWeight(), user.getHeight()));
+				
+		profileController.setUser(1, user.getName(), user.getAge(), user.getWeight(), user.getHeight(), user.getBodyMass());
 	}
 	
 	private void editUser() {

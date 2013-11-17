@@ -8,6 +8,10 @@ public class User {
 	private int age;
 	private double body_mass;
 	
+	public User() {
+		
+	}
+	
 	public User(int id, String name, int height, int weight, int age, double body_mass) {
 		this.id = id;
 		this.name = name;
