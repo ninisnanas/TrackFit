@@ -16,7 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/sports_running_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name="project.trackfit.view.SplashScreen"
             android:theme="@android:style/Theme.Light.NoTitleBar"
