@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MenuDashCal"
-    android:background="@drawable/background_5_lines" >
+    android:background="@color/cream" >
 
     <LinearLayout
         android:id="@+id/Header"
@@ -16,27 +16,63 @@
         <include layout="@layout/header" />
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/FrameTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Header" >
-
-        <TextView
-            android:id="@+id/Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/title_activity_dashboard"
-            android:textSize="25sp" />
-
-    </FrameLayout>
-
     <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         layout="@layout/footer" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/Header"
+        android:background="@drawable/dashboard_header_1" >
+
+        <TextView
+            android:id="@+id/textViewCal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Calories"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <TextView
+            android:id="@+id/textViewDist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           	android:paddingTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Distance"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <TextView
+            android:id="@+id/textViewSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           	android:paddingTop="5dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:text="Speed"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          	android:paddingTop="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Time"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
 
 </RelativeLayout>
