@@ -12,57 +12,76 @@
         android:background="@color/red" >
         <include layout="@layout/header" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/Header"
-        android:background="@drawable/dashboard_header_3" >
+    
+    <RelativeLayout
+	        android:id="@+id/dashboard_tab"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_below="@+id/Header"
+	        android:background="@color/red"
+	        >
+        
+        <Button
+            android:id="@+id/buttonCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+            android:background="@drawable/calories_tab" />
+        
+        <Button
+		   android:id="@+id/buttonDistance"
+	 	    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/buttonCalories"
+	  	    android:background="@drawable/distance_tab" />
+        
+        <Button
+		   android:id="@+id/buttonSpeed"
+	 	    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/buttonDistance"
+	  	    android:background="@drawable/speed_tab_active" />
+        
+        <Button
+		   android:id="@+id/buttonTime"
+	 	    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/buttonSpeed"
+	  	    android:background="@drawable/time_tab" />
 
-        <TextView
-            android:id="@+id/textViewCal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="Calories"
-            android:textColor="@color/white"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        
-        <TextView
-            android:id="@+id/textViewDist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           	android:paddingTop="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Distance"
-            android:textColor="@color/white"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        
-        <TextView
-            android:id="@+id/textViewSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           	android:paddingTop="5dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:text="Speed"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          	android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Time"
-            android:textColor="@color/white"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+	    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/dashboard_tab"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scrollViewContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="54dp"
+            android:background="@color/cream" >
+
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
+    
     <RelativeLayout 
         android:id="@+id/Footer"
         android:layout_width="match_parent"

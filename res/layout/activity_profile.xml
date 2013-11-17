@@ -3,16 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MenuProfile"
-    android:background="@drawable/background_5_lines" >
+    android:background="@color/cream" >
 
     <LinearLayout
         android:id="@+id/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:background="@color/red" >
-
         <include layout="@layout/header" />
     </LinearLayout>
 	 <FrameLayout
@@ -32,12 +29,7 @@
 	
 	    </FrameLayout>
 	    
-	    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        layout="@layout/footer" />
+	  
 
 	    <LinearLayout
 	        android:layout_width="wrap_content"
@@ -89,37 +81,106 @@
 	            android:layout_marginRight="5dp"
 	            android:layout_marginBottom="5dp" />
 
-	        <TextView
-	            android:id="@+id/textViewWeight"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:padding="5dp"
-	            android:text="@string/weight"
-	            android:textSize="20sp" />
-
-	        <EditText
-	            android:id="@+id/editTextWeight"
-	            android:hint="@string/insert_weight"
-	            android:inputType="number"
+	        <LinearLayout
+	            android:baselineAligned="false"
 	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:padding="5dp"
-	            android:layout_marginLeft="5dp"
-	            android:layout_marginRight="5dp"
-	            android:layout_marginBottom="5dp" />
+	            android:layout_height="wrap_content" >
 
-	        <Button
-	            android:id="@+id/buttonConfirm"
+	            <LinearLayout
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_weight="0.5"
+	                android:orientation="vertical" >
+
+	                <TextView
+	                    android:id="@+id/textViewWeight"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:padding="5dp"
+	                    android:text="@string/weight"
+	                    android:textSize="20sp" />
+
+	                <EditText
+	                    android:id="@+id/editTextWeight"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginBottom="5dp"
+	                    android:layout_marginLeft="5dp"
+	                    android:layout_marginRight="5dp"
+	                    android:ems="10"
+	                    android:hint="@string/insert_weight"
+	                    android:inputType="number"
+	                    android:padding="5dp" />
+	            </LinearLayout>
+
+	            <LinearLayout
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_weight="0.5"
+	                android:orientation="vertical" >
+
+	                <TextView
+	                    android:id="@+id/textViewHeight"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:padding="5dp"
+	                    android:text="@string/height"
+	                    android:textSize="20sp" />
+
+	                <EditText
+	                    android:id="@+id/editTextHeight"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginBottom="5dp"
+	                    android:layout_marginLeft="5dp"
+	                    android:layout_marginRight="5dp"
+	                    android:ems="10"
+	                    android:hint="@string/insert_height"
+	                    android:inputType="number"
+	                    android:padding="5dp" />
+	            </LinearLayout>
+
+	        </LinearLayout>
+
+	        <LinearLayout
 	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_margin="5dp"
-	            android:padding="10dp"
-	            android:text="@string/confirm"
-	            android:textSize="25sp"
-	            android:textColor="@color/white"
-	            android:background="@color/red" />
+	            android:layout_height="wrap_content" >
+
+	            <Button
+	                android:id="@+id/buttonConfirm"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="5dp"
+	                android:background="@color/red"
+	                android:padding="10dp"
+	                android:layout_weight="0.5"
+	                android:text="@string/confirm"
+	                android:textColor="@color/white"
+	                android:textSize="25sp" />
+	            
+	            <Button
+	                android:id="@+id/buttonBodyMass"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_margin="5dp"
+	                android:background="@color/red"
+	                android:padding="10dp"
+	                android:layout_weight="0.5"
+	                android:text="@string/bodyMass"
+	                android:textColor="@color/white"
+	                android:textSize="25sp" />
+
+	        </LinearLayout>
 
 	    </LinearLayout>
+	    
+	     <RelativeLayout 
+        android:id="@+id/Footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+   		<include 
+   		    layout="@layout/footer"
+   		    android:layout_alignParentBottom="true" />
+    </RelativeLayout>
 	    
 </RelativeLayout>

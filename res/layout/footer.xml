@@ -51,13 +51,24 @@
 	            android:layout_toRightOf="@+id/HistoryIconButton"
 	            android:background="@drawable/dashboard_ico" />
 	        
+	        <Button
+	            android:id="@+id/ProfileIconButton"
+	            android:layout_width="54dp"
+				android:layout_height="54dp"
+	            android:layout_alignParentBottom="true"
+	            android:layout_toRightOf="@+id/DashboardIconButton"
+	            android:background="@drawable/profile_ico" />
+	        
 	        <Button 
 	            android:id="@+id/AboutIconButton"
 	            android:layout_width="54dp"
 	            android:layout_height="54dp"
 	            android:layout_alignParentBottom="true"
-	            android:layout_toRightOf="@+id/DashboardIconButton"
+	            android:layout_toRightOf="@+id/ProfileIconButton"
 	            android:background="@drawable/about_ico"/>
+
+	        
+
 	    </RelativeLayout>
 	</FrameLayout>
 </RelativeLayout>
