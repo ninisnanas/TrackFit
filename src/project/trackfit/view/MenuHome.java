@@ -119,8 +119,9 @@ public class MenuHome extends Activity implements OnClickListener {
 		overridePendingTransition(0,0);
 	}
 	
+	/*
 	public void onResume() {
 		loadLastActivity();
 		super.onResume();
-	}
+	}*/
 }

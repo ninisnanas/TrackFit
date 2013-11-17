@@ -16,19 +16,20 @@ public class ProfileController {
 		return db.getUser();
 	}
 	
-	public boolean setUser(int id, String name, int age, int weight, int height, int body_mass) {
+	public boolean setUser(int id, String name, int age, int weight, int height, double body_mass) {
 		return db.createNewUser(id, name, height, weight, age, body_mass);
 	}
 	
-	public void editUser(int id, String name, int age, int weight, int height, int body_mass) {
+	public void editUser(int id, String name, int age, int weight, int height, double body_mass) {
 		db.editUser(id, name, height, weight, age, body_mass);
 	}
 	
-	public int calculateBodyMass(int weight, int height) {
-		return (weight / (height * height));
+	public double calculateBodyMass(int weight, int height) {
+		double heightInMeter = (double) (height * 0.01);
+		return (weight / (heightInMeter * heightInMeter));
 	}
 	
-	public String getBMIDesc(int BMI) {
+	public String getBMIDesc(double BMI) {
 		if (BMI < 15) {
 			return "very severely underweight";
 		} else if (BMI <= 16) {

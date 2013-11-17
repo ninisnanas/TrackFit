@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MenuDashDist extends Activity implements OnClickListener {
 	Button home;
@@ -73,12 +74,15 @@ public class MenuDashDist extends Activity implements OnClickListener {
 			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		} else if (v.equals(calorie)) {
+			Toast.makeText(getApplicationContext(), "Pencet Kalori", Toast.LENGTH_LONG).show();
 			startActivity(new Intent(getApplicationContext(), MenuDashCal.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		} else if (v.equals(speed)) {
+			Toast.makeText(getApplicationContext(), "Pencet Kecepatan", Toast.LENGTH_LONG).show();
 			startActivity(new Intent(getApplicationContext(), MenuDashSpeed.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		} else if (v.equals(time)) {
+			Toast.makeText(getApplicationContext(), "Pencet Waktu", Toast.LENGTH_LONG).show();
 			startActivity(new Intent(getApplicationContext(), MenuDashTime.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
