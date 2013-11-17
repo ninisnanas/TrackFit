@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class SetGoals extends Activity {
+public class MenuSportGoal extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_set_goals);
+		setContentView(R.layout.activity_sport_goal);
 	}
 
 	@Override

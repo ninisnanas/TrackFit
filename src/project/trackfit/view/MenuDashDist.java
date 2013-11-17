@@ -9,52 +9,52 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class History extends Activity implements OnClickListener {
+public class MenuDashDist extends Activity implements OnClickListener {
 	Button home;
 	Button tracker;
-	Button dashboard;
+	Button history;
 	Button about;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_history);
+		setContentView(R.layout.activity_dash_dist);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
-		dashboard = (Button) findViewById(R.id.DashboardIconButton);
+		history = (Button) findViewById(R.id.HistoryIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
 		
 		home.setOnClickListener(this);
 		tracker.setOnClickListener(this);
-		dashboard.setOnClickListener(this);
+		history.setOnClickListener(this);
 		about.setOnClickListener(this);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.history, menu);
+		getMenuInflater().inflate(R.menu.dashboard, menu);
 		return true;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), Home.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 		else if (v.equals(tracker)) {
-			startActivity(new Intent(getApplicationContext(), Tracking.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
-		else if (v.equals(dashboard)) {
-			startActivity(new Intent(getApplicationContext(), Dashboard.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		else if (v.equals(history)) {
+			startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 		else if (v.equals(about)) {
-			startActivity(new Intent(getApplicationContext(), About.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 	}
@@ -62,5 +62,4 @@ public class History extends Activity implements OnClickListener {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
 	}
-
 }

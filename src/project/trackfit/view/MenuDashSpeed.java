@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class Dashboard extends Activity implements OnClickListener {
+public class MenuDashSpeed extends Activity implements OnClickListener {
 	Button home;
 	Button tracker;
 	Button history;
@@ -18,7 +18,7 @@ public class Dashboard extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_dashboard);
+		setContentView(R.layout.activity_dash_dist);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
@@ -42,19 +42,19 @@ public class Dashboard extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), Home.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 		else if (v.equals(tracker)) {
-			startActivity(new Intent(getApplicationContext(), Tracking.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 		else if (v.equals(history)) {
-			startActivity(new Intent(getApplicationContext(), History.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 		else if (v.equals(about)) {
-			startActivity(new Intent(getApplicationContext(), About.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 	}

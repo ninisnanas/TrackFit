@@ -9,45 +9,57 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class Profile extends Activity implements OnClickListener {
+public class MenuDashCal extends Activity implements OnClickListener {
 	Button home;
 	Button tracker;
 	Button history;
-	Button dashboard;
 	Button about;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_profile);
+		setContentView(R.layout.activity_dash_dist);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
-		dashboard = (Button) findViewById(R.id.DashboardIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
 		
 		home.setOnClickListener(this);
 		tracker.setOnClickListener(this);
 		history.setOnClickListener(this);
-		dashboard.setOnClickListener(this);
 		about.setOnClickListener(this);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.profile, menu);
+		getMenuInflater().inflate(R.menu.dashboard, menu);
 		return true;
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v.equals(home)) startActivity(new Intent(getApplicationContext(), Home.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-		else if (v.equals(tracker)) startActivity(new Intent(getApplicationContext(), Tracking.class));
-		else if (v.equals(history)) startActivity(new Intent(getApplicationContext(), History.class));
-		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), Dashboard.class));
-		else if (v.equals(about)) startActivity(new Intent(getApplicationContext(), About.class));
+		if (v.equals(home)) {
+			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		}
+		else if (v.equals(tracker)) {
+			startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		}
+		else if (v.equals(history)) {
+			startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		}
+		else if (v.equals(about)) {
+			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			finish();
+		}
+	}
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(0,0);
 	}
 }
