@@ -27,39 +27,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="project.trackfit.view.Home"
+            android:name="project.trackfit.view.MenuAbout"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.Tracking"
+            android:name="project.trackfit.view.MenuActHistory"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.Dashboard"
+            android:name="project.trackfit.view.MenuDashCal"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.Graph"
+            android:name="project.trackfit.view.MenuDashDist"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.History"
+            android:name="project.trackfit.view.MenuDashSpeed"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.Profile"
+            android:name="project.trackfit.view.MenuDashTime"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.About"
+            android:name="project.trackfit.view.MenuHome"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="project.trackfit.view.MenuProfile"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="project.trackfit.view.MenuSportGoal"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="project.trackfit.view.MenuSportTrack"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name="project.trackfit.view.SportsPicker"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="project.trackfit.view.SetGoals"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>
