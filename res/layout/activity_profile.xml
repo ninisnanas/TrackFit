@@ -52,11 +52,12 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:padding="5dp"
-	            android:text="Name"
+	            android:text="@string/name"
 	            android:textSize="20sp"/>
 
 	        <EditText
 	            android:id="@+id/editTextName"
+	            android:hint="@string/insert_name"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
@@ -73,11 +74,12 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:padding="5dp"
-	            android:text="Age"
+	            android:text="@string/age"
 	            android:textSize="20sp" />
 
 	        <EditText
 	            android:id="@+id/editTextAge"
+	            android:hint="@string/insert_age"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
@@ -92,11 +94,13 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:padding="5dp"
-	            android:text="Weight"
+	            android:text="@string/weight"
 	            android:textSize="20sp" />
 
 	        <EditText
 	            android:id="@+id/editTextWeight"
+	            android:hint="@string/insert_weight"
+	            android:inputType="number"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
@@ -111,7 +115,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_margin="5dp"
 	            android:padding="10dp"
-	            android:text="Confirm"
+	            android:text="@string/confirm"
 	            android:textSize="25sp"
 	            android:textColor="@color/white"
 	            android:background="@color/red" />

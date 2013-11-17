@@ -58,9 +58,9 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			finish();
 		}
 	}
+	
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
 	}
-
 }
