@@ -30,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		String CREATE_USER = "CREATE TABLE USER (id integer primary key, name text, height integer, weight integer, age integer, body_mass integer)";
+		String CREATE_USER = "CREATE TABLE USER (id integer primary key, name text, height integer, weight integer, age integer, body_mass real)";
 		String CREATE_ACTIVITY = "CREATE TABLE ACTIVITY (id integer primary key, name text)";
 		String INSERT_ACTIVITY = "INSERT INTO ACTIVITY VALUES (1, 'Walking'), (2, 'Running'), (3, 'Cycling') ";
 		String CREATE_HISTORY = "CREATE TABLE HISTORY (uid integer, aid integer, distance integer, time integer, calorie integer, day integer, month integer, year integer)";
@@ -62,7 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		}
 	}
 	
-	public boolean createNewUser(int id, String name, int height, int weight, int age, int body_mass) {
+	public boolean createNewUser(int id, String name, int height, int weight, int age, double body_mass) {
 		boolean success = true;
 		SQLiteDatabase db = this.getWritableDatabase();
 		
@@ -84,7 +84,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return success;
 	}
 	
-	public void editUser(int id, String name, int height, int weight, int age, int body_mass) {
+	public void editUser(int id, String name, int height, int weight, int age, double body_mass) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		ContentValues value = new ContentValues();
@@ -191,7 +191,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		int height;
 		int weight;
 		int age;
-		int body_mass;
+		double body_mass;
 		
 		Cursor cursor = db.rawQuery("SELECT * FROM USER", null);
 		
