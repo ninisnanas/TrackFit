@@ -31,15 +31,11 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-<<<<<<< HEAD
-            android:name="project.trackfit.view.Dashboard"
-=======
-            android:name="sport.app.SelectSport"
->>>>>>> f8b0a03eaf1e5cc89c2ac104cab517f508d33f16
+            android:name="project.trackfit.view.Tracking"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="project.trackfit.view.Tracking"
+            android:name="project.trackfit.view.Dashboard"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
