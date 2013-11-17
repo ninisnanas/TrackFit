@@ -34,8 +34,8 @@
             android:id="@+id/textViewUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/home_hello"
             android:padding="10dp"
-            android:text="Hello, XXXXXXXX"
             android:textSize="30sp"
             android:gravity="center" />
 
@@ -43,7 +43,7 @@
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your last activity is"
+            android:text="@string/home_activity"
             android:padding="10dp"
             android:textSize="20sp"
             android:gravity="center" />
@@ -55,9 +55,10 @@
             android:background="@color/light_pink" >
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/activityImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/activity_image"
                 android:src="@drawable/sports_regular_biking_icon" />
 
             <LinearLayout
@@ -66,7 +67,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/distanceTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -74,7 +75,7 @@
                     android:text="2.3 km in 0:30:00" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/calorie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -82,7 +83,7 @@
                     android:text="243 kcal" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"

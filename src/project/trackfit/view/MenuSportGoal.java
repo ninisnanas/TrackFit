@@ -19,5 +19,9 @@ public class MenuSportGoal extends Activity {
 		getMenuInflater().inflate(R.menu.set_goals, menu);
 		return true;
 	}
-
+	
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(0,0);
+	}
 }

@@ -50,4 +50,9 @@ public class MenuProfile extends Activity implements OnClickListener {
 		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), MenuDashDist.class));
 		else if (v.equals(about)) startActivity(new Intent(getApplicationContext(), MenuAbout.class));
 	}
+	
+	public void onBackPressed() {
+		super.onBackPressed();
+		overridePendingTransition(0,0);
+	}
 }
