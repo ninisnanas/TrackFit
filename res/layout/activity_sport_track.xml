@@ -4,123 +4,108 @@
     android:layout_height="match_parent"
     android:background="@color/cream"
     tools:context=".MenuSportTrack" >
-    
-    <LinearLayout
-        android:id="@+id/Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/red" >
 
-        <include layout="@layout/header" />
-    </LinearLayout>
     
-    <LinearLayout
-        android:id="@+id/layoutMap"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_below="@+id/Header"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red" >
+
+            <include layout="@layout/header" />
+        </LinearLayout>
 
         <com.mapquest.android.maps.MapView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/layoutBawah"
+            android:layout_below="@+id/Header"
             android:apiKey="Fmjtd%7Cluubn9uzl1%2Cax%3Do5-902x9a"
             android:clickable="true" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutBawah"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutMap"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/layoutBawah"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/cream" >
+            android:layout_above="@+id/haha"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textViewDuration"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:gravity=""
-                android:text="0:00:00"
-                android:textSize="40sp" />
+                android:background="@color/cream" >
 
-            <TextView
-                android:id="@+id/textViewDistance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:gravity="right"
-                android:text="0.0"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/textViewDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:gravity=""
+                    android:text="0:00:00"
+                    android:textSize="40sp" />
 
-            <TextView
-                android:id="@+id/textViewKM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="km" />
+                <TextView
+                    android:id="@+id/textViewDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:gravity="right"
+                    android:text="0.0"
+                    android:textSize="40sp" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textViewKM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="km" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/buttonStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/red"
+                    android:padding="20dp"
+                    android:text="Start"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/buttonStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/grey"
+                    android:padding="20dp"
+                    android:text="Stop"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/buttonStart"
-                android:layout_width="wrap_content"
+                android:id="@+id/buttonVoiceCommand"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@color/red"
+                android:background="@color/purple"
                 android:padding="20dp"
-                android:text="Start"
+                android:text="Voice Command"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/buttonStop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@color/grey"
-                android:padding="20dp"
-                android:text="Stop"
-                android:textSize="20sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonVoiceCommand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/purple"
-            android:padding="20dp"
-            android:text="Voice Command"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    
-    
-    <RelativeLayout 
-        android:id="@+id/Footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-   		
-   		<include 
-   		    layout="@layout/footer"
-   		    android:layout_alignParentBottom="true" />
-        
-    </RelativeLayout>
+        <include
+            android:id="@+id/haha"
+            android:layout_alignParentBottom="true"
+            layout="@layout/footer" />
 
 </RelativeLayout>
