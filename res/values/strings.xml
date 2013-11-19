@@ -23,6 +23,7 @@
     <string name="title_activity_sports_picker">SportsPicker</string>
     <string name="title_activity_set_goals">SetGoals</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_select_sport">asdasd</string>
     
     <string name="home_activity">Your last activity is</string>
     <string name="home_no_activity">You haven\'t done any activities</string>

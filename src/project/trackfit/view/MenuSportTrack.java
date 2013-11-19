@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.trackfit.R;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -56,10 +57,21 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 		setContentView(R.layout.activity_sport_track);
 		map = (MapView) findViewById(R.id.map);
 		trackedPoint = new ArrayList<GeoPoint>();
+		
+		setupView();
+		setupEvent();
 		setupMapView();
 		setupMyLocation();
 		// displayRoute();
 
+		// set the zoom level, center point and enable the default zoom controls
+
+		// map.getController().setZoom(9);
+		// map.getController().setCenter(new GeoPoint(38.892155, -77.036195));
+		// map.setBuiltInZoomControls(true);
+	}
+	
+	private void setupView(){
 		stopwatch = (TextView) findViewById(R.id.textViewDuration);
 		home = (Button) findViewById(R.id.HomeIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
@@ -70,7 +82,14 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 		pause = (Button) findViewById(R.id.buttonPause);
 		resume = (Button) findViewById(R.id.buttonResume);
 		stop = (Button) findViewById(R.id.buttonStop);
-
+		
+		start.setVisibility(visible);
+		pause.setVisibility(invisible);
+		resume.setVisibility(invisible);
+		stop.setVisibility(invisible);
+	}
+	
+	private void setupEvent(){
 		home.setOnClickListener(this);
 		history.setOnClickListener(this);
 		dashboard.setOnClickListener(this);
@@ -80,94 +99,8 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 		pause.setOnClickListener(this);
 		resume.setOnClickListener(this);
 		stop.setOnClickListener(this);
-
-		start.setVisibility(visible);
-		pause.setVisibility(invisible);
-		resume.setVisibility(invisible);
-		stop.setVisibility(invisible);
-
-		// set the zoom level, center point and enable the default zoom controls
-
-		// map.getController().setZoom(9);
-		// map.getController().setCenter(new GeoPoint(38.892155, -77.036195));
-		// map.setBuiltInZoomControls(true);
-
 	}
-
-	// set your map and enable default zoom controls
-	private void setupMapView() {
-		this.map = (MapView) findViewById(R.id.map);
-
-		map.setBuiltInZoomControls(true);
-	}
-
-	// set up a MyLocationOverlay and execute the runnable once we have a
-	// location fix
-	private void setupMyLocation() {
-		this.myLocationOverlay = new MyLocationOverlay(this, map);
-		myLocationOverlay.enableMyLocation();
-		myLocationOverlay.runOnFirstFix(new Runnable() {
-			@Override
-			public void run() {
-				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
-				map.getController().animateTo(currentLocation);
-				map.getController().setZoom(18);
-				map.getOverlays().add(myLocationOverlay);
-				myLocationOverlay.setFollowing(true);
-			}
-		});
-	}
-
-	private Runnable timerRunnable = new Runnable() {
-		public void run() {
-			
-			//run a timer
-			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-			updatedTime = timeSwapBuff + timeInMilliseconds;
-			int secs = (int) (updatedTime / 1000);
-			int mins = secs / 60;
-			int hours = mins / 60;
-			secs = secs % 60;
-			int milliSecs = (int) (updatedTime % 1000);
-			stopwatch.setText("" + hours + ":" + String.format("%02d", mins)
-					+ ":" + String.format("%02d", secs) + ":"
-					+ String.format("%02d", milliSecs));
-			timerHandler.postDelayed(this, 0);
-
-			//draw tracking lines
-			if (secs % 10 == 0) {
-				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
-				trackedPoint.add(currentLocation);
-				// Toast.makeText(TrainingActivity.this,
-				// currentLocation.toString(), Toast.LENGTH_SHORT).show();
-				drawTrackLine();
-			}
-		}
-	};
-
-	// create a route and display on the map
-	private void displayRoute() {
-		RouteManager routeManager = new RouteManager(this);
-		routeManager.setMapView(map);
-		routeManager.createRoute("San Francisco, CA", "Fremont, CA");
-	}
-
-	// enable features of the overlay
-	@Override
-	protected void onResume() {
-		myLocationOverlay.enableMyLocation();
-		myLocationOverlay.enableCompass();
-		super.onResume();
-	}
-
-	// disable features of the overlay when in the background
-	@Override
-	protected void onPause() {
-		super.onPause();
-		myLocationOverlay.disableCompass();
-		myLocationOverlay.disableMyLocation();
-	}
-
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -227,6 +160,67 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 
 		}
 	}
+	
+	//calculate distance between 2 point
+	private float calculateDistance(GeoPoint startPoint, GeoPoint endPoint){
+		float[] result = new float[1];
+		Location.distanceBetween(startPoint.getLatitude(), startPoint.getLongitude(), 
+				endPoint.getLatitude(), endPoint.getLongitude(), result);
+		return result[0];
+	}
+
+	// set your map and enable default zoom controls
+	private void setupMapView() {
+		this.map = (MapView) findViewById(R.id.map);
+
+		map.setBuiltInZoomControls(true);
+	}
+
+	// set up a MyLocationOverlay and execute the runnable once we have a
+	// location fix
+	private void setupMyLocation() {
+		this.myLocationOverlay = new MyLocationOverlay(this, map);
+		myLocationOverlay.enableMyLocation();
+		myLocationOverlay.runOnFirstFix(new Runnable() {
+			@Override
+			public void run() {
+				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
+				map.getController().animateTo(currentLocation);
+				map.getController().setZoom(18);
+				map.getOverlays().add(myLocationOverlay);
+				myLocationOverlay.setFollowing(true);
+			}
+		});
+	}
+
+	
+	
+	
+
+	// create a route and display on the map
+	private void displayRoute() {
+		RouteManager routeManager = new RouteManager(this);
+		routeManager.setMapView(map);
+		routeManager.createRoute("San Francisco, CA", "Fremont, CA");
+	}
+
+	// enable features of the overlay
+	@Override
+	protected void onResume() {
+		myLocationOverlay.enableMyLocation();
+		myLocationOverlay.enableCompass();
+		super.onResume();
+	}
+
+	// disable features of the overlay when in the background
+	@Override
+	protected void onPause() {
+		super.onPause();
+		myLocationOverlay.disableCompass();
+		myLocationOverlay.disableMyLocation();
+	}
+
+	
 
 	private void drawTrackLine() {
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -243,6 +237,33 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 		// this.map.getController().z
 		map.invalidate();
 	}
+	
+	private Runnable timerRunnable = new Runnable() {
+		public void run() {
+			
+			//run a timer
+			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+			updatedTime = timeSwapBuff + timeInMilliseconds;
+			int secs = (int) (updatedTime / 1000);
+			int mins = secs / 60;
+			int hours = mins / 60;
+			secs = secs % 60;
+			int milliSecs = (int) (updatedTime % 1000);
+			stopwatch.setText("" + hours + ":" + String.format("%02d", mins)
+					+ ":" + String.format("%02d", secs) + ":"
+					+ String.format("%02d", milliSecs));
+			timerHandler.postDelayed(this, 0);
+
+			//draw tracking lines
+			if (secs % 10 == 0) {
+				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
+				trackedPoint.add(currentLocation);
+				// Toast.makeText(TrainingActivity.this,
+				// currentLocation.toString(), Toast.LENGTH_SHORT).show();
+				drawTrackLine();
+			}
+		}
+	};
 
 	/*
 	 * public void onBackPressed() { super.onBackPressed();
