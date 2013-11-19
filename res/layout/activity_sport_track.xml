@@ -30,7 +30,7 @@
             android:id="@+id/layoutBawah"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/haha"
+            android:layout_above="@+id/footer"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:orientation="vertical" >
@@ -65,19 +65,27 @@
                     android:gravity="right"
                     android:text="km" />
             </LinearLayout>
-
+			<Button
+                android:id="@+id/buttonStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple"
+                android:padding="20dp"
+                android:text="Start"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <Button
-                    android:id="@+id/buttonStart"
+                    android:id="@+id/buttonPause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:background="@color/red"
                     android:padding="20dp"
-                    android:text="Start"
+                    android:text="Pause"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -93,18 +101,19 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonVoiceCommand"
+                android:id="@+id/buttonResume"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/purple"
                 android:padding="20dp"
-                android:text="Voice Command"
+                android:text="Resume"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+            
         </LinearLayout>
 
         <include
-            android:id="@+id/haha"
+            android:id="@+id/footer"
             android:layout_alignParentBottom="true"
             layout="@layout/footer" />
 
