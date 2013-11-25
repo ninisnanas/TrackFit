@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.trackfit.R;
-import android.location.Location;
+//import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -22,9 +22,11 @@ import com.mapquest.android.maps.LineOverlay;
 import com.mapquest.android.maps.MapActivity;
 import com.mapquest.android.maps.MapView;
 import com.mapquest.android.maps.MyLocationOverlay;
+//import com.mapquest.android.maps.RouteManager;
 import com.mapquest.android.maps.RouteManager;
 
 public class MenuSportTrack extends MapActivity implements OnClickListener {
+	int as=8;
 	protected MapView map;
 	private MyLocationOverlay myLocationOverlay;
 	List<GeoPoint> trackedPoint;
@@ -62,13 +64,13 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 		setupEvent();
 		setupMapView();
 		setupMyLocation();
-		// displayRoute();
+		displayRoute();
 
 		// set the zoom level, center point and enable the default zoom controls
 
-		// map.getController().setZoom(9);
-		// map.getController().setCenter(new GeoPoint(38.892155, -77.036195));
-		// map.setBuiltInZoomControls(true);
+		map.getController().setZoom(9);
+		 map.getController().setCenter(new GeoPoint(38.892155, -77.036195));
+		 map.setBuiltInZoomControls(true);
 	}
 	
 	private void setupView(){
@@ -153,7 +155,7 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 			pause.setVisibility(invisible);
 			resume.setVisibility(invisible);
 			stop.setVisibility(invisible);
-			timeSwapBuff += timeInMilliseconds;
+			timeSwapBuff = 0;
 			timerHandler.removeCallbacks(timerRunnable);
 			Toast.makeText(getApplicationContext(), "" + updatedTime + "haha",
 					Toast.LENGTH_LONG).show();
@@ -162,12 +164,14 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	}
 	
 	//calculate distance between 2 point
+	/*
 	private float calculateDistance(GeoPoint startPoint, GeoPoint endPoint){
 		float[] result = new float[1];
 		Location.distanceBetween(startPoint.getLatitude(), startPoint.getLongitude(), 
 				endPoint.getLatitude(), endPoint.getLongitude(), result);
 		return result[0];
 	}
+	*/
 
 	// set your map and enable default zoom controls
 	private void setupMapView() {
@@ -196,7 +200,7 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	
 	
 	
-
+	
 	// create a route and display on the map
 	private void displayRoute() {
 		RouteManager routeManager = new RouteManager(this);
@@ -222,9 +226,9 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 
 	
 
-	private void drawTrackLine() {
+	private void drawTrackLines() {
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(Color.BLUE);
+		paint.setColor(Color.RED);
 		paint.setAlpha(100);
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setStrokeJoin(Paint.Join.ROUND);
@@ -255,12 +259,14 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 			timerHandler.postDelayed(this, 0);
 
 			//draw tracking lines
+			
 			if (secs % 10 == 0) {
 				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
 				trackedPoint.add(currentLocation);
+				int oioi=9;
 				// Toast.makeText(TrainingActivity.this,
 				// currentLocation.toString(), Toast.LENGTH_SHORT).show();
-				drawTrackLine();
+				drawTrackLines();
 			}
 		}
 	};
