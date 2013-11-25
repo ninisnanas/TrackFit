@@ -27,75 +27,76 @@
             android:layout_gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="Your activity history"
+            android:text="@string/activity_history"
             android:textSize="20sp" />
 
         <ScrollView
             android:id="@+id/scrollViewContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="54dp"
-            android:background="@color/cream" >
+            android:layout_marginBottom="54dp" >
 
             <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-               <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@color/light_pink" >
-
-            <ImageView
-                android:id="@+id/activityImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/activity_image"
-                android:src="@drawable/sports_regular_biking_icon" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
+<!-- 
+	            <LinearLayout
+		            android:id="@+id/container"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:gravity="center"
+		            android:background="@color/light_pink" >
 
-                <TextView
-                    android:id="@+id/distanceTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textSize="20sp"
-                    android:text="2.3 km in 0:30:00" />
+		            <ImageView
+		                android:id="@+id/activityImage"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:contentDescription="@string/activity_image"
+		                android:src="@drawable/sports_regular_biking_icon" />
 
-                <TextView
-                    android:id="@+id/calorie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textSize="15sp"
-                    android:text="243 kcal" />
+		            <LinearLayout
+		                android:id="@+id/textContainer"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textSize="15sp"
-                    android:text="21/1/2001" />
+		                <TextView
+		                    android:id="@+id/distanceTime"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:padding="5dp"
+		                    android:textSize="20sp"
+		                    android:text="2.3 km in 0:30:00" />
+		
+		                <TextView
+		                    android:id="@+id/calorie"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:padding="5dp"
+		                    android:textSize="15sp"
+		                    android:text="243 kcal" />
+		
+		                <TextView
+		                    android:id="@+id/date"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:padding="5dp"
+		                    android:textSize="15sp"
+		                    android:text="21/1/2001" />
 
-            </LinearLayout>
+           			</LinearLayout>
 
-            <Button
-                android:id="@+id/buttonShare"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/share_ico" />
+		            <Button
+		                android:id="@+id/buttonShare"
+		                android:layout_width="30dp"
+		                android:layout_height="30dp"
+		                android:layout_marginLeft="5dp"
+		                android:background="@drawable/share_ico" />
 
-        </LinearLayout>
+       			</LinearLayout>
+-->
                 
             </LinearLayout>
 

@@ -30,6 +30,8 @@
     <string name="home_hello">Hello, Unnamed!</string>
     <string name="activity_image">Activity Image</string>
     
+    <string name="activity_history">Your activity history</string>
+    
     <string name="name">Name</string>
     <string name="insert_name">Insert Your Name</string>
     <string name="age">Age</string>

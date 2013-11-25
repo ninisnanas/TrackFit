@@ -34,12 +34,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String CREATE_ACTIVITY = "CREATE TABLE ACTIVITY (id integer primary key, name text)";
 		String INSERT_ACTIVITY = "INSERT INTO ACTIVITY VALUES (1, 'Walking'), (2, 'Running'), (3, 'Cycling') ";
 		String CREATE_HISTORY = "CREATE TABLE HISTORY (uid integer, aid integer, distance integer, time integer, calorie integer, day integer, month integer, year integer)";
+		String INSERT_DUMMY_HISTORY = "INSERT INTO HISTORY VALUES (1, 1, 10, 1, 1, 1, 1, 2013), (1, 1, 10, 1, 1, 1, 1, 2013), (1, 2, 20, 2, 2, 2, 2, 2013), (1, 1, 30, 3, 3, 3, 3, 2013), (1, 2, 40, 4, 4, 4, 4, 2013), (1, 1, 50, 5, 5, 5, 5, 2013)";
 		String CREATE_USER_PREFERENCE = "CREATE TABLE USER_PREFERENCE (voice_command boolean)";
 		
 		db.execSQL(CREATE_USER);
 		db.execSQL(CREATE_ACTIVITY);
 		db.execSQL(INSERT_ACTIVITY);
 		db.execSQL(CREATE_HISTORY);
+		db.execSQL(INSERT_DUMMY_HISTORY);
 		db.execSQL(CREATE_USER_PREFERENCE);
 	}
 
