@@ -3,7 +3,6 @@ package project.trackfit.view;
 import java.util.ArrayList;
 
 import project.trackfit.R;
-import project.trackfit.R.color;
 import project.trackfit.controller.ActHistoryController;
 import project.trackfit.model.History;
 import android.os.Bundle;
@@ -85,6 +84,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			container[i].setOrientation(LinearLayout.HORIZONTAL);
 			activityImage[i] = new ImageView(context);
 			params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			params.setMargins(10, 0, 0, 0);
 			activityImage[i].setLayoutParams(params);
 			textContainer[i] = new LinearLayout(context);
 			textContainer[i].setOrientation(LinearLayout.VERTICAL);
@@ -129,7 +129,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			container[i].addView(activityImage[i]);
 			container[i].addView(textContainer[i]);
 			container[i].addView(buttonShare[i]);
-			container[i].setBackgroundColor(color.white);
+			container[i].setBackgroundResource(R.color.light_pink);
 			
 			content.addView(container[i]);
 		}

@@ -14,7 +14,6 @@
     <string name="appsTitle">Track-fit</string>
     <string name="title_activity_tracking">Tracking</string>
     <string name="title_activity_graph">Graph</string>
-
     <string name="title_activity_history">History</string>
     <string name="imageDesc">gambar</string>
     <string name="title_activity_profile">Profile</string>
@@ -24,14 +23,11 @@
     <string name="title_activity_set_goals">SetGoals</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_select_sport">asdasd</string>
-    
     <string name="home_activity">Your last activity is</string>
     <string name="home_no_activity">You haven\'t done any activities</string>
     <string name="home_hello">Hello, Unnamed!</string>
     <string name="activity_image">Activity Image</string>
-    
     <string name="activity_history">Your activity history</string>
-    
     <string name="name">Name</string>
     <string name="insert_name">Insert Your Name</string>
     <string name="age">Age</string>
@@ -42,7 +38,10 @@
     <string name="insert_height">Your Height</string>
     <string name="confirm">Confirm</string>
     <string name="bodyMass">Body Mass</string>
-    
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="title_activity_menu_dash_cal">MenuDashCal</string>
+    <string name="title_activity_menu_dash_speed">MenuDashSpeed</string>
+    <string name="title_activity_menu_dash_time">MenuDashTime</string>
+
 </resources>
