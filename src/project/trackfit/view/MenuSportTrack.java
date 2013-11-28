@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import project.trackfit.R;
+import android.location.Location;
 //import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,13 +29,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MenuSportTrack extends Activity implements OnClickListener {
 	List<LatLng> routePoints;
-	
 	protected GoogleMap map;
 
 	int invisible = View.GONE;
 	int visible = View.VISIBLE;
 
 	private TextView stopwatch;
+	private TextView TVDistance;
 	private Button home;
 	private Button history;
 	private Button dashboard;
@@ -45,23 +46,32 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 	private Button resume;
 	private Button stop;
 
-	long timeInMilliseconds = 0L;
-	long startTime = 0L;
-	long updatedTime = 0L;
-	long timeSwapBuff = 0L;
-	long time = 0L;
+	private long timeInMilliseconds = 0L;
+	private long startTime = 0L;
+	private long updatedTime = 0L;
+	private long timeSwapBuff = 0L;
+	private long time = 0L;
 
+	float totalDistance = 0.0f;
+	LatLng startPoint, endPoint;
+	
 	Handler timerHandler = new Handler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
-				
+		
+		
+		
+		
+		routePoints = new ArrayList<LatLng>();
 		setupView();
 		setupEvent();
 		
 		try {
+			Log.d("test", "masuk try cacth");
+			
 			initializeMap();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,6 +82,7 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 	
 	private void setupView(){
 		stopwatch = (TextView) findViewById(R.id.textViewDuration);
+		TVDistance = (TextView) findViewById(R.id.textViewDistance);
 		home = (Button) findViewById(R.id.HomeIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
 		dashboard = (Button) findViewById(R.id.DashboardIconButton);
@@ -156,20 +167,16 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 			timerHandler.removeCallbacks(timerRunnable);
 			Toast.makeText(getApplicationContext(), "" + updatedTime + "haha",
 					Toast.LENGTH_LONG).show();
-
 		}
 	}
 	
 	//calculate distance between 2 point
-	/*
-	private float calculateDistance(GeoPoint startPoint, GeoPoint endPoint){
+	private float calculateDistance(LatLng startPoint, LatLng endPoint){
 		float[] result = new float[1];
-		Location.distanceBetween(startPoint.getLatitude(), startPoint.getLongitude(), 
-				endPoint.getLatitude(), endPoint.getLongitude(), result);
+		Location.distanceBetween(startPoint.latitude, startPoint.longitude, 
+				endPoint.latitude, endPoint.longitude, result);
 		return result[0];
 	}
-	*/
-
 	
 	// enable features of the overlay
 	@Override
@@ -181,8 +188,7 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 	// disable features of the overlay when in the background
 	@Override
 	protected void onPause() {
-		super.onPause();
-		
+		super.onPause();	
 	}
 	
 	private Runnable timerRunnable = new Runnable() {
@@ -203,18 +209,19 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 			
 			//draw tracking lines
 			
-			if (secs % 5 == 0) {
-				
-				LatLng currentLocation = new LatLng(map.getMyLocation().getLatitude(),
+			if (secs % 3 == 0) {
+				LatLng currentPoint = new LatLng(map.getMyLocation().getLatitude(),
 						map.getMyLocation().getLongitude());
-				Log.d("test", "haha1");
-				routePoints.add(currentLocation);
-				Log.d("test", "haha2");
+				routePoints.add(currentPoint);
 				Polyline route = map.addPolyline(new PolylineOptions().geodesic(true));
-				Log.d("test", "haha3");
 				route.setPoints(routePoints);
-				Log.d("test", "haha4");
-				
+				//Log.d("test", "Bug 1");
+				//totalDistance += calculateDistance(startPoint, currentPoint);
+				//Log.d("test", "Bug 2");
+				//startPoint = currentPoint;
+				//Log.d("test", "Bug 3");
+				//TVDistance.setText(totalDistance+"");
+				//Log.d("test", "Bug 4");
 				
 			}
 			
@@ -225,16 +232,19 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 
 		if (map == null) {
 			map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
+			
 			map.setMyLocationEnabled(true);
-
+			
 			double latitude = map.getMyLocation().getLatitude();
 			double longitude = map.getMyLocation().getLongitude();
-
+			
 			MarkerOptions marker = new MarkerOptions().position(
 					new LatLng(latitude, longitude)).title("My Position").snippet("Rumah");
 			map.addMarker(marker);
-
+			
+			Log.d("test",latitude+":"+longitude);
+			Log.d("test",startPoint.latitude+":"+startPoint.longitude);
+			
 			if (map == null) {
 				Toast.makeText(getApplicationContext(),
 						"Sorry! unable to create maps", Toast.LENGTH_SHORT)
