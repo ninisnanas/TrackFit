@@ -204,7 +204,7 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 			//draw tracking lines
 			
 			if (secs % 5 == 0) {
-				/*
+				
 				LatLng currentLocation = new LatLng(map.getMyLocation().getLatitude(),
 						map.getMyLocation().getLongitude());
 				Log.d("test", "haha1");
@@ -214,7 +214,7 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 				Log.d("test", "haha3");
 				route.setPoints(routePoints);
 				Log.d("test", "haha4");
-				*/
+				
 				
 			}
 			
