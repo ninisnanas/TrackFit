@@ -25,16 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.mapquest.android.maps.GeoPoint;
-//import com.mapquest.android.maps.LineOverlay;
-//import com.mapquest.android.maps.MapActivity;
-//import com.mapquest.android.maps.MapView;
-import com.mapquest.android.maps.MyLocationOverlay;
-//import com.mapquest.android.maps.RouteManager;
-//import com.mapquest.android.maps.RouteManager;
 
 public class MenuSportTrack extends Activity implements OnClickListener {
-	int as=8;
 	List<LatLng> routePoints;
 	
 	protected GoogleMap map;
@@ -42,16 +34,16 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 	int invisible = View.GONE;
 	int visible = View.VISIBLE;
 
-	TextView stopwatch;
-	Button home;
-	Button history;
-	Button dashboard;
-	Button about;
-	Button profile;
-	Button start;
-	Button pause;
-	Button resume;
-	Button stop;
+	private TextView stopwatch;
+	private Button home;
+	private Button history;
+	private Button dashboard;
+	private Button about;
+	private Button profile;
+	private Button start;
+	private Button pause;
+	private Button resume;
+	private Button stop;
 
 	long timeInMilliseconds = 0L;
 	long startTime = 0L;
@@ -75,11 +67,6 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 		
-		
-		
-
-		// set the zoom level, center point and enable the default zoom controls
-
 		
 	}
 	
@@ -184,35 +171,19 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 	*/
 
 	
-	// set up a MyLocationOverlay and execute the runnable once we have a
-	// location fix
-	
-
-	
-	
-	
-	
-	// create a route and display on the map
-	
-
 	// enable features of the overlay
 	@Override
     protected void onResume() {
         super.onResume();
-        //initilizeMap();
+        initializeMap();
     }
 
 	// disable features of the overlay when in the background
 	@Override
 	protected void onPause() {
 		super.onPause();
-		//myLocationOverlay.disableCompass();
-		//myLocationOverlay.disableMyLocation();
+		
 	}
-
-	
-
-	
 	
 	private Runnable timerRunnable = new Runnable() {
 		public void run() {
@@ -231,10 +202,9 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 			timerHandler.postDelayed(this, 0);
 			
 			//draw tracking lines
-			/*
+			
 			if (secs % 5 == 0) {
-				
-				Log.d("test", "haha0");
+				/*
 				LatLng currentLocation = new LatLng(map.getMyLocation().getLatitude(),
 						map.getMyLocation().getLongitude());
 				Log.d("test", "haha1");
@@ -244,19 +214,12 @@ public class MenuSportTrack extends Activity implements OnClickListener {
 				Log.d("test", "haha3");
 				route.setPoints(routePoints);
 				Log.d("test", "haha4");
-				
+				*/
 				
 			}
-			*/
+			
 		}
 	};
-
-	/*
-	 * public void onBackPressed() { super.onBackPressed();
-	 * overridePendingTransition(0, 0); }
-	 */
-	// return false since no route is being displayed
-	
 	
 	private void initializeMap() {
 
