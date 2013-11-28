@@ -41,63 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-<!-- 
-	            <LinearLayout
-		            android:id="@+id/container"
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center"
-		            android:background="@color/light_pink" >
-
-		            <ImageView
-		                android:id="@+id/activityImage"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:contentDescription="@string/activity_image"
-		                android:src="@drawable/sports_regular_biking_icon" />
-
-		            <LinearLayout
-		                android:id="@+id/textContainer"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:orientation="vertical" >
-
-		                <TextView
-		                    android:id="@+id/distanceTime"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:padding="5dp"
-		                    android:textSize="20sp"
-		                    android:text="2.3 km in 0:30:00" />
-		
-		                <TextView
-		                    android:id="@+id/calorie"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:padding="5dp"
-		                    android:textSize="15sp"
-		                    android:text="243 kcal" />
-		
-		                <TextView
-		                    android:id="@+id/date"
-		                    android:layout_width="wrap_content"
-		                    android:layout_height="wrap_content"
-		                    android:padding="5dp"
-		                    android:textSize="15sp"
-		                    android:text="21/1/2001" />
-
-           			</LinearLayout>
-
-		            <Button
-		                android:id="@+id/buttonShare"
-		                android:layout_width="30dp"
-		                android:layout_height="30dp"
-		                android:layout_marginLeft="5dp"
-		                android:background="@drawable/share_ico" />
-
-       			</LinearLayout>
--->
-                
             </LinearLayout>
 
         </ScrollView>

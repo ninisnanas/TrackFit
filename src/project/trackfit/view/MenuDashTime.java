@@ -10,19 +10,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MenuDashTime extends Activity implements OnClickListener {
+	
 	Button home;
 	Button tracker;
 	Button history;
 	Button about;
 	Button profile;
-	Button calorie;
 	Button distance;
+	Button calorie;
 	Button speed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_dash_dist);
+		setContentView(R.layout.activity_dash_time);
 		overridePendingTransition(0,0);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
@@ -30,8 +31,8 @@ public class MenuDashTime extends Activity implements OnClickListener {
 		history = (Button) findViewById(R.id.HistoryIconButton);
 		about = (Button) findViewById(R.id.AboutIconButton);
 		profile = (Button) findViewById(R.id.ProfileIconButton);
-		calorie = (Button) findViewById(R.id.buttonCalories);
 		distance = (Button) findViewById(R.id.buttonDistance);
+		calorie = (Button) findViewById(R.id.buttonCalories);
 		speed = (Button) findViewById(R.id.buttonSpeed);
 		
 		home.setOnClickListener(this);
@@ -39,15 +40,15 @@ public class MenuDashTime extends Activity implements OnClickListener {
 		history.setOnClickListener(this);
 		about.setOnClickListener(this);
 		profile.setOnClickListener(this);
-		calorie.setOnClickListener(this);
 		distance.setOnClickListener(this);
+		calorie.setOnClickListener(this);
 		speed.setOnClickListener(this);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.dashboard, menu);
+		getMenuInflater().inflate(R.menu.menu_dash_time, menu);
 		return true;
 	}
 
@@ -83,9 +84,5 @@ public class MenuDashTime extends Activity implements OnClickListener {
 			finish();
 		}
 	}
-	
-	public void onBackPressed() {
-		super.onBackPressed();
-		overridePendingTransition(0,0);
-	}
+
 }

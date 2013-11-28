@@ -2,60 +2,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuDashCal"
-    android:background="@color/cream" >
+    android:background="@color/cream"
+    tools:context=".MenuDashCal" >
 
     <LinearLayout
         android:id="@+id/Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/red" >
-        <include layout="@layout/header" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/header" />
+
     </LinearLayout>
-    
+
     <RelativeLayout
-	        android:id="@+id/dashboard_tab"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:layout_below="@+id/Header"
-	        android:background="@color/red"
-	        >
-        
+        android:id="@+id/dashboard_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Header"
+        android:background="@color/red"
+        android:gravity="center" >
+
         <Button
             android:id="@+id/buttonCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:background="@drawable/calories_tab_active" />
-        
-        <Button
-		   android:id="@+id/buttonDistance"
-	 	    android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/buttonCalories"
-	  	    android:background="@drawable/distance_tab" />
-        
-        <Button
-		   android:id="@+id/buttonSpeed"
-	 	    android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/buttonDistance"
-	  	    android:background="@drawable/speed_tab" />
-        
-        <Button
-		   android:id="@+id/buttonTime"
-	 	    android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/buttonSpeed"
-	  	    android:background="@drawable/time_tab" />
 
-	    </RelativeLayout>
+        <Button
+            android:id="@+id/buttonDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/buttonCalories"
+            android:background="@drawable/distance_tab" />
 
+        <Button
+            android:id="@+id/buttonSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/buttonDistance"
+            android:background="@drawable/speed_tab" />
+
+        <Button
+            android:id="@+id/buttonTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/buttonSpeed"
+            android:background="@drawable/time_tab" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/body"
@@ -74,21 +76,29 @@
             <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
+                
+                <TextView
+                    android:id="@+id/iseng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dash_cal" />
+                
             </LinearLayout>
-
+            
         </ScrollView>
-
+        
     </LinearLayout>
-    
-    <RelativeLayout 
+
+    <RelativeLayout
         android:id="@+id/Footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-   		<include 
-   		    layout="@layout/footer"
-   		    android:layout_alignParentBottom="true" />
+        android:layout_height="wrap_content" >
+
+        <include
+            android:layout_alignParentBottom="true"
+            layout="@layout/footer" />
     </RelativeLayout>
 
 </RelativeLayout>
