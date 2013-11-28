@@ -8,28 +8,36 @@ import project.trackfit.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.mapquest.android.maps.GeoPoint;
-import com.mapquest.android.maps.LineOverlay;
-import com.mapquest.android.maps.MapActivity;
-import com.mapquest.android.maps.MapView;
+//import com.mapquest.android.maps.LineOverlay;
+//import com.mapquest.android.maps.MapActivity;
+//import com.mapquest.android.maps.MapView;
 import com.mapquest.android.maps.MyLocationOverlay;
 //import com.mapquest.android.maps.RouteManager;
-import com.mapquest.android.maps.RouteManager;
+//import com.mapquest.android.maps.RouteManager;
 
-public class MenuSportTrack extends MapActivity implements OnClickListener {
+public class MenuSportTrack extends Activity implements OnClickListener {
 	int as=8;
-	protected MapView map;
-	private MyLocationOverlay myLocationOverlay;
-	List<GeoPoint> trackedPoint;
+	List<LatLng> routePoints;
+	
+	protected GoogleMap map;
 
 	int invisible = View.GONE;
 	int visible = View.VISIBLE;
@@ -57,20 +65,22 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
-		map = (MapView) findViewById(R.id.map);
-		trackedPoint = new ArrayList<GeoPoint>();
-		
+				
 		setupView();
 		setupEvent();
-		setupMapView();
-		setupMyLocation();
-		displayRoute();
+		
+		try {
+			initializeMap();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 
 		// set the zoom level, center point and enable the default zoom controls
 
-		map.getController().setZoom(9);
-		 map.getController().setCenter(new GeoPoint(38.892155, -77.036195));
-		 map.setBuiltInZoomControls(true);
+		
 	}
 	
 	private void setupView(){
@@ -173,74 +183,36 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	}
 	*/
 
-	// set your map and enable default zoom controls
-	private void setupMapView() {
-		this.map = (MapView) findViewById(R.id.map);
-
-		map.setBuiltInZoomControls(true);
-	}
-
+	
 	// set up a MyLocationOverlay and execute the runnable once we have a
 	// location fix
-	private void setupMyLocation() {
-		this.myLocationOverlay = new MyLocationOverlay(this, map);
-		myLocationOverlay.enableMyLocation();
-		myLocationOverlay.runOnFirstFix(new Runnable() {
-			@Override
-			public void run() {
-				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
-				map.getController().animateTo(currentLocation);
-				map.getController().setZoom(18);
-				map.getOverlays().add(myLocationOverlay);
-				myLocationOverlay.setFollowing(true);
-			}
-		});
-	}
+	
 
 	
 	
 	
 	
 	// create a route and display on the map
-	private void displayRoute() {
-		RouteManager routeManager = new RouteManager(this);
-		routeManager.setMapView(map);
-		routeManager.createRoute("San Francisco, CA", "Fremont, CA");
-	}
+	
 
 	// enable features of the overlay
 	@Override
-	protected void onResume() {
-		myLocationOverlay.enableMyLocation();
-		myLocationOverlay.enableCompass();
-		super.onResume();
-	}
+    protected void onResume() {
+        super.onResume();
+        //initilizeMap();
+    }
 
 	// disable features of the overlay when in the background
 	@Override
 	protected void onPause() {
 		super.onPause();
-		myLocationOverlay.disableCompass();
-		myLocationOverlay.disableMyLocation();
+		//myLocationOverlay.disableCompass();
+		//myLocationOverlay.disableMyLocation();
 	}
 
 	
 
-	private void drawTrackLines() {
-		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(Color.RED);
-		paint.setAlpha(100);
-		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeJoin(Paint.Join.ROUND);
-		paint.setStrokeCap(Paint.Cap.ROUND);
-		paint.setStrokeWidth(5);
-		LineOverlay line = new LineOverlay(paint);
-		line.setData(trackedPoint);
-
-		map.getOverlays().add(line);
-		// this.map.getController().z
-		map.invalidate();
-	}
+	
 	
 	private Runnable timerRunnable = new Runnable() {
 		public void run() {
@@ -257,17 +229,25 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 					+ ":" + String.format("%02d", secs) + ":"
 					+ String.format("%02d", milliSecs));
 			timerHandler.postDelayed(this, 0);
-
-			//draw tracking lines
 			
-			if (secs % 10 == 0) {
-				GeoPoint currentLocation = myLocationOverlay.getMyLocation();
-				trackedPoint.add(currentLocation);
-				int oioi=9;
-				// Toast.makeText(TrainingActivity.this,
-				// currentLocation.toString(), Toast.LENGTH_SHORT).show();
-				drawTrackLines();
+			//draw tracking lines
+			/*
+			if (secs % 5 == 0) {
+				
+				Log.d("test", "haha0");
+				LatLng currentLocation = new LatLng(map.getMyLocation().getLatitude(),
+						map.getMyLocation().getLongitude());
+				Log.d("test", "haha1");
+				routePoints.add(currentLocation);
+				Log.d("test", "haha2");
+				Polyline route = map.addPolyline(new PolylineOptions().geodesic(true));
+				Log.d("test", "haha3");
+				route.setPoints(routePoints);
+				Log.d("test", "haha4");
+				
+				
 			}
+			*/
 		}
 	};
 
@@ -276,9 +256,29 @@ public class MenuSportTrack extends MapActivity implements OnClickListener {
 	 * overridePendingTransition(0, 0); }
 	 */
 	// return false since no route is being displayed
-	@Override
-	public boolean isRouteDisplayed() {
-		return false;
+	
+	
+	private void initializeMap() {
+
+		if (map == null) {
+			map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+			map.setMyLocationEnabled(true);
+
+			double latitude = map.getMyLocation().getLatitude();
+			double longitude = map.getMyLocation().getLongitude();
+
+			MarkerOptions marker = new MarkerOptions().position(
+					new LatLng(latitude, longitude)).title("My Position").snippet("Rumah");
+			map.addMarker(marker);
+
+			if (map == null) {
+				Toast.makeText(getApplicationContext(),
+						"Sorry! unable to create maps", Toast.LENGTH_SHORT)
+						.show();
+			}
+		}
+
 	}
 
 }

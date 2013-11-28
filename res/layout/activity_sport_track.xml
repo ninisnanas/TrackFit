@@ -5,9 +5,6 @@
     android:background="@color/cream"
     tools:context=".MenuSportTrack" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></LinearLayout>
 
         <LinearLayout
             android:id="@+id/Header"
@@ -17,17 +14,15 @@
 
             <include layout="@layout/header" />
         </LinearLayout>
-
-        <com.mapquest.android.maps.MapView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/layoutBawah"
+        
+        <fragment
+	        android:id="@+id/map"
+	        android:name="com.google.android.gms.maps.MapFragment"
+	        android:layout_above="@+id/layoutBawah"
             android:layout_below="@+id/Header"
-            android:apiKey="Fmjtd%7Cluubn9uzl1%2Cax%3Do5-902x9a"
-            android:clickable="true" />
-
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" />
+ 
         <LinearLayout
             android:id="@+id/layoutBawah"
             android:layout_width="wrap_content"
