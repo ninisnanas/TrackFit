@@ -149,11 +149,16 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		
 		Intent shareIntent = null;
 		String message = "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
+		System.out.println("length = " + message.length());
 		if(message.length()<=144){
 			shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+			shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+		} else {
+			
 		}
 		startActivity(Intent.createChooser(shareIntent, "Share via :"));
+
 	}
 
 	@Override

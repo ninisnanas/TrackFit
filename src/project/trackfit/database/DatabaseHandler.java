@@ -32,16 +32,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		String CREATE_USER = "CREATE TABLE USER (id integer primary key, name text, height integer, weight integer, age integer, body_mass real)";
 		String CREATE_ACTIVITY = "CREATE TABLE ACTIVITY (id integer primary key, name text)";
-		String INSERT_ACTIVITY = "INSERT INTO ACTIVITY VALUES (1, 'Walking'), (2, 'Running'), (3, 'Cycling') ";
+		String INSERT_ACTIVITY = "INSERT INTO ACTIVITY VALUES (1, 'Walking')";
+		String INSERT_ACTIVITY2 = "INSERT INTO ACTIVITY VALUES (2, 'Running')";
+		String INSERT_ACTIVITY3 = "INSERT INTO ACTIVITY VALUES (3, 'Walking')";
 		String CREATE_HISTORY = "CREATE TABLE HISTORY (uid integer, aid integer, distance integer, time integer, calorie integer, day integer, month integer, year integer)";
-		String INSERT_DUMMY_HISTORY = "INSERT INTO HISTORY VALUES (1, 1, 10, 1, 1, 1, 1, 2013), (1, 1, 10, 1, 1, 1, 1, 2013), (1, 2, 20, 2, 2, 2, 2, 2013), (1, 1, 30, 3, 3, 3, 3, 2013), (1, 2, 40, 4, 4, 4, 4, 2013), (1, 1, 50, 5, 5, 5, 5, 2013)";
+		String INSERT_DUMMY_HISTORY = "INSERT INTO HISTORY VALUES (1, 1, 10, 1, 1, 1, 1, 2013)";
+		String INSERT_DUMMY_HISTORY1 = "INSERT INTO HISTORY VALUES (1, 2, 20, 2, 2, 2, 2, 2013)";
+		String INSERT_DUMMY_HISTORY2 = "INSERT INTO HISTORY VALUES (1, 1, 30, 3, 3, 3, 3, 2013)";
+		String INSERT_DUMMY_HISTORY3 = "INSERT INTO HISTORY VALUES (1, 2, 40, 4, 4, 4, 4, 2013)";
+		String INSERT_DUMMY_HISTORY4 = "INSERT INTO HISTORY VALUES (1, 1, 50, 5, 5, 5, 5, 2013)";
+		String INSERT_DUMMY_HISTORY5 = "INSERT INTO HISTORY VALUES (1, 2, 60, 6, 6, 6, 6, 2013)";
 		String CREATE_USER_PREFERENCE = "CREATE TABLE USER_PREFERENCE (voice_command boolean)";
 		
 		db.execSQL(CREATE_USER);
 		db.execSQL(CREATE_ACTIVITY);
 		db.execSQL(INSERT_ACTIVITY);
+		db.execSQL(INSERT_ACTIVITY2);
+		db.execSQL(INSERT_ACTIVITY3);
 		db.execSQL(CREATE_HISTORY);
 		db.execSQL(INSERT_DUMMY_HISTORY);
+		db.execSQL(INSERT_DUMMY_HISTORY1);
+		db.execSQL(INSERT_DUMMY_HISTORY2);
+		db.execSQL(INSERT_DUMMY_HISTORY3);
+		db.execSQL(INSERT_DUMMY_HISTORY4);
+		db.execSQL(INSERT_DUMMY_HISTORY5);
 		db.execSQL(CREATE_USER_PREFERENCE);
 	}
 
