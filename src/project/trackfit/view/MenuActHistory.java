@@ -2,15 +2,20 @@ package project.trackfit.view;
 
 import java.util.ArrayList;
 
+import org.brickred.socialauth.android.DialogListener;
+import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
+import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
+
 import project.trackfit.R;
 import project.trackfit.controller.ActHistoryController;
 import project.trackfit.model.History;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -20,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
 public class MenuActHistory extends Activity implements OnClickListener {
 	
@@ -39,6 +45,8 @@ public class MenuActHistory extends Activity implements OnClickListener {
 	Button[] buttonShare;
 	ArrayList<History> listHistory;
 	ActHistoryController actHistoryController;
+	SocialAuthAdapter adapter;
+	String messageToShare;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,22 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		profile.setOnClickListener(this);
 		
 		showActivityHistory();
+		
+		adapter = new SocialAuthAdapter(new ResponseListener());
+		adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
+		adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
+		adapter.addProvider(Provider.MYSPACE, R.drawable.myspace);
+		adapter.addProvider(Provider.YAHOO, R.drawable.yahoo);
+		adapter.addProvider(Provider.GOOGLE, R.drawable.google);
+		adapter.addProvider(Provider.GOOGLEPLUS, R.drawable.googleplus);
+		//adapter.addProvider(Provider.INSTAGRAM, R.drawable.i)
+		adapter.addProvider(Provider.FOURSQUARE, R.drawable.foursquare);
+		
+		adapter.addCallBack(Provider.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
+		
+		for (int i = 0; i < buttonShare.length; i++) {
+			adapter.enable(buttonShare[i]);
+		}
 	}
 
 	private void showActivityHistory() {
@@ -147,18 +171,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		int calorie = history.getCalorie();
 		String time = history.getTime() + ":" + history.getTime() + ":" +  history.getTime();
 		
-		Intent shareIntent = null;
-		String message = "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
-		System.out.println("length = " + message.length());
-		if(message.length()<=144){
-			shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-			shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
-		} else {
-			
-		}
-		startActivity(Intent.createChooser(shareIntent, "Share via :"));
-
+		messageToShare = "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
 	}
 
 	@Override
@@ -189,38 +202,61 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		} else if (v.equals(profile)) {
 			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
-		} else {
-			for (int i = 0; i < container.length; i++) {
-				final int a = i;
-				if (v.equals(buttonShare[i])) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(context);
-					builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							share(listHistory.get(a));
-						}
-					});
-					builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							
-						}
-					});
-					
-					builder.setMessage("Do you want to share this activity?");
-					AlertDialog dialog = builder.create();
-					dialog.show();
-				}
-			}
-		}
+		} 
 	}
 	
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
 	}
+	
+	private final class ResponseListener implements DialogListener {
+		@Override
+		public void onComplete(Bundle values) {
+
+			Log.d("ShareButton", "Authentication Successful");
+
+			// Get name of provider after authentication
+			final String providerName = values.getString(SocialAuthAdapter.PROVIDER);
+			Log.d("ShareButton", "Provider Name = " + providerName);
+			Toast.makeText(MenuActHistory.this, providerName + " connected", Toast.LENGTH_LONG).show();
+
+			// Please avoid sending duplicate message. Social Media Providers
+			// block duplicate messages.
+
+			adapter.updateStatus(messageToShare, new MessageListener(), false);
+		}
+
+		@Override
+		public void onError(SocialAuthError error) {
+			Log.d("ShareButton", "Authentication Error: " + error.getMessage());
+		}
+
+		@Override
+		public void onCancel() {
+			Log.d("ShareButton", "Authentication Cancelled");
+		}
+
+		@Override
+		public void onBack() {
+			Log.d("Share-Button", "Dialog Closed by pressing Back Key");
+		}
+	}
+	
+	// To get status of message after authentication
+		private final class MessageListener implements SocialAuthListener<Integer> {
+			@Override
+			public void onExecute(String provider, Integer t) {
+				Integer status = t;
+				if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
+					Toast.makeText(MenuActHistory.this, "Message posted on " + provider, Toast.LENGTH_LONG).show();
+				else
+					Toast.makeText(MenuActHistory.this, "Message not posted on " + provider, Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onError(SocialAuthError e) {
+
+			}
+		}
 }

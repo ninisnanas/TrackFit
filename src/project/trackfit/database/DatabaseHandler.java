@@ -35,13 +35,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String INSERT_ACTIVITY = "INSERT INTO ACTIVITY VALUES (1, 'Walking')";
 		String INSERT_ACTIVITY2 = "INSERT INTO ACTIVITY VALUES (2, 'Running')";
 		String INSERT_ACTIVITY3 = "INSERT INTO ACTIVITY VALUES (3, 'Walking')";
-		String CREATE_HISTORY = "CREATE TABLE HISTORY (uid integer, aid integer, distance integer, time integer, calorie integer, day integer, month integer, year integer)";
-		String INSERT_DUMMY_HISTORY = "INSERT INTO HISTORY VALUES (1, 1, 10, 1, 1, 1, 1, 2013)";
-		String INSERT_DUMMY_HISTORY1 = "INSERT INTO HISTORY VALUES (1, 2, 20, 2, 2, 2, 2, 2013)";
-		String INSERT_DUMMY_HISTORY2 = "INSERT INTO HISTORY VALUES (1, 1, 30, 3, 3, 3, 3, 2013)";
-		String INSERT_DUMMY_HISTORY3 = "INSERT INTO HISTORY VALUES (1, 2, 40, 4, 4, 4, 4, 2013)";
-		String INSERT_DUMMY_HISTORY4 = "INSERT INTO HISTORY VALUES (1, 1, 50, 5, 5, 5, 5, 2013)";
-		String INSERT_DUMMY_HISTORY5 = "INSERT INTO HISTORY VALUES (1, 2, 60, 6, 6, 6, 6, 2013)";
+		String CREATE_HISTORY = "CREATE TABLE HISTORY (uid integer, aid integer, distance integer, time integer, calorie integer, speed integer, day integer, month integer, year integer)";
+		String INSERT_DUMMY_HISTORY = "INSERT INTO HISTORY VALUES (1, 1, 10, 1, 1, 1, 1, 1, 2013)";
+		String INSERT_DUMMY_HISTORY1 = "INSERT INTO HISTORY VALUES (1, 2, 20, 2, 2, 2, 2, 2, 2013)";
+		String INSERT_DUMMY_HISTORY2 = "INSERT INTO HISTORY VALUES (1, 1, 30, 3, 3, 3, 3, 3, 2013)";
+		String INSERT_DUMMY_HISTORY3 = "INSERT INTO HISTORY VALUES (1, 2, 40, 4, 4, 4, 4, 4, 2013)";
+		String INSERT_DUMMY_HISTORY4 = "INSERT INTO HISTORY VALUES (1, 1, 50, 5, 5, 5, 5, 5, 2013)";
+		String INSERT_DUMMY_HISTORY5 = "INSERT INTO HISTORY VALUES (1, 2, 60, 6, 6, 6, 6, 6, 2013)";
 		String CREATE_USER_PREFERENCE = "CREATE TABLE USER_PREFERENCE (voice_command boolean)";
 		
 		db.execSQL(CREATE_USER);
@@ -114,7 +114,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 	}
 	
-	public boolean insertHistory(int uid, int aid, int distance, int time, int calorie, int day, int month, int year) {
+	public boolean insertHistory(int uid, int aid, int distance, int time, int calorie, int speed, int day, int month, int year) {
 		boolean success = true;
 		SQLiteDatabase db = this.getWritableDatabase();
 		
@@ -124,6 +124,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		value.put("distance", distance);
 		value.put("time", time);
 		value.put("calorie", calorie);
+		value.put("speed", speed);
 		value.put("day", day);
 		value.put("month", month);
 		value.put("year", year);
@@ -147,6 +148,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		int distance;
 		int time;
 		int calorie;
+		int speed;
 		int day;
 		int month;
 		int year;
@@ -160,11 +162,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			distance = cursor.getInt(2);
 			time = cursor.getInt(3);
 			calorie = cursor.getInt(4);
-			day = cursor.getInt(5);
-			month = cursor.getInt(6);
-			year = cursor.getInt(7);
+			speed = cursor.getInt(5);
+			day = cursor.getInt(6);
+			month = cursor.getInt(7);
+			year = cursor.getInt(8);
 			
-			temp = new History(uid, aid, distance, time, calorie, day, month, year);
+			temp = new History(uid, aid, distance, time, calorie, speed, day, month, year);
 			
 			listHistory.add(temp);
 		}

@@ -6,16 +6,18 @@ public class History {
 	private int distance;
 	private int time;
 	private int calorie;
+	private int speed;
 	private int day;
 	private int month;
 	private int year;
 	
-	public History(int uid, int aid, int distance, int time, int calorie, int day, int month, int year) {
+	public History(int uid, int aid, int distance, int time, int calorie, int speed, int day, int month, int year) {
 		this.uid = uid;
 		this.aid = aid;
 		this.distance = distance;
 		this.time = time;
 		this.calorie = calorie;
+		this.speed = speed;
 		this.day = day;
 		this.month = month;
 		this.year = year;
@@ -39,6 +41,10 @@ public class History {
 	
 	public int getCalorie() {
 		return calorie;
+	}
+	
+	public int getSpeed() {
+		return speed;
 	}
 	
 	public int getDay() {

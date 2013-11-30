@@ -1,13 +1,25 @@
 package project.trackfit.view;
 
+import java.util.ArrayList;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.LineGraphView;
+
 import project.trackfit.R;
+import project.trackfit.controller.DashboardController;
+import project.trackfit.model.History;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class MenuDashDist extends Activity implements OnClickListener {
 	
@@ -19,12 +31,15 @@ public class MenuDashDist extends Activity implements OnClickListener {
 	private Button calorie;
 	private Button speed;
 	private Button time;
+	private Context context;
+	private DashboardController dashboardController;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dash_dist);
 		overridePendingTransition(0,0);
+		context = this;
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
@@ -43,6 +58,45 @@ public class MenuDashDist extends Activity implements OnClickListener {
 		calorie.setOnClickListener(this);
 		speed.setOnClickListener(this);
 		time.setOnClickListener(this);
+		
+		showDistanceGraph();
+	}
+
+	private void showDistanceGraph() {
+		// TODO Auto-generated method stub
+		dashboardController = new DashboardController(context);
+		ArrayList<History> historyList = dashboardController.getHistoryList();
+		
+		GraphViewData[] dataSeries = new GraphViewData[historyList.size()];
+		String[] labelSeries = new String[historyList.size()]; 
+		
+		for (int i = 0; i < dataSeries.length; i++) {
+			History temp = historyList.get(i);
+			double val = temp.getDistance();
+			String label = temp.getDay() + "/" + temp.getMonth();
+			dataSeries[i] = new GraphViewData(i + 1, val);
+			labelSeries[i] = label;
+			System.out.println("val = " + val);
+		}
+		
+		GraphViewSeries exampleSeries = new GraphViewSeries(dataSeries);  
+			  
+			GraphView graphView = new LineGraphView(  
+			      this // context  
+			      , "Speed Graphic" // heading  
+			);  
+			graphView.addSeries(exampleSeries); // data
+			graphView.setScrollable(true);
+			graphView.setScalable(true);
+			graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
+			graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
+			graphView.setHorizontalLabels(labelSeries);
+			graphView.getGraphViewStyle().setTextSize(getResources().getDimension(R.dimen.small));
+			graphView.getGraphViewStyle().setNumHorizontalLabels(10);
+			graphView.getGraphViewStyle().setNumHorizontalLabels(5);
+			  
+			LinearLayout layout = (LinearLayout) findViewById(R.id.contentDistance);  
+			layout.addView(graphView);
 	}
 
 	@Override
@@ -88,5 +142,5 @@ public class MenuDashDist extends Activity implements OnClickListener {
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
-	}
+	}	
 }
