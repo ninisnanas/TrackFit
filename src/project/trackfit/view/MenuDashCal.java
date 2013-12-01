@@ -61,7 +61,7 @@ public class MenuDashCal extends Activity implements OnClickListener {
 		
 		showCalorieGraph();
 	}
-
+	
 	private void showCalorieGraph() {
 		// TODO Auto-generated method stub
 		dashboardController = new DashboardController(context);
@@ -98,7 +98,7 @@ public class MenuDashCal extends Activity implements OnClickListener {
 			LinearLayout layout = (LinearLayout) findViewById(R.id.contentCalorie);  
 			layout.addView(graphView);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

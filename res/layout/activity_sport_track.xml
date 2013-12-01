@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
-                    android:gravity="center"
+                    android:paddingLeft="20dp"
                     android:text="0:00:00"
                     android:textSize="40sp" />
 
@@ -62,7 +62,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="km" />
+                    android:layout_marginRight="20dp"
+                    android:text="m/s" />
 
                
             </LinearLayout>
