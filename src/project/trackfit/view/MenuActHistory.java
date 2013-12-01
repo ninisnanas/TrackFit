@@ -128,7 +128,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 				activityImage[i].setBackgroundResource(R.drawable.walking);
 			}
 			
-			String temp = history.getDistance() + " km in " + history.getTime() + ":" + history.getTime() + ":" + history.getTime();
+			String temp = history.getDistance() + " km in " + history.getHour() + ":" + history.getMinute() + ":" + history.getSecond();
 			distanceTime[i].setText(temp);
 			temp = history.getCalorie() + " cal";
 			calorie[i].setText(temp);
@@ -162,9 +162,9 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		else if (aid == 2) activity = "running";
 		else activity = "walking";
 		
-		int distance = history.getDistance();
-		int calorie = history.getCalorie();
-		String time = history.getTime() + ":" + history.getTime() + ":" +  history.getTime();
+		float distance = history.getDistance();
+		float calorie = history.getCalorie();
+		String time = history.getHour() + ":" + history.getMinute() + ":" +  history.getSecond();
 		
 		return "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
 	}

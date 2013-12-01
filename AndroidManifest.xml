@@ -81,6 +81,13 @@
             android:name="project.trackfit.view.SportsPicker"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
+        
+        <!-- Broadcast Receivers -->
+		<receiver android:name="project.trackfit.controller.RemoteControlReceiver" >
+    	<intent-filter android:priority="1000000000000000" >
+        <action android:name="android.intent.action.MEDIA_BUTTON" />
+    	</intent-filter>
+		</receiver>
     </application>
 
 </manifest>

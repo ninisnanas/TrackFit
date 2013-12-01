@@ -72,7 +72,10 @@ public class MenuDashTime extends Activity implements OnClickListener {
 		
 		for (int i = 0; i < dataSeries.length; i++) {
 			History temp = historyList.get(i);
-			double val = temp.getTime();
+			int val1 = temp.getHour()*3600;
+			val1 += temp.getMinute()*60;
+			val1 += temp.getSecond();
+			double val = (double) val1;
 			String label = temp.getDay() + "/" + temp.getMonth();
 			dataSeries[i] = new GraphViewData(i + 1, val);
 			labelSeries[i] = label;

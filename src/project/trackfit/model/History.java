@@ -3,19 +3,23 @@ package project.trackfit.model;
 public class History {
 	private int uid;
 	private int aid;
-	private int distance;
-	private int time;
-	private int calorie;
-	private int speed;
+	private float distance;
+	private int hour;
+	private int minute;
+	private int second;
+	private float calorie;
+	private float speed;
 	private int day;
 	private int month;
 	private int year;
 	
-	public History(int uid, int aid, int distance, int time, int calorie, int speed, int day, int month, int year) {
+	public History(int uid, int aid, float distance, int hour, int minute, int second, float calorie, float speed, int day, int month, int year) {
 		this.uid = uid;
 		this.aid = aid;
 		this.distance = distance;
-		this.time = time;
+		this.hour = hour;
+		this.minute = minute;
+		this.second = second;
 		this.calorie = calorie;
 		this.speed = speed;
 		this.day = day;
@@ -31,19 +35,27 @@ public class History {
 		return aid;
 	}
 	
-	public int getDistance() {
+	public float getDistance() {
 		return distance;
 	}
 	
-	public int getTime() {
-		return time;
+	public int getHour() {
+		return hour;
 	}
 	
-	public int getCalorie() {
+	public int getMinute() {
+		return minute;
+	}
+	
+	public int getSecond() {
+		return second;
+	}
+	
+	public float getCalorie() {
 		return calorie;
 	}
 	
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 	

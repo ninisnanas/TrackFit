@@ -1,26 +1,41 @@
 package project.trackfit.view;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import project.trackfit.R;
+import project.trackfit.controller.RemoteControlReceiver;
+import project.trackfit.controller.SportTrackController;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.Criteria;
 import android.location.LocationManager;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +52,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MenuSportTrack extends Activity implements LocationListener,
 		OnClickListener {
+	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
+	RemoteControlReceiver r;
+	
 	List<LatLng> routePoints;
 	protected GoogleMap map;
 
@@ -47,6 +65,8 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	float jarakSampeSekarang;
 	float jarakAwalAkhir;
 	int minutes;
+	int seconds;
+	int hours;
 
 	float distance;
 	float distanceTo;
@@ -83,12 +103,28 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	Handler timerHandler = new Handler();
 	int counter = 0;
+	
+	SportTrackController stc;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
+		
+		stc = new SportTrackController(this);
 
+		// Media Button Event Listener
+		((AudioManager) getSystemService(AUDIO_SERVICE))
+				.registerMediaButtonEventReceiver(new ComponentName(this,
+						RemoteControlReceiver.class));
+		IntentFilter filter = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);// "android.intent.action.MEDIA_BUTTON"
+		r = new RemoteControlReceiver(MenuSportTrack.this);
+		filter.setPriority(10000);
+		registerReceiver(r, filter);
+		registerReceiver(r, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+		
+		checkVoiceRecognition();
+		
 		routePoints = new ArrayList<LatLng>();
 		setupView();
 		setupEvent();
@@ -144,46 +180,85 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			startActivity(new Intent(getApplicationContext(), MenuHome.class)
 					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
 							| Intent.FLAG_ACTIVITY_CLEAR_TOP));
+			unregisterReceiver(r);
 			finish();
 		} else if (v.equals(about)) {
 			startActivity(new Intent(getApplicationContext(), MenuAbout.class)
 					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			unregisterReceiver(r);
 			finish();
 		} else if (v.equals(history)) {
 			startActivity(new Intent(getApplicationContext(),
 					MenuActHistory.class)
 					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			unregisterReceiver(r);
 			finish();
 		} else if (v.equals(dashboard)) {
 			startActivity(new Intent(getApplicationContext(),
 					MenuDashDist.class)
 					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			unregisterReceiver(r);
 			finish();
 		} else if (v.equals(profile)) {
 			startActivity(new Intent(getApplicationContext(), MenuProfile.class)
 					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			unregisterReceiver(r);
 			finish();
 		} else if (v.equals(start)) {
-			if (readyToRun()) {
-
-				isStart = true;
-				start.setVisibility(invisible);
-				pause.setVisibility(visible);
-				resume.setVisibility(invisible);
-				stop.setVisibility(visible);
-				startTime = SystemClock.uptimeMillis();
-				timerHandler.postDelayed(timerRunnable, 0);
-
-			}
+			startRun();
 		} else if (v.equals(pause)) {
-			isStart = false;
-			start.setVisibility(invisible);
-			pause.setVisibility(invisible);
-			resume.setVisibility(visible);
-			stop.setVisibility(invisible);
-			timeSwapBuff += timeInMilliseconds;
-			timerHandler.removeCallbacks(timerRunnable);
+			pauseRun();
 		} else if (v.equals(resume)) {
+			resumeRun();
+		} else if (v.equals(stop)) {
+			stopRun();
+
+			// Toast.makeText(getApplicationContext(), "" + updatedTime +
+			// "haha",
+			// Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private void stopRun() {
+		// TODO Auto-generated method stub
+		isStart = false;
+		start.setVisibility(visible);
+		pause.setVisibility(invisible);
+		resume.setVisibility(invisible);
+		stop.setVisibility(invisible);
+		timeSwapBuff = 0;
+		timerHandler.removeCallbacks(timerRunnable);
+		stopTrain();
+		trainingSummary();
+		setVaribleToDefault();
+	}
+
+	private void resumeRun() {
+		// TODO Auto-generated method stub
+		isStart = true;
+		start.setVisibility(invisible);
+		pause.setVisibility(visible);
+		resume.setVisibility(invisible);
+		stop.setVisibility(visible);
+		startTime = SystemClock.uptimeMillis();
+		timerHandler.postDelayed(timerRunnable, 0);
+	}
+
+	private void pauseRun() {
+		// TODO Auto-generated method stub
+		isStart = false;
+		start.setVisibility(invisible);
+		pause.setVisibility(invisible);
+		resume.setVisibility(visible);
+		stop.setVisibility(invisible);
+		timeSwapBuff += timeInMilliseconds;
+		timerHandler.removeCallbacks(timerRunnable);
+	}
+
+	private void startRun() {
+		// TODO Auto-generated method stub
+		if (readyToRun()) {
+
 			isStart = true;
 			start.setVisibility(invisible);
 			pause.setVisibility(visible);
@@ -191,21 +266,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			stop.setVisibility(visible);
 			startTime = SystemClock.uptimeMillis();
 			timerHandler.postDelayed(timerRunnable, 0);
-		} else if (v.equals(stop)) {
-			isStart = false;
-			start.setVisibility(visible);
-			pause.setVisibility(invisible);
-			resume.setVisibility(invisible);
-			stop.setVisibility(invisible);
-			timeSwapBuff = 0;
-			timerHandler.removeCallbacks(timerRunnable);
-			stopTrain();
-			trainingSummary();
-			setVaribleToDefault();
 
-			// Toast.makeText(getApplicationContext(), "" + updatedTime +
-			// "haha",
-			// Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -278,8 +339,9 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			int milliSecs = (int) (updatedTime % 1000);
 			TVstopwatch.setText("" + hours + ":" + String.format("%02d", mins)
 					+ ":" + String.format("%02d", secs));
-
+			hours = hours;
 			minutes = mins;
+			seconds= secs;
 
 			timerHandler.postDelayed(this, 0);
 
@@ -389,11 +451,29 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	}
 
 	private void trainingSummary() {
+		
 		jarakAwalAkhir = jarakSampeSekarang;
-		Toast.makeText(
-				getApplicationContext(),
-				"speed: " + avgSpeed + " distance: " + totalDistance
-						+ "calories boong", Toast.LENGTH_LONG).show();
+		float c = (float) calculateCalories(stc.getAge(), stc.getWeight(), seconds);
+		//Toast.makeText(
+		//		getApplicationContext(),
+		//		"speed: " + avgSpeed + " distance: " + totalDistance
+		//				+ "calories boong" +"age", Toast.LENGTH_LONG).show();
+		DateFormat format  = new SimpleDateFormat
+
+				("yyyy/MM/dd HH:mm:ss");
+		Date currentDate = new Date();
+		String tanggal = format.format(currentDate);
+		
+	
+		int day = Integer.parseInt(tanggal.substring(8,10));
+		int month= Integer.parseInt(tanggal.substring(5,7));
+		int year= Integer.parseInt(tanggal.substring(0,4));
+		//System.out.println(day);
+		//System.out.println(month);
+		//System.out.println(year);
+		boolean success = stc.addHistory(1, 1, totalDistance, hours, minutes, seconds, c, avgSpeed, day, month, year);
+		if (success) Toast.makeText(getApplicationContext(),"berhasil", Toast.LENGTH_LONG).show();
+		else Toast.makeText(getApplicationContext(),"gagal", Toast.LENGTH_LONG).show();
 	}
 
 	private boolean isGPSEnabled() {
@@ -468,5 +548,125 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void checkVoiceRecognition() {
+		// Check if voice recognition is present
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(
+				new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		if (activities.size() == 0) {
+			Toast.makeText(this, "Voice recognizer not present",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode,
+			int resultCode, Intent data) {
+		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE)
 
+			// If Voice recognition is successful then it returns RESULT_OK
+			if (resultCode == RESULT_OK) {
+
+				ArrayList<String> textMatchList = data
+						.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+				if (!textMatchList.isEmpty()) {
+					// If first Match contains the 'search' word
+					// Then start web search.
+					if (textMatchList.get(0).contains("search")) {
+
+						String searchQuery = textMatchList.get(0);
+						searchQuery = searchQuery.replace("search", "");
+						Intent search = new Intent(
+								Intent.ACTION_WEB_SEARCH);
+						search.putExtra(SearchManager.QUERY, searchQuery);
+						startActivity(search);
+					} else {
+						// populate the Matches
+						/*mlvTextMatches.setAdapter(new ArrayAdapter<String>(
+								this, android.R.layout.simple_list_item_1,
+								textMatchList));*/
+						Iterator<String> iterator = textMatchList
+								.iterator();
+						while (iterator.hasNext()) {
+							String voice = iterator.next();
+							if (voice.equals("stop")) {
+								showToastMessage(voice + "setooop");
+								stopRun();
+							}
+							else if (voice.equals("start")) {
+								showToastMessage(voice + "muleee");
+								startRun();
+							}
+							else if (voice.equals("resume")) {
+								showToastMessage(voice + "mule lagiiii");
+								resumeRun();
+							}
+							else if (voice.equals("pause")) {
+								showToastMessage(voice + "tepan bentaaaar");
+								pauseRun();
+							}
+							else
+								showToastMessage(voice
+										+ "gak jelas ngomong apa");
+						}
+					}
+
+				}
+				// Result code for various error.
+			} else if (resultCode == RecognizerIntent.RESULT_AUDIO_ERROR) {
+				showToastMessage("Audio Error");
+			} else if (resultCode == RecognizerIntent.RESULT_CLIENT_ERROR) {
+				showToastMessage("Client Error");
+			} else if (resultCode == RecognizerIntent.RESULT_NETWORK_ERROR) {
+				showToastMessage("Network Error");
+			} else if (resultCode == RecognizerIntent.RESULT_NO_MATCH) {
+				showToastMessage("No Match");
+			} else if (resultCode == RecognizerIntent.RESULT_SERVER_ERROR) {
+				showToastMessage("Server Error");
+			}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	void showToastMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+
+	public void speak() {
+		System.out.println("kepanggil kok speak nya");
+		Log.d("debug", "speak");
+		Intent intent = new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+		// Specify the calling package to identify your application
+		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass()
+				.getPackage().getName());
+
+		// Display an hint to the user about what he should say.
+		intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a command");
+
+		// Given an hint to the recognizer about what the user is going to say
+		// There are two form of language model available
+		// 1.LANGUAGE_MODEL_WEB_SEARCH : For short phrases
+		// 2.LANGUAGE_MODEL_FREE_FORM : If not sure about the words or phrases
+		// and its domain.
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+				RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+/*
+		// If number of Matches is not selected then return show toast message
+		if (msTextMatches.getSelectedItemPosition() == AdapterView.INVALID_POSITION) {
+			Toast.makeText(this, "Please select No. of Matches from spinner",
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		int noOfMatches = Integer.parseInt(msTextMatches
+				.getSelectedItem().toString());
+		// Specify how many results you want to receive. The results will be
+		// sorted where the first result is the one with higher confidence.
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, noOfMatches);*/
+		// Start the Voice recognizer activity for the result.
+		startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+	}
 }
