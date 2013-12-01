@@ -2,12 +2,6 @@ package project.trackfit.view;
 
 import java.util.ArrayList;
 
-import org.brickred.socialauth.android.DialogListener;
-import org.brickred.socialauth.android.SocialAuthAdapter;
-import org.brickred.socialauth.android.SocialAuthError;
-import org.brickred.socialauth.android.SocialAuthListener;
-import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
-
 import project.trackfit.R;
 import project.trackfit.controller.ActHistoryController;
 import project.trackfit.model.History;
@@ -15,7 +9,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -25,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.Toast;
 
 public class MenuActHistory extends Activity implements OnClickListener {
 	
@@ -37,16 +29,14 @@ public class MenuActHistory extends Activity implements OnClickListener {
 	Button profile;
 	LinearLayout content;
 	LinearLayout[] container;
+	LinearLayout[] centerContainer;
 	ImageView[] activityImage;
 	LinearLayout[] textContainer;
 	TextView[] distanceTime;
 	TextView[] calorie;
 	TextView[] date;
-	Button[] buttonShare;
 	ArrayList<History> listHistory;
 	ActHistoryController actHistoryController;
-	SocialAuthAdapter adapter;
-	String messageToShare;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +61,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		
 		showActivityHistory();
 		
+		/*
 		adapter = new SocialAuthAdapter(new ResponseListener());
 		adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
 		adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
@@ -84,20 +75,21 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		adapter.addCallBack(Provider.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
 		
 		for (int i = 0; i < buttonShare.length; i++) {
+			buttonShare[i].setOnClickListener(this);
 			adapter.enable(buttonShare[i]);
-		}
+		}*/
 	}
 
 	private void showActivityHistory() {
 		listHistory = actHistoryController.getActivityHistory();
 		int listSize = listHistory.size();
 		container = new LinearLayout[listSize];
+		centerContainer = new LinearLayout[listSize];
 		activityImage = new ImageView[listSize];
 		textContainer = new LinearLayout[listSize];
 		distanceTime = new TextView[listSize];
 		calorie = new TextView[listSize];
 		date = new TextView[listSize];
-		buttonShare = new Button[listSize];
 		
 		for (int i = 0; i < listSize; i++) {
 			History history = listHistory.get(i);
@@ -106,9 +98,14 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			params.setMargins(10, 10, 10, 10);
 			container[i].setLayoutParams(params);
 			container[i].setOrientation(LinearLayout.HORIZONTAL);
+			centerContainer[i] = new LinearLayout(context);
+			params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			centerContainer[i].setLayoutParams(params);
+			centerContainer[i].setOrientation(LinearLayout.HORIZONTAL);
 			activityImage[i] = new ImageView(context);
 			params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			params.setMargins(10, 0, 0, 0);
+			//params.gravity = Gravity.CENTER;
 			activityImage[i].setLayoutParams(params);
 			textContainer[i] = new LinearLayout(context);
 			textContainer[i].setOrientation(LinearLayout.VERTICAL);
@@ -122,12 +119,6 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			date[i] = new TextView(context);
 			date[i].setPadding(5, 5, 5, 5);
 			date[i].setTextSize(15);
-			buttonShare[i] = new Button(context);
-			params = new LinearLayout.LayoutParams(75, 75);
-			params.setMargins(10, 0, 10, 0);
-			params.gravity = Gravity.CENTER;
-			buttonShare[i].setLayoutParams(params);
-			buttonShare[i].setOnClickListener(this);
 			
 			if (history.getAid() == 1) {
 				activityImage[i].setBackgroundResource(R.drawable.sports_regular_biking_icon);
@@ -144,22 +135,26 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			temp = history.getDay() + "/" + history.getMonth() + "/" + history.getYear();
 			date[i].setText(temp);
 			
-			buttonShare[i].setBackgroundResource(R.drawable.social_share);
-			
 			textContainer[i].addView(distanceTime[i]);
 			textContainer[i].addView(calorie[i]);
 			textContainer[i].addView(date[i]);
 			
-			container[i].addView(activityImage[i]);
-			container[i].addView(textContainer[i]);
-			container[i].addView(buttonShare[i]);
+			centerContainer[i].addView(activityImage[i]);
+			centerContainer[i].addView(textContainer[i]);
+
+			View a = (View) centerContainer[i];
+			params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			params.gravity = Gravity.CENTER;
+			a.setLayoutParams(params);
+			
+			container[i].addView(a);
 			container[i].setBackgroundResource(R.color.light_pink);
 			
 			content.addView(container[i]);
 		}
 	}
 	
-	public void share(History history) {
+	public String share(History history) {
 		int aid = history.getAid();
 		String activity;
 		
@@ -171,7 +166,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		int calorie = history.getCalorie();
 		String time = history.getTime() + ":" + history.getTime() + ":" +  history.getTime();
 		
-		messageToShare = "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
+		return "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
 	}
 
 	@Override
@@ -202,14 +197,14 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		} else if (v.equals(profile)) {
 			startActivity(new Intent(getApplicationContext(), MenuProfile.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
-		} 
+		}
 	}
 	
 	public void onBackPressed() {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
 	}
-	
+	/*
 	private final class ResponseListener implements DialogListener {
 		@Override
 		public void onComplete(Bundle values) {
@@ -223,8 +218,8 @@ public class MenuActHistory extends Activity implements OnClickListener {
 
 			// Please avoid sending duplicate message. Social Media Providers
 			// block duplicate messages.
-
-			adapter.updateStatus(messageToShare, new MessageListener(), false);
+			System.out.println("pesan = " + messageToShare[clickedHist]);
+			adapter.updateStatus(messageToShare[clickedHist], new MessageListener(), false);
 		}
 
 		@Override
@@ -258,5 +253,5 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			public void onError(SocialAuthError e) {
 
 			}
-		}
+		}*/
 }

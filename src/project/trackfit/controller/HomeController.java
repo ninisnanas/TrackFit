@@ -1,7 +1,10 @@
 package project.trackfit.controller;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import project.trackfit.database.DatabaseHandler;
+import project.trackfit.model.History;
 import project.trackfit.model.User;
 
 public class HomeController {
@@ -17,5 +20,20 @@ public class HomeController {
 	
 	public User getUser() {
 		return db.getUser();
+	}
+	
+	public ArrayList<History> getListHistory() {
+		return db.getHistory();
+	}
+	
+	public History getLastHistory() {
+		ArrayList<History> hist = getListHistory();
+		return hist.get(hist.size() - 1);
+	}
+	
+	public boolean checkHistory() {
+		ArrayList<History> hist = getListHistory();
+		if (hist.size() != 0) return true;
+		else return false;
 	}
 }
