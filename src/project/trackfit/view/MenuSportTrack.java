@@ -61,18 +61,13 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	Set<String> setResume;
 	Set<String> setStop;
 	
+	SportTrackController stc;
+	LocationManager locationManager;
+
 	List<LatLng> routePoints;
 	protected GoogleMap map;
-
-	LocationManager locationManager;
+	
 	boolean isStart;
-	float avgSpeed;
-	int point;
-	float jarakSampeSekarang;
-	float jarakAwalAkhir;
-	int minutes;
-	int seconds;
-	int hours;
 
 	float distance;
 	float distanceTo;
@@ -81,7 +76,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	int visible = View.VISIBLE;
 
 	private TextView TVstopwatch;
-
 	private TextView TVAvgSpeed;
 	private Button home;
 	private Button history;
@@ -93,24 +87,34 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	private Button resume;
 	private Button stop;
 
-	Location lokasLama;
-	Location initialLocation;
-	Location lastLocation;
-	Location finalLocation;
-
 	private long timeInMilliseconds = 0L;
 	private long startTime = 0L;
 	private long updatedTime = 0L;
 	private long timeSwapBuff = 0L;
 	private long time = 0L;
+	
+	Location lokasLama;
+	Location initialLocation;
+	Location lastLocation;
+	Location finalLocation;
+	Location startPos;
+	Location endPos;
 
 	float totalDistance;
-	Location startPos, endPos;
-
-	Handler timerHandler = new Handler();
+	float jarakSampeSekarang;
+	float jarakAwalAkhir;
+	float avgSpeed;
+	
+	int minutes;
+	int seconds;
+	int hours;
+	
+	int point;
 	int counter = 0;
 	
-	SportTrackController stc;
+	Handler timerHandler = new Handler();
+	
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -182,7 +186,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	private void setupView() {
 		TVstopwatch = (TextView) findViewById(R.id.textViewDuration);
-
 		TVAvgSpeed = (TextView) findViewById(R.id.textViewAvgSpeed);
 		home = (Button) findViewById(R.id.HomeIconButton);
 		history = (Button) findViewById(R.id.HistoryIconButton);
@@ -342,6 +345,12 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		float avg = ((avgSpeed * (point - 1)) + s) / point;
 		return avg;
 	}
+	
+	private float calculateAvgSpeed(float speed) {
+		// TODO Auto-generated method stub
+		float avg = ((avgSpeed * (point - 1)) + speed) / point;
+		return avg;
+	}
 
 	private double calculateCalories(int age, int weight, float timeMinute) {
 		int heartRate = 120;
@@ -492,27 +501,26 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	private void trainingSummary() {
 		
 		jarakAwalAkhir = jarakSampeSekarang;
-		float c = (float) calculateCalories(stc.getAge(), stc.getWeight(), seconds);
+		float calorie = (float) calculateCalories(stc.getAge(), stc.getWeight(), seconds);
 		//Toast.makeText(
 		//		getApplicationContext(),
 		//		"speed: " + avgSpeed + " distance: " + totalDistance
 		//				+ "calories boong" +"age", Toast.LENGTH_LONG).show();
-		DateFormat format  = new SimpleDateFormat
-
-				("yyyy/MM/dd HH:mm:ss");
+		DateFormat format  = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date currentDate = new Date();
 		String tanggal = format.format(currentDate);
 		
-	
 		int day = Integer.parseInt(tanggal.substring(8,10));
 		int month= Integer.parseInt(tanggal.substring(5,7));
 		int year= Integer.parseInt(tanggal.substring(0,4));
 		//System.out.println(day);
 		//System.out.println(month);
 		//System.out.println(year);
-		boolean success = stc.addHistory(1, 1, totalDistance, hours, minutes, seconds, c, avgSpeed, day, month, year);
-		if (success) Toast.makeText(getApplicationContext(),"berhasil", Toast.LENGTH_LONG).show();
-		else Toast.makeText(getApplicationContext(),"gagal", Toast.LENGTH_LONG).show();
+		boolean success = stc.addHistory(1, 1, totalDistance, hours, minutes, seconds, calorie, avgSpeed, day, month, year);
+		if (success) 
+			Toast.makeText(getApplicationContext(),"berhasil", Toast.LENGTH_LONG).show();
+		else 
+			Toast.makeText(getApplicationContext(),"gagal", Toast.LENGTH_LONG).show();
 	}
 
 	private boolean isGPSEnabled() {
@@ -528,19 +536,13 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	@Override
 	public void onLocationChanged(Location loc) {
 		if (isStart) {
-			// Log.d("test","debug "+counter++);
 			/** Algoritma alternatif */
-
-			// Log.d("test","debug "+counter++);
-
 			LatLng currentLocation = new LatLng(map.getMyLocation()
 					.getLatitude(), map.getMyLocation().getLongitude());
 			routePoints.add(currentLocation);
 			Polyline route = map.addPolyline(new PolylineOptions()
 					.geodesic(true));
 			route.setPoints(routePoints);
-			// Log.d("test","debug "+counter++);
-
 			/** Algoritma yang seharusnya */
 			/*
 			 * LatLng currentLatLng = new LatLng(loc.getLatitude(),
@@ -553,22 +555,17 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			} else {
 				jarakSampeSekarang += calculateDistance(startPos, loc);
 				startPos = loc;
-
 			}
 			TVAvgSpeed.setText("" + loc.getSpeed());
-
 			// Toast.makeText(getApplicationContext(),"JSS: "+jarakSampeSekarang+" Speed:"+loc.getSpeed(),
 			// Toast.LENGTH_SHORT).show();
-
 			Log.d("test",
 					"berubah" + loc.getLatitude() + ":" + loc.getLongitude());
-
-			
-
 			point++;
-			avgSpeed = calculateAvgSpeed(loc);
+			avgSpeed=calculateAvgSpeed(loc.getSpeed());
+			//avgSpeed = calculateAvgSpeed(loc);
 		}
-	}
+	}	
 
 	@Override
 	public void onProviderDisabled(String provider) {
