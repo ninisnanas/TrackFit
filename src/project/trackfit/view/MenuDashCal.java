@@ -83,7 +83,7 @@ public class MenuDashCal extends Activity implements OnClickListener {
 			  
 			GraphView graphView = new LineGraphView(  
 			      this // context  
-			      , "Calorie Graphic" // heading  
+			      , "Calorie Graphics" // heading  
 			);  
 			graphView.addSeries(exampleSeries); // data
 			graphView.setScrollable(true);

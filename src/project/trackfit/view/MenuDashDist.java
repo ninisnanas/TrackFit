@@ -83,7 +83,7 @@ public class MenuDashDist extends Activity implements OnClickListener {
 			  
 			GraphView graphView = new LineGraphView(  
 			      this // context  
-			      , "Speed Graphic" // heading  
+			      , "Distance Graphics" // heading  
 			);  
 			graphView.addSeries(exampleSeries); // data
 			graphView.setScrollable(true);
