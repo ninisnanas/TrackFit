@@ -120,7 +120,7 @@ public class MenuHome extends Activity implements OnClickListener {
 		
 		float distance = history.getDistance();
 		float calorie = history.getCalorie();
-		String time = history.getHour() + ":" + history.getMinute() + ":" +  history.getMinute();
+		String time = history.getHour() + ":" + history.getMinute() + ":" +  history.getSecond();
 		
 		return "I was out "+ activity +" for " + distance + " km in " + time + ". I burnt " + calorie + " cal! #TrackFit";
 	}

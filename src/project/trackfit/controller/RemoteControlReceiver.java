@@ -36,14 +36,14 @@ public class RemoteControlReceiver extends BroadcastReceiver {
 	    	else
 	    		Toast.makeText(context, "earphones un-plugged", Toast.LENGTH_LONG).show();
 	    }
-	    
+	    /*
 	    else {
 	    	if(intentAction.equals(Intent.ACTION_MEDIA_BUTTON)) {
 	    		Toast.makeText(context, "button pressed",Toast.LENGTH_LONG).show();
 	            Toast.makeText(context, intent.getExtras().getString("EXTRA_KEY_EVENT"),Toast.LENGTH_LONG).show();
 	    	}
 	    }
-	    
+	    */
 	    
 	    if (!Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
 	    	Log.d("debug","event=nullaa");

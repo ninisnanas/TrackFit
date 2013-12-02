@@ -4,8 +4,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import project.trackfit.R;
 import project.trackfit.controller.RemoteControlReceiver;
@@ -54,6 +56,10 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		OnClickListener {
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 	RemoteControlReceiver r;
+	Set<String> setStart;
+	Set<String> setPause;
+	Set<String> setResume;
+	Set<String> setStop;
 	
 	List<LatLng> routePoints;
 	protected GoogleMap map;
@@ -123,6 +129,39 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		registerReceiver(r, filter);
 		registerReceiver(r, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 		
+		setStart = new HashSet<String>();
+		setPause = new HashSet<String>();
+		setResume = new HashSet<String>();
+		setStop = new HashSet<String>();
+		
+		setStart.add("start");
+		setStart.add("star");
+		setStart.add("tart");
+		setStart.add("fuck");
+		setStart.add("f***");
+		setStart.add("stock");
+		setPause.add("pause");
+		setPause.add("both");
+		setPause.add("bose");
+		setPause.add("police");
+		setPause.add("polish");
+		setPause.add("boobs");
+		setPause.add("post");
+		setPause.add("boz");
+		setPause.add("posts");
+		setPause.add("pose");
+		setPause.add("old");
+		setPause.add("bowls");
+		setResume.add("resume");
+		setResume.add("the food");
+		setResume.add("the sup");
+		setResume.add("assume");
+		setResume.add("the zoom");
+		setResume.add("the soon");
+		setResume.add("this room");
+		setStop.add("stop");
+		setStop.add("sup");
+		setStop.add("help");
 		checkVoiceRecognition();
 		
 		routePoints = new ArrayList<LatLng>();
@@ -591,25 +630,25 @@ public class MenuSportTrack extends Activity implements LocationListener,
 								.iterator();
 						while (iterator.hasNext()) {
 							String voice = iterator.next();
-							if (voice.equals("stop")) {
+							if (setStop.contains(voice)) {
 								showToastMessage(voice + "setooop");
 								stopRun();
 							}
-							else if (voice.equals("start")) {
+							else if (setStart.contains(voice)) {
 								showToastMessage(voice + "muleee");
 								startRun();
 							}
-							else if (voice.equals("resume")) {
+							else if (setResume.contains(voice)) {
 								showToastMessage(voice + "mule lagiiii");
 								resumeRun();
 							}
-							else if (voice.equals("pause")) {
+							else if (setPause.contains(voice)) {
 								showToastMessage(voice + "tepan bentaaaar");
 								pauseRun();
 							}
 							else
 								showToastMessage(voice
-										+ "gak jelas ngomong apa");
+										+ " <-gak jelas ngomong apa");
 						}
 					}
 

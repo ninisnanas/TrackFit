@@ -92,7 +92,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		date = new TextView[listSize];
 		
 		for (int i = 0; i < listSize; i++) {
-			History history = listHistory.get(i);
+			History history = listHistory.get(listSize - 1 - i);
 			container[i] = new LinearLayout(context);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.setMargins(10, 10, 10, 10);

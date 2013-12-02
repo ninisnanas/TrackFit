@@ -91,9 +91,10 @@ public class MenuDashTime extends Activity implements OnClickListener {
 			graphView.addSeries(exampleSeries); // data
 			graphView.setScrollable(true);
 			graphView.setScalable(true);
+			graphView.setViewPort(1, 10);
 			graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
 			graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
-			graphView.setHorizontalLabels(labelSeries);
+			//graphView.setHorizontalLabels(labelSeries);
 			graphView.getGraphViewStyle().setTextSize(getResources().getDimension(R.dimen.small));
 			graphView.getGraphViewStyle().setNumHorizontalLabels(10);
 			graphView.getGraphViewStyle().setNumHorizontalLabels(5);
