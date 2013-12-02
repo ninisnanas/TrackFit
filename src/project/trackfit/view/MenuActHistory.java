@@ -121,11 +121,11 @@ public class MenuActHistory extends Activity implements OnClickListener {
 			date[i].setTextSize(15);
 			
 			if (history.getAid() == 1) {
-				activityImage[i].setBackgroundResource(R.drawable.sports_regular_biking_icon);
+				activityImage[i].setBackgroundResource(R.drawable.walking);
 			} else if (history.getAid() == 2){
 				activityImage[i].setBackgroundResource(R.drawable.sports_running_icon);
 			} else {
-				activityImage[i].setBackgroundResource(R.drawable.walking);
+				activityImage[i].setBackgroundResource(R.drawable.sports_regular_biking_icon);
 			}
 			
 			String temp = history.getDistance() + " km in " + history.getHour() + ":" + history.getMinute() + ":" + history.getSecond();

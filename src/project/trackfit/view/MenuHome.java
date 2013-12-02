@@ -114,9 +114,9 @@ public class MenuHome extends Activity implements OnClickListener {
 		int aid = history.getAid();
 		String activity;
 		
-		if (aid == 1) activity = "biking";
+		if (aid == 1) activity = "walking";
 		else if (aid == 2) activity = "running";
-		else activity = "walking";
+		else activity = "cycling";
 		
 		float distance = history.getDistance();
 		float calorie = history.getCalorie();

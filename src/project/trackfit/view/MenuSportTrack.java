@@ -32,6 +32,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +56,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MenuSportTrack extends Activity implements LocationListener,
+public class MenuSportTrack extends Activity implements LocationListener,SensorEventListener,
 		OnClickListener {
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 	RemoteControlReceiver r;
@@ -60,6 +64,14 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	Set<String> setPause;
 	Set<String> setResume;
 	Set<String> setStop;
+	
+	SensorManager sensorManager;
+	Sensor accelerometer;
+	boolean mInitialized; 
+	private float mLastX, mLastY, mLastZ;
+	private float[] gravity;
+	private float[] linear_acceleration;
+	private final float NOISE = (float) 2.0;
 	
 	SportTrackController stc;
 	LocationManager locationManager;
@@ -120,7 +132,21 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
+mInitialized = false;
 		
+		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		accelerometer = sensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sensorManager.registerListener(this, accelerometer,
+				SensorManager.SENSOR_DELAY_NORMAL);
+		stc = new SportTrackController(this);
+		
+				this.gravity = new float[3];
+				this.linear_acceleration = new float[3];
+
+				this.gravity[0] = 0;
+				this.gravity[1] = 0;
+				this.gravity[2] = 0;
 		stc = new SportTrackController(this);
 
 		// Media Button Event Listener
@@ -365,13 +391,16 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// initializeMap();
+		sensorManager.registerListener(this, accelerometer,
+				SensorManager.SENSOR_DELAY_NORMAL);
+		initializeMap();
 	}
 
 	// disable features of the overlay when in the background
 	@Override
 	protected void onPause() {
 		super.onPause();
+		sensorManager.unregisterListener(this);
 	}
 
 	private Runnable timerRunnable = new Runnable() {
@@ -516,7 +545,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		//System.out.println(day);
 		//System.out.println(month);
 		//System.out.println(year);
-		boolean success = stc.addHistory(1, 1, totalDistance, hours, minutes, seconds, calorie, avgSpeed, day, month, year);
+		boolean success = stc.addHistory(1, 2, totalDistance, hours, minutes, seconds, calorie, avgSpeed, day, month, year);
 		if (success) 
 			Toast.makeText(getApplicationContext(),"berhasil", Toast.LENGTH_LONG).show();
 		else 
@@ -704,5 +733,71 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, noOfMatches);*/
 		// Start the Voice recognizer activity for the result.
 		startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		float x = event.values[0];
+		float y = event.values[1];
+		float z = event.values[2];
+
+		if (!mInitialized) {
+			mLastX = x;
+			mLastY = y;
+			mLastZ = z;
+			mInitialized = true;
+		} else {
+			float deltaX = Math.abs(mLastX - x);
+			float deltaY = Math.abs(mLastY - y);
+			float deltaZ = Math.abs(mLastZ - z);
+
+			if (deltaX < NOISE)
+				deltaX = (float) 0.0;
+			if (deltaY < NOISE)
+				deltaY = (float) 0.0;
+			if (deltaZ < NOISE)
+				deltaZ = (float) 0.0;
+
+			mLastX = x;
+			mLastY = y;
+			mLastZ = z;
+			float kFilteringFactor = 0.6f;
+
+			gravity[0] = (x * kFilteringFactor)
+					+ (gravity[0] * (1.0f - kFilteringFactor));
+			gravity[1] = (y * kFilteringFactor)
+					+ (gravity[1] * (1.0f - kFilteringFactor));
+			gravity[2] = (z * kFilteringFactor)
+					+ (gravity[2] * (1.0f - kFilteringFactor));
+
+			linear_acceleration[0] = (x - gravity[0]);
+			linear_acceleration[1] = (y - gravity[1]);
+			linear_acceleration[2] = (z - gravity[2]);
+
+			float magnitude = 0.0f;
+			magnitude = (float) Math.sqrt(linear_acceleration[0]
+					* linear_acceleration[0] + linear_acceleration[1]
+					* linear_acceleration[1] + linear_acceleration[2]
+					* linear_acceleration[2]);
+			magnitude = Math.abs(magnitude);
+			//if (magnitude >1) {
+			//	this.counter++;
+			if(isStart){
+				Log.d("test","kecepatan : "+magnitude);
+				TVAvgSpeed.setText(String.format("%.1f", magnitude));
+				//if (counter == 5) {
+				//	int pointNow = Integer.parseInt(point.getText().toString());
+				//	point.setText("" + (pointNow + 1));
+				//	counter = 0;
+				//}
+			}
+		}
 	}
 }
