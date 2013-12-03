@@ -59,7 +59,7 @@ public class RemoteControlReceiver extends BroadcastReceiver {
 	    Log.d("debug", "getAction = " + action);
 	    if (action == KeyEvent.ACTION_DOWN) {
 	    // do something
-	        Toast.makeText(context, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
+	        //Toast.makeText(context, "BUTTON PRESSED!", Toast.LENGTH_SHORT).show();
 	        act.speak();
 	    }
 	    abortBroadcast();

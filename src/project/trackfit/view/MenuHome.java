@@ -209,7 +209,7 @@ public class MenuHome extends Activity implements OnClickListener {
 				activityImage.setBackgroundResource(R.drawable.walking);
 			}
 			
-			String temp = recentHist.getDistance() + " km in " + recentHist.getHour() + ":" + recentHist.getMinute() + ":" + recentHist.getSecond();
+			String temp = recentHist.getDistance() + " m in " + recentHist.getHour() + ":" + recentHist.getMinute() + ":" + recentHist.getSecond();
 			distanceTime.setText(temp);
 			temp = recentHist.getCalorie() + " cal";
 			calorie.setText(temp);

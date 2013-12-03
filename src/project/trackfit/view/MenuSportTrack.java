@@ -11,6 +11,7 @@ import java.util.Set;
 
 import project.trackfit.R;
 import project.trackfit.controller.RemoteControlReceiver;
+import project.trackfit.controller.SoundController;
 import project.trackfit.controller.SportTrackController;
 import android.location.Location;
 import android.location.LocationListener;
@@ -75,6 +76,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	SportTrackController stc;
 	LocationManager locationManager;
+	SoundController sc;
 
 	List<LatLng> routePoints;
 	protected GoogleMap map;
@@ -139,6 +141,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		sensorManager.registerListener(this, accelerometer,
 				SensorManager.SENSOR_DELAY_NORMAL);
 		stc = new SportTrackController(this);
+		sc = new SoundController(this);
 
 		this.gravity = new float[3];
 		this.linear_acceleration = new float[3];
@@ -245,33 +248,43 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), MenuHome.class)
-					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-							| Intent.FLAG_ACTIVITY_CLEAR_TOP));
-			unregisterReceiver(r);
-			finish();
+			if (!isStart){
+				startActivity(new Intent(getApplicationContext(), MenuHome.class)
+						.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
+								| Intent.FLAG_ACTIVITY_CLEAR_TOP));
+				unregisterReceiver(r);
+				finish();
+			}
 		} else if (v.equals(about)) {
-			startActivity(new Intent(getApplicationContext(), MenuAbout.class)
-					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			unregisterReceiver(r);
-			finish();
+			if (!isStart){
+				startActivity(new Intent(getApplicationContext(), MenuAbout.class)
+						.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				unregisterReceiver(r);
+				finish();
+			}
 		} else if (v.equals(history)) {
-			startActivity(new Intent(getApplicationContext(),
-					MenuActHistory.class)
-					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			unregisterReceiver(r);
-			finish();
+			if (!isStart){
+				startActivity(new Intent(getApplicationContext(),
+						MenuActHistory.class)
+						.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				unregisterReceiver(r);
+				finish();
+			}
 		} else if (v.equals(dashboard)) {
-			startActivity(new Intent(getApplicationContext(),
-					MenuDashDist.class)
-					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			unregisterReceiver(r);
-			finish();
+			if (!isStart){
+				startActivity(new Intent(getApplicationContext(),
+						MenuDashDist.class)
+						.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				unregisterReceiver(r);
+				finish();
+			}
 		} else if (v.equals(profile)) {
-			startActivity(new Intent(getApplicationContext(), MenuProfile.class)
-					.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			unregisterReceiver(r);
-			finish();
+			if(!isStart){
+				startActivity(new Intent(getApplicationContext(), MenuProfile.class)
+						.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				unregisterReceiver(r);
+				finish();
+			}
 		} else if (v.equals(start)) {
 			startRun();
 		} else if (v.equals(pause)) {
@@ -451,11 +464,11 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 			map.moveCamera(camUpdate);
 
-			MarkerOptions marker = new MarkerOptions().position(
-					new LatLng(currentLocation.getLatitude(), currentLocation
-							.getLongitude())).title("You're here");
+			//MarkerOptions marker = new MarkerOptions().position(
+			//		new LatLng(currentLocation.getLatitude(), currentLocation
+			//				.getLongitude())).title("You're here");
 
-			map.addMarker(marker);
+			//map.addMarker(marker);
 
 			// startPos = new Location(currentLocation);
 			// Log.d("test",
@@ -466,6 +479,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			finalLocation = currentLocation;
 			Toast.makeText(getApplicationContext(), "InitialMap",
 					Toast.LENGTH_SHORT).show();
+			Log.d("test", "Initiating Maps");
 			if (map == null) {
 				Toast.makeText(getApplicationContext(),
 						"Sorry! unable to create maps", Toast.LENGTH_SHORT)
@@ -504,12 +518,17 @@ public class MenuSportTrack extends Activity implements LocationListener,
 				// makeMarker(initialLocation, "START");
 				return true;
 			} else {
+				Toast.makeText(getApplicationContext(), "Check your network and GPS",
+						Toast.LENGTH_SHORT).show();
 				return false;
 			}
 		} else {
+			Toast.makeText(getApplicationContext(), "Check your network and GPS",
+					Toast.LENGTH_SHORT).show();
 			return false;
 		}
-	}
+	} 
+		
 
 	private void stopTrain() {
 		// Criteria crit = new Criteria();
@@ -601,7 +620,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 				jarakSampeSekarang += calculateDistance(startPos, loca);
 				startPos = loca;
 			}
-			TVDistance.setText(""+jarakSampeSekarang);
+			TVDistance.setText(String.format("%.1f",jarakSampeSekarang));
 			TVAvgSpeed.setText("" + loc.getSpeed());
 			// Toast.makeText(getApplicationContext(),"JSS: "+jarakSampeSekarang+" Speed:"+loc.getSpeed(),
 			// Toast.LENGTH_SHORT).show();
@@ -673,20 +692,24 @@ public class MenuSportTrack extends Activity implements LocationListener,
 						while (iterator.hasNext()) {
 							String voice = iterator.next();
 							if (setStop.contains(voice)) {
-								showToastMessage(voice + "setooop");
+								//showToastMessage(voice + "setooop");
+								sc.PlaySound("STOP");
 								stopRun();
 							} else if (setStart.contains(voice)) {
-								showToastMessage(voice + "muleee");
+								//showToastMessage(voice + "muleee");
+								sc.PlaySound("START");
 								startRun();
 							} else if (setResume.contains(voice)) {
-								showToastMessage(voice + "mule lagiiii");
+								//showToastMessage(voice + "mule lagiiii");
+								sc.PlaySound("RESUME");
 								resumeRun();
 							} else if (setPause.contains(voice)) {
-								showToastMessage(voice + "tepan bentaaaar");
+								//showToastMessage(voice + "tepan bentaaaar");
+								sc.PlaySound("PAUSE");
 								pauseRun();
 							} else
-								showToastMessage(voice
-										+ " <-gak jelas ngomong apa");
+								sc.PlaySound("NOTCLEAR");
+								//showToastMessage(voice+ " <-gak jelas ngomong apa");
 						}
 					}
 
@@ -810,5 +833,13 @@ public class MenuSportTrack extends Activity implements LocationListener,
 				// }
 			}
 		}
+	}
+	
+	private void MakeMapsBaloon(LatLng position){
+		MarkerOptions marker = new MarkerOptions().position(
+				new LatLng(position.latitude, position
+						.longitude)).title("You're here");
+
+		map.addMarker(marker);
 	}
 }
