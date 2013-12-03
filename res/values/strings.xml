@@ -32,9 +32,9 @@
     <string name="insert_name">Insert Your Name</string>
     <string name="age">Age</string>
     <string name="insert_age">Insert Your Age</string>
-    <string name="weight">Weight</string>
+    <string name="weight">Weight (in kg)</string>
     <string name="insert_weight">Your Weight</string>
-    <string name="height">Height</string>
+    <string name="height">Height (in cm)</string>
     <string name="insert_height">Your Height</string>
     <string name="confirm">Confirm</string>
     <string name="bodyMass">Body Mass</string>
