@@ -1,7 +1,11 @@
 package project.trackfit.view;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+//import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -10,6 +14,7 @@ import com.jjoe64.graphview.LineGraphView;
 import project.trackfit.R;
 import project.trackfit.controller.DashboardController;
 import project.trackfit.model.History;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,13 +38,19 @@ public class MenuDashDist extends Activity implements OnClickListener {
 	private Button time;
 	private Context context;
 	private DashboardController dashboardController;
+	private String cDate;
 
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dash_dist);
 		overridePendingTransition(0,0);
 		context = this;
+		
+		DateFormat format  = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date currentDate = new Date();
+		cDate = format.format(currentDate);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
@@ -65,22 +76,19 @@ public class MenuDashDist extends Activity implements OnClickListener {
 	private void showDistanceGraph() {
 		// TODO Auto-generated method stub
 		dashboardController = new DashboardController(context);
-		ArrayList<History> historyList = dashboardController.getHistoryList();
+		final ArrayList<History> historyList = dashboardController.getHistoryList();
 		
 		GraphViewData[] dataSeries = new GraphViewData[historyList.size()];
-		String[] labelSeries = new String[historyList.size()]; 
+		//String[] labelSeries = new String[] {"earlier", "recently"};
 		
 		for (int i = 0; i < dataSeries.length; i++) {
 			History temp = historyList.get(i);
 			double val = temp.getDistance();
-			String label = temp.getDay() + "/" + temp.getMonth();
 			dataSeries[i] = new GraphViewData(i + 1, val);
-			labelSeries[i] = label;
-			System.out.println("val = " + val);
+			System.out.println("val " + i + " = " + val);
 		}
 		
 		GraphViewSeries exampleSeries = new GraphViewSeries(dataSeries);  
-			  
 			GraphView graphView = new LineGraphView(  
 			      this // context  
 			      , "Distance Graphics" // heading  

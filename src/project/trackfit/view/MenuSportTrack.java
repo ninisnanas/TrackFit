@@ -140,8 +140,10 @@ public class MenuSportTrack extends Activity implements LocationListener,
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sensorManager.registerListener(this, accelerometer,
 				SensorManager.SENSOR_DELAY_NORMAL);
+
 		stc = new SportTrackController(this);
 		sc = new SoundController(this);
+
 
 		this.gravity = new float[3];
 		this.linear_acceleration = new float[3];

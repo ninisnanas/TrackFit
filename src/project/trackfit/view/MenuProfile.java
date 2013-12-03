@@ -31,6 +31,7 @@ public class MenuProfile extends Activity implements OnClickListener {
 	EditText height;
 	
 	boolean newUser;
+	boolean valid;
 	User user;
 	
 	Context context;
@@ -101,56 +102,126 @@ public class MenuProfile extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(home)) {
-			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			finish();
+			if (!newUser) {
+				startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				finish();
+			} else {
+				showPopUp();
+			}
 		} else if (v.equals(tracker)) {
-			startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			finish();
+			if(!newUser) {
+				startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				finish();
+			} else {
+				showPopUp();
+			}
 		} else if (v.equals(history)) {
-			startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			finish();
+			if (!newUser) {
+				startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				finish();
+			} else {
+				showPopUp();
+			}
 		} else if (v.equals(dashboard)) {
-			startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			finish();
+			if (!newUser) {
+				startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				finish();
+			} else {
+				showPopUp();
+			}
 		} else if (v.equals(about)) {
-			startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-			finish();
+			if (!newUser) {
+				startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				finish();
+			} else {
+				showPopUp();
+			}
 		} else if (v.equals(confirm)) {
 			String message;
+			//validate();
 			if (newUser) {
-				createUser();
-				message = "User data has been created";
+				valid = createUser();
+				if (valid) {
+					message = "User data has been created";
+					newUser = false;
+					Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+				} else {
+					showAlertPopUp();
+				}
 			} else {
 				editUser();
 				message = "User data has been saved";
+				Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 			}
-			Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 		} else if (v.equals(bodyMass)) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Body Mass Index Check");
-    		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
+			if (!newUser) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	            builder.setTitle("Body Mass Index Check");
+	    		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 					
-				}
-			});
-    		builder.setMessage("Based on your body mass index, you are " + profileController.getBMIDesc(user.getBodyMass()) + ".");
-    		AlertDialog dialog = builder.create();
-    		dialog.show();
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+	    		builder.setMessage("Based on your body mass index, you are " + profileController.getBMIDesc(user.getBodyMass()) + ".");
+	    		AlertDialog dialog = builder.create();
+	    		dialog.show();
+			} else {
+				showPopUp();
+			}
 		}
 	}
-	
-	private void createUser() {
+
+	private void showAlertPopUp() {
 		// TODO Auto-generated method stub
-		user.setName(name.getText().toString());
-		user.setAge(Integer.parseInt(age.getText().toString()));
-		user.setWeight(Integer.parseInt(weight.getText().toString()));
-		user.setHeight(Integer.parseInt(height.getText().toString()));
-		user.setBodyMass(profileController.calculateBodyMass(user.getWeight(), user.getHeight()));
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Attention!");
+		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
 				
-		profileController.setUser(1, user.getName(), user.getAge(), user.getWeight(), user.getHeight(), user.getBodyMass());
+			}
+		});
+		builder.setMessage("You haven't fill all the fields! Complete all the fields!");
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+	private void showPopUp() {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Attention!");
+		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		builder.setMessage("You haven't finished creating your profile! Confirm first!");
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+	private boolean createUser() {
+		// TODO Auto-generated method stub
+		try {
+			user.setName(name.getText().toString());
+			user.setAge(Integer.parseInt(age.getText().toString()));
+			user.setWeight(Integer.parseInt(weight.getText().toString()));
+			user.setHeight(Integer.parseInt(height.getText().toString()));
+			user.setBodyMass(profileController.calculateBodyMass(user.getWeight(), user.getHeight()));
+					
+			return profileController.setUser(1, user.getName(), user.getAge(), user.getWeight(), user.getHeight(), user.getBodyMass());
+		} catch (NumberFormatException e) {
+			System.err.println("error: " + e);
+			return false;
+		}
 	}
 	
 	private void editUser() {
