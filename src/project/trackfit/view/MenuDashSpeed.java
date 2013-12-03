@@ -83,7 +83,7 @@ public class MenuDashSpeed extends Activity implements OnClickListener {
 			  
 			GraphView graphView = new LineGraphView(  
 			      this // context  
-			      , "Speed Graphic" // heading  
+			      , "Speed Graphics" // heading  
 			);  
 			graphView.addSeries(exampleSeries); // data
 			graphView.setScrollable(true);

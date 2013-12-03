@@ -86,7 +86,7 @@ public class MenuDashTime extends Activity implements OnClickListener {
 			  
 			GraphView graphView = new LineGraphView(  
 			      this // context  
-			      , "Time Graphic" // heading  
+			      , "Time Graphics" // heading  
 			);  
 			graphView.addSeries(exampleSeries); // data
 			graphView.setScrollable(true);

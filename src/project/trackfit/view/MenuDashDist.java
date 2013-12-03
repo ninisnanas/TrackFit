@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.jjoe64.graphview.CustomLabelFormatter;
+//import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -79,7 +79,7 @@ public class MenuDashDist extends Activity implements OnClickListener {
 		final ArrayList<History> historyList = dashboardController.getHistoryList();
 		
 		GraphViewData[] dataSeries = new GraphViewData[historyList.size()];
-		String[] labelSeries = new String[] {"earlier", "recently"};
+		//String[] labelSeries = new String[] {"earlier", "recently"};
 		
 		for (int i = 0; i < dataSeries.length; i++) {
 			History temp = historyList.get(i);
@@ -89,67 +89,23 @@ public class MenuDashDist extends Activity implements OnClickListener {
 		}
 		
 		GraphViewSeries exampleSeries = new GraphViewSeries(dataSeries);  
-		  
-		GraphView graphView = new LineGraphView(  
-		      this // context  
-		      , "Distance Graphic" // heading  
-		);  
-		/*graphView.setCustomLabelFormatter(new CustomLabelFormatter() {
-
-			@Override
-			public String formatLabel(double value, boolean isValueX) {
-				// TODO Auto-generated method stub
-				if (isValueX) {
-					System.out.println("value x = " + value);
-					int index = (int) value;
-					History temp = historyList.get(index - 1);
-					int year = temp.getYear();
-					int month = temp.getMonth();
-					int day = temp.getDay();
-					int cDay = Integer.parseInt(cDate.substring(8,10));
-					int cMonth = Integer.parseInt(cDate.substring(5,7));
-					int cYear = Integer.parseInt(cDate.substring(0,4));
-					
-					int diff = 0;
-					if (year < cYear) {
-						diff = cYear - year;
-						if (diff == 1) {
-							return "last year";
-						} else return diff + " years ago";
-					} else if (year == cYear) {
-						if (month < cMonth) {
-							diff = cMonth - month;
-							if (diff == 1) {
-								return "last month";
-							} else return diff + "months ago";
-						} else if (month == cMonth) {
-							if (day < cDay) {
-								diff = cDay - day;
-								if (diff == 1) {
-									return "yesterday";
-								} else return diff + "days ago";
-							}
-						}
-					}
-					 
-				}
-				return null;
-			}
-			
-		});*/
-		graphView.addSeries(exampleSeries); // data
-		graphView.setScrollable(true);
-		graphView.setScalable(true);
-		graphView.setViewPort(1, 5);
-		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
-		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
-		graphView.setHorizontalLabels(labelSeries);
-		graphView.getGraphViewStyle().setTextSize(getResources().getDimension(R.dimen.small));
-		graphView.getGraphViewStyle().setNumVerticalLabels(10);
-		graphView.getGraphViewStyle().setNumHorizontalLabels(5);
-		  
-		LinearLayout layout = (LinearLayout) findViewById(R.id.contentDistance);  
-		layout.addView(graphView);
+			GraphView graphView = new LineGraphView(  
+			      this // context  
+			      , "Distance Graphics" // heading  
+			);  
+			graphView.addSeries(exampleSeries); // data
+			graphView.setScrollable(true);
+			graphView.setScalable(true);
+			graphView.setViewPort(1, 10);
+			graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
+			graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
+			//graphView.setHorizontalLabels(labelSeries);
+			graphView.getGraphViewStyle().setTextSize(getResources().getDimension(R.dimen.small));
+			graphView.getGraphViewStyle().setNumHorizontalLabels(10);
+			graphView.getGraphViewStyle().setNumHorizontalLabels(5);
+			  
+			LinearLayout layout = (LinearLayout) findViewById(R.id.contentDistance);  
+			layout.addView(graphView);
 	}
 
 	@Override
