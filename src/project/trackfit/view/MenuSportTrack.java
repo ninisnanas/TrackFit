@@ -1,5 +1,7 @@
 package project.trackfit.view;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,8 +33,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Bitmap.CompressFormat;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -50,6 +54,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -57,7 +62,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MenuSportTrack extends Activity implements LocationListener,
+public class MenuSportTrack extends Activity implements LocationListener, 
 		SensorEventListener, OnClickListener {
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 	RemoteControlReceiver r;
@@ -89,6 +94,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	int invisible = View.GONE;
 	int visible = View.VISIBLE;
 
+	private View frame;
 	private TextView TVstopwatch;
 	private TextView TVAvgSpeed;
 	private TextView TVDistance;
@@ -215,6 +221,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	}
 
 	private void setupView() {
+		frame = findViewById(R.id.frame);
 		TVstopwatch = (TextView) findViewById(R.id.textViewDuration);
 		TVAvgSpeed = (TextView) findViewById(R.id.textViewAvgSpeed);
 		TVDistance = (TextView) findViewById(R.id.textViewDistance);
@@ -295,7 +302,8 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			resumeRun();
 		} else if (v.equals(stop)) {
 			stopRun();
-
+			//PrintScreen();
+			map.snapshot(callback);
 			// Toast.makeText(getApplicationContext(), "" + updatedTime +
 			// "haha",
 			// Toast.LENGTH_LONG).show();
@@ -862,4 +870,46 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 		map.addMarker(marker);
 	}
+	
+	private void PrintScreen(){
+		frame.setDrawingCacheEnabled(true);
+		   Bitmap bitmap = frame.getDrawingCache();
+		   File file = new File("/sdcard/"+"haha"+".png");    
+		   try  {
+		    if(!file.exists())
+		         {
+		         file.createNewFile();
+		         }
+		  FileOutputStream ostream = new FileOutputStream(file);
+		  bitmap.compress(CompressFormat.PNG, 10, ostream);                                        
+		  ostream.close();
+		                            frame.invalidate();                           
+		} 
+		 catch (Exception e) 
+		 { e.printStackTrace();
+		                        }finally
+		                        {
+
+		                            frame.setDrawingCacheEnabled(false);                          
+		                        }
+		 
+	}
+	
+	private SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+        Bitmap bitmap;
+
+        @Override
+        public void onSnapshotReady(Bitmap snapshot) {
+            // TODO Auto-generated method stub
+            bitmap = snapshot;
+            try {
+                   FileOutputStream out = new FileOutputStream("/sdcard/"+"haha"+".png");
+                   bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } catch (Exception e) {
+                   e.printStackTrace();
+            }
+        }
+    };
+
+    //map.snapshot(callback);
 }

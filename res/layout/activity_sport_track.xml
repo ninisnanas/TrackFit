@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cream"
-    tools:context=".MenuSportTrack" >
+    tools:context=".MenuSportTrack"
+    android:id="@+id/frame" >
 
     <LinearLayout
         android:id="@+id/Header"
