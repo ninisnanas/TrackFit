@@ -275,7 +275,7 @@ public class MenuHome extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v.equals(tracker)) startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+		if (v.equals(tracker)) startActivity(new Intent(getApplicationContext(), SportsPicker.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(history)) startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(about)) startActivity(new Intent(getApplicationContext(), MenuAbout.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));

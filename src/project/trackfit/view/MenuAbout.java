@@ -51,7 +51,7 @@ public class MenuAbout extends Activity implements OnClickListener {
 			finish();
 		}
 		else if (v.equals(tracker)) {
-			startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+			startActivity(new Intent(getApplicationContext(), SportsPicker.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 			finish();
 		}
 		else if (v.equals(history)) {

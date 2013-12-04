@@ -110,7 +110,7 @@ public class MenuProfile extends Activity implements OnClickListener {
 			}
 		} else if (v.equals(tracker)) {
 			if(!newUser) {
-				startActivity(new Intent(getApplicationContext(), MenuSportTrack.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+				startActivity(new Intent(getApplicationContext(), SportsPicker.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 				finish();
 			} else {
 				showPopUp();

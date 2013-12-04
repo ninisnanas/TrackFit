@@ -103,7 +103,7 @@
         </activity>
         <activity
             android:name="project.trackfit.view.SportsPicker"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:theme="@android:style/Theme.Dialog"
         	android:configChanges="orientation"
         	android:screenOrientation="portrait" >
         </activity>
