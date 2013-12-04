@@ -28,6 +28,17 @@ public class SoundController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else if (str.equals("WRONGCOMMAND")){
+			try {
+				AssetFileDescriptor afd = act.getAssets().openFd("sound/wrongcommand.mp3");
+				player.reset();
+				player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+				player.prepare();
+				player.start();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else if (str.equals("START")){
 			try {
 				AssetFileDescriptor afd = act.getAssets().openFd("sound/start.mp3");

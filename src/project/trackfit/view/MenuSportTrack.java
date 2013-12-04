@@ -694,24 +694,42 @@ public class MenuSportTrack extends Activity implements LocationListener,
 						while (iterator.hasNext()) {
 							String voice = iterator.next();
 							if (setStop.contains(voice)) {
+								if(isStart){
+									sc.PlaySound("STOP");
+									stopRun();
+								}else{
+									sc.PlaySound("WRONGCOMMAND");
+								}
 								//showToastMessage(voice + "setooop");
-								sc.PlaySound("STOP");
-								stopRun();
 							} else if (setStart.contains(voice)) {
+								if(isStart){
+									sc.PlaySound("START");
+									startRun();
+								}else{
+									sc.PlaySound("WRONGCOMMAND");
+								}
 								//showToastMessage(voice + "muleee");
-								sc.PlaySound("START");
-								startRun();
 							} else if (setResume.contains(voice)) {
+								if(isStart){
+									sc.PlaySound("RESUME");
+									resumeRun();
+								}else{
+									sc.PlaySound("WRONGCOMMAND");
+								}
 								//showToastMessage(voice + "mule lagiiii");
-								sc.PlaySound("RESUME");
-								resumeRun();
 							} else if (setPause.contains(voice)) {
+								if(isStart){
+									sc.PlaySound("PAUSE");
+									pauseRun();
+								}else{
+									sc.PlaySound("WRONGCOMMAND");
+								}
 								//showToastMessage(voice + "tepan bentaaaar");
-								sc.PlaySound("PAUSE");
-								pauseRun();
-							} else
-								sc.PlaySound("NOTCLEAR");
+							} else{
 								//showToastMessage(voice+ " <-gak jelas ngomong apa");
+								sc.PlaySound("NOTCLEAR");
+							}
+								
 						}
 					}
 
