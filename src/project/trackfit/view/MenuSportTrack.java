@@ -126,6 +126,8 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	int point;
 	int counter = 0;
+	
+	String selectedAct;
 
 	Handler timerHandler = new Handler();
 
@@ -134,7 +136,11 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
 		mInitialized = false;
-
+		
+		Intent intent = getIntent();
+		selectedAct = intent.getStringExtra("activity");
+		System.out.println("selectedAct = " +  selectedAct);
+		
 		sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer = sensorManager
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
