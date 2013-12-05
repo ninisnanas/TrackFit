@@ -11,6 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.brickred.socialauth.android.DialogListener;
+import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
+import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
+
 import project.trackfit.R;
 import project.trackfit.controller.RemoteControlReceiver;
 import project.trackfit.controller.SoundController;
@@ -26,9 +32,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -134,6 +142,9 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	int counter = 0;
 	
 	String selectedAct;
+	String shareMessage;
+	Context context;
+	SocialAuthAdapter adapter;
 
 	Handler timerHandler = new Handler();
 
@@ -142,6 +153,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
 		mInitialized = false;
+		context = this;
 		
 		Intent intent = getIntent();
 		selectedAct = intent.getStringExtra("activity");
@@ -590,14 +602,135 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		// System.out.println(year);
 		boolean success = stc.addHistory(1, 2, totalDistance, hours, minutes,
 				seconds, calorie, avgSpeed, day, month, year);
-		if (success)
-			Toast.makeText(getApplicationContext(), "berhasil",
-					Toast.LENGTH_LONG).show();
+		if (success) {
+			Toast.makeText(getApplicationContext(), "berhasil", Toast.LENGTH_LONG).show();
+			String time = hours + ":" + minutes + ":" + seconds;
+			shareMessage = "I was out "+ selectedAct +" for " + totalDistance + " km in " + time + ". I burnt " + calorie + " cal! #TrackFit";
+			showSharePopUp();
+		}
 		else
 			Toast.makeText(getApplicationContext(), "gagal", Toast.LENGTH_LONG)
 					.show();
 	}
+	
+	private void showSharePopUp() {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				adapter = new SocialAuthAdapter(new ResponseListener());
+				adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
+				adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
+				adapter.addProvider(Provider.MYSPACE, R.drawable.myspace);
+				adapter.addProvider(Provider.YAHOO, R.drawable.yahoo);
+				adapter.addProvider(Provider.GOOGLE, R.drawable.google);
+				adapter.addProvider(Provider.GOOGLEPLUS, R.drawable.googleplus);
+				//adapter.addProvider(Provider.INSTAGRAM, R.drawable.i)
+				adapter.addProvider(Provider.FOURSQUARE, R.drawable.foursquare);
+				
+				adapter.addCallBack(Provider.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
+				}
+			});
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		builder.setMessage("Do you want to share this activity?");
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
 
+	private final class ResponseListener implements DialogListener {
+		@Override
+		public void onComplete(Bundle values) {
+
+			Log.d("ShareButton", "Authentication Successful");
+
+			// Get name of provider after authentication
+			String providerName = values.getString(SocialAuthAdapter.PROVIDER);
+			Log.d("ShareButton", "Provider Name = " + providerName);
+			Toast.makeText(MenuSportTrack.this, providerName + " connected", Toast.LENGTH_LONG).show();
+
+			// Please avoid sending duplicate message. Social Media Providers
+			// block duplicate messages.
+			
+			try {
+				Bitmap bm = null;
+				if (bm != null) {
+					adapter.uploadImageAsync(shareMessage, "Track.png", bm, 0, new UploadImageListener());
+				} else Toast.makeText(MenuSportTrack.this, "Image not Uploaded", Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			adapter.updateStatus(getShare(), new MessageListener(), false);
+		}
+
+		private String getShare() {
+			// TODO Auto-generated method stub
+			return shareMessage;
+		}
+
+		@Override
+		public void onError(SocialAuthError error) {
+			Log.d("ShareButton", "Authentication Error: " + error.getMessage());
+		}
+
+		@Override
+		public void onCancel() {
+			Log.d("ShareButton", "Authentication Cancelled");
+		}
+
+		@Override
+		public void onBack() {
+			Log.d("Share-Button", "Dialog Closed by pressing Back Key");
+		}
+	}
+	
+	// To get status of message after authentication
+	private final class MessageListener implements SocialAuthListener<Integer> {
+		@Override
+		public void onExecute(String provider, Integer t) {
+			Integer status = t;
+			if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
+				Toast.makeText(MenuSportTrack.this, "Message posted on " + provider, Toast.LENGTH_LONG).show();
+			else
+				Toast.makeText(MenuSportTrack.this, "Message not posted on " + provider, Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void onError(SocialAuthError e) {
+
+		}
+	}
+		
+	private final class UploadImageListener implements SocialAuthListener<Integer> {
+
+		@Override
+		public void onExecute(String provider, Integer t) {
+			Integer status = t;
+			Log.d("Custom-UI", String.valueOf(status));
+			if (status.intValue() == 200 || status.intValue() == 201
+					|| status.intValue() == 204)
+				Toast.makeText(MenuSportTrack.this, "Image Uploaded",
+						Toast.LENGTH_SHORT).show();
+			else
+				Toast.makeText(MenuSportTrack .this,
+						"Image not Uploaded", Toast.LENGTH_SHORT).show();
+		}
+	
+		@Override
+		public void onError(SocialAuthError e) {
+	
+		}
+	}
+	
 	private boolean isGPSEnabled() {
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
