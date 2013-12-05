@@ -152,7 +152,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sensorManager.registerListener(this, accelerometer,
 				SensorManager.SENSOR_DELAY_NORMAL);
-
+		
 		stc = new SportTrackController(this);
 		sc = new SoundController(this);
 
@@ -636,8 +636,8 @@ public class MenuSportTrack extends Activity implements LocationListener,
 				jarakSampeSekarang += calculateDistance(startPos, loca);
 				startPos = loca;
 			}
-			TVDistance.setText(String.format("%.1f",jarakSampeSekarang));
-			TVAvgSpeed.setText("" + loc.getSpeed());
+			TVDistance.setText(String.format("%.0f",jarakSampeSekarang));
+			//TVAvgSpeed.setText("" + loc.getSpeed());
 			// Toast.makeText(getApplicationContext(),"JSS: "+jarakSampeSekarang+" Speed:"+loc.getSpeed(),
 			// Toast.LENGTH_SHORT).show();
 			Log.d("test",
@@ -859,7 +859,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			// this.counter++;
 			if (isStart) {
 				Log.d("test", "kecepatan : " + magnitude);
-				TVAvgSpeed.setText(String.format("%.1f", magnitude));
+				TVAvgSpeed.setText(String.format("%.0f", magnitude));
 				// if (counter == 5) {
 				// int pointNow = Integer.parseInt(point.getText().toString());
 				// point.setText("" + (pointNow + 1));

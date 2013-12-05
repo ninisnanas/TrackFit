@@ -128,7 +128,7 @@ public class MenuActHistory extends Activity implements OnClickListener {
 				activityImage[i].setBackgroundResource(R.drawable.sports_regular_biking_icon);
 			}
 			
-			String temp = history.getDistance() + " km in " + history.getHour() + ":" + history.getMinute() + ":" + history.getSecond();
+			String temp = String.format("%.0f", history.getDistance()) + " m in " + history.getHour() + ":" + history.getMinute() + ":" + history.getSecond();
 			distanceTime[i].setText(temp);
 			temp = history.getCalorie() + " cal";
 			calorie[i].setText(temp);
