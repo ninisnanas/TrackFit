@@ -37,15 +37,14 @@
         android:layout_below="@+id/FrameTitle"
         android:orientation="vertical" >
         
-        <TextView
-            android:id="@+id/Body"
+        <ImageView
+            android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="30dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="\u00a9 2013\nby Tech-Hill Studio"
-            android:textSize="25sp" />
+            android:src="@drawable/about_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+       
     </LinearLayout>
     
     <RelativeLayout 
