@@ -43,5 +43,13 @@
     <string name="title_activity_menu_dash_cal">MenuDashCal</string>
     <string name="title_activity_menu_dash_speed">MenuDashSpeed</string>
     <string name="title_activity_menu_dash_time">MenuDashTime</string>
+    <string name="pick_activity">Pick your activity:</string>
+    <string name="walking">Walking</string>
+    <string name="running">Running</string>
+    <string name="cycling">Cycling</string>
+    <string name="next">Next</string>
+    <string name="share_title">Confirm share:</string>
+    <string name="share_content">Do you want to share this activity?</string>
+    <string name="title_activity_share_pop_up">SharePopUp</string>
 
 </resources>
