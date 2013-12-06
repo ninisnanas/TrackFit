@@ -133,7 +133,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	String shareMessage;
 	Context context;
 	Bitmap peta;
-	String time;
+	String time = "";
 	
 	Handler timerHandler = new Handler();
 
