@@ -34,7 +34,6 @@ public class SportsPicker extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				int selected = rGroup.getCheckedRadioButtonId();
 				selectedAct = (RadioButton) findViewById(selected);
 				
@@ -50,7 +49,6 @@ public class SportsPicker extends Activity {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
 							
 						}
 					});

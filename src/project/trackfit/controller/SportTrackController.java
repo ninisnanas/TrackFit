@@ -1,6 +1,5 @@
 package project.trackfit.controller;
 
-import project.trackfit.model.History;
 import project.trackfit.model.User;
 import android.content.Context;
 

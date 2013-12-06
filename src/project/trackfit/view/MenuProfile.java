@@ -79,7 +79,6 @@ public class MenuProfile extends Activity implements OnClickListener {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
 					
 				}
 			});
@@ -100,7 +99,6 @@ public class MenuProfile extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(home)) {
 			if (!newUser) {
 				startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -161,7 +159,6 @@ public class MenuProfile extends Activity implements OnClickListener {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						
 					}
 				});
@@ -175,14 +172,12 @@ public class MenuProfile extends Activity implements OnClickListener {
 	}
 
 	private void showAlertPopUp() {
-		// TODO Auto-generated method stub
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Attention!");
 		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -192,14 +187,12 @@ public class MenuProfile extends Activity implements OnClickListener {
 	}
 
 	private void showPopUp() {
-		// TODO Auto-generated method stub
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Attention!");
 		builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -209,7 +202,6 @@ public class MenuProfile extends Activity implements OnClickListener {
 	}
 
 	private boolean createUser() {
-		// TODO Auto-generated method stub
 		try {
 			user.setName(name.getText().toString());
 			user.setAge(Integer.parseInt(age.getText().toString()));
@@ -225,7 +217,6 @@ public class MenuProfile extends Activity implements OnClickListener {
 	}
 	
 	private void editUser() {
-		// TODO Auto-generated method stub
 		user.setName(name.getText().toString());
 		user.setAge(Integer.parseInt(age.getText().toString()));
 		user.setWeight(Integer.parseInt(weight.getText().toString()));

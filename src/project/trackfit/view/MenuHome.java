@@ -11,6 +11,7 @@ import project.trackfit.controller.HomeController;
 import project.trackfit.model.History;
 import project.trackfit.model.User;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -98,7 +99,6 @@ public class MenuHome extends Activity implements OnClickListener {
 	}
 
 	private void loadLastActivity() {
-		// TODO Auto-generated method stub
 		user = homeController.getUser();
 		userName.setText("Hello, " + user.getName() + "!");
 		
@@ -110,6 +110,7 @@ public class MenuHome extends Activity implements OnClickListener {
 		}
 	}
 	
+	@SuppressLint("DefaultLocale")
 	public String share(History history) {
 		int aid = history.getAid();
 		String activity;
@@ -118,11 +119,24 @@ public class MenuHome extends Activity implements OnClickListener {
 		else if (aid == 2) activity = "running";
 		else activity = "cycling";
 		
-		float distance = history.getDistance();
-		float calorie = history.getCalorie();
-		String time = history.getHour() + ":" + history.getMinute() + ":" +  history.getSecond();
+		String distance = String.format("%.0f", history.getDistance());
+		String calorie = String.format("%.0f", history.getCalorie());
+		int hour = history.getHour();
+		int minutes = history.getMinute();
+		int seconds = history.getSecond();
+		String time = "";
+		if (hour < 10) {
+			time.concat("0" + hour);
+		}
+		if (minutes < 10) {
+			time.concat("0" + minutes);
+		}
+		if (seconds < 10) {
+			time.concat("0" + seconds);
+		}
+		time = hour + ":" + minutes + ":" + seconds;
 		
-		return "I was out "+ activity +" for " + distance + " km in " + time + ". I burnt " + calorie + " cal! #TrackFit";
+		return "I was out "+ activity +" for " + distance + " m in " + time + ". I burnt " + calorie + " cal! #TrackFit";
 	}
 	
 	private final class ResponseListener implements DialogListener {
@@ -134,8 +148,7 @@ public class MenuHome extends Activity implements OnClickListener {
 			// Get name of provider after authentication
 			String providerName = values.getString(SocialAuthAdapter.PROVIDER);
 			Log.d("ShareButton", "Provider Name = " + providerName);
-			Toast.makeText(MenuHome.this, providerName + " connected", Toast.LENGTH_LONG).show();
-
+			
 			// Please avoid sending duplicate message. Social Media Providers
 			// block duplicate messages.
 			adapter.updateStatus(share(recentHist), new MessageListener(), false);
@@ -175,7 +188,6 @@ public class MenuHome extends Activity implements OnClickListener {
 		}
 
 	private void updateLastActivity(History recentHist) {
-		// TODO Auto-generated method stub
 		if (recentHist != null) {
 			homeActivity.setText("Your last activity:");
 			activityImage = new ImageView(context);
@@ -202,16 +214,30 @@ public class MenuHome extends Activity implements OnClickListener {
 			adapter.enable(buttonShare);
 			
 			if (recentHist.getAid() == 1) {
-				activityImage.setBackgroundResource(R.drawable.sports_regular_biking_icon);
+				activityImage.setBackgroundResource(R.drawable.walking);
 			} else if (recentHist.getAid() == 2){
 				activityImage.setBackgroundResource(R.drawable.sports_running_icon);
 			} else {
-				activityImage.setBackgroundResource(R.drawable.walking);
+				activityImage.setBackgroundResource(R.drawable.sports_regular_biking_icon);
 			}
 			
-			String temp = recentHist.getDistance() + " m in " + recentHist.getHour() + ":" + recentHist.getMinute() + ":" + recentHist.getSecond();
+			String time = "";
+			int hour = recentHist.getHour();
+			int minutes = recentHist.getMinute();
+			int seconds = recentHist.getSecond();
+			if (hour < 10) {
+				time.concat("0" + hour);
+			}
+			if (minutes < 10) {
+				time.concat("0" + minutes);
+			}
+			if (seconds < 10) {
+				time.concat("0" + seconds);
+			}
+			time = hour + ":" + minutes + ":" + seconds;
+			String temp = String.format("%.0f", recentHist.getDistance()) + " m in " +  time;
 			distanceTime.setText(temp);
-			temp = recentHist.getCalorie() + " cal";
+			temp = String.format("%.0f", recentHist.getCalorie()) + " cal";
 			calorie.setText(temp);
 			temp = recentHist.getDay() + "/" + recentHist.getMonth() + "/" + recentHist.getYear();
 			date.setText(temp);
@@ -230,12 +256,10 @@ public class MenuHome extends Activity implements OnClickListener {
 	}
 
 	private boolean hasActivity() {
-		// TODO Auto-generated method stub
 		return homeController.checkHistory();
 	}
 
 	private void createProfile(Context context) {
-		// TODO Auto-generated method stub
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			
@@ -250,7 +274,6 @@ public class MenuHome extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				finish();
 			}
 		});
@@ -274,7 +297,6 @@ public class MenuHome extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(tracker)) startActivity(new Intent(getApplicationContext(), SportsPicker.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(history)) startActivity(new Intent(getApplicationContext(), MenuActHistory.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
 		else if (v.equals(dashboard)) startActivity(new Intent(getApplicationContext(), MenuDashDist.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -287,10 +309,4 @@ public class MenuHome extends Activity implements OnClickListener {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
 	}
-	
-	/*
-	public void onResume() {
-		loadLastActivity();
-		super.onResume();
-	}*/
 }

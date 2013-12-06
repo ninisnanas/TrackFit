@@ -24,12 +24,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 */
 	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		String CREATE_USER = "CREATE TABLE USER (id integer primary key, name text, height integer, weight integer, age integer, body_mass real)";
 		String CREATE_ACTIVITY = "CREATE TABLE ACTIVITY (id integer primary key, name text)";
 		String INSERT_ACTIVITY = "INSERT INTO ACTIVITY VALUES (1, 'Walking')";
@@ -61,7 +59,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
 		
 	}
 	

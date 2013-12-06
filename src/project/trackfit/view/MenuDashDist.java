@@ -1,11 +1,7 @@
 package project.trackfit.view;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-//import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -38,7 +34,6 @@ public class MenuDashDist extends Activity implements OnClickListener {
 	private Button time;
 	private Context context;
 	private DashboardController dashboardController;
-	private String cDate;
 
 	@SuppressLint("SimpleDateFormat")
 	@Override
@@ -47,10 +42,6 @@ public class MenuDashDist extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_dash_dist);
 		overridePendingTransition(0,0);
 		context = this;
-		
-		DateFormat format  = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date currentDate = new Date();
-		cDate = format.format(currentDate);
 		
 		home = (Button) findViewById(R.id.HomeIconButton);
 		tracker = (Button) findViewById(R.id.TrackerIconButton);
@@ -74,7 +65,6 @@ public class MenuDashDist extends Activity implements OnClickListener {
 	}
 
 	private void showDistanceGraph() {
-		// TODO Auto-generated method stub
 		dashboardController = new DashboardController(context);
 		final ArrayList<History> historyList = dashboardController.getHistoryList();
 		
@@ -85,7 +75,6 @@ public class MenuDashDist extends Activity implements OnClickListener {
 			History temp = historyList.get(i);
 			double val = temp.getDistance();
 			dataSeries[i] = new GraphViewData(i + 1, val);
-			System.out.println("val " + i + " = " + val);
 		}
 		
 		GraphViewSeries exampleSeries = new GraphViewSeries(dataSeries);  
@@ -117,7 +106,6 @@ public class MenuDashDist extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(home)) {
 			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			finish();

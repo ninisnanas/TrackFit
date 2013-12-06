@@ -25,7 +25,6 @@ public class SoundController {
 				player.prepare();
 				player.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if (str.equals("WRONGCOMMAND")){
@@ -36,7 +35,6 @@ public class SoundController {
 				player.prepare();
 				player.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if (str.equals("START")){
@@ -47,7 +45,6 @@ public class SoundController {
 				player.prepare();
 				player.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -59,7 +56,6 @@ public class SoundController {
 				player.prepare();
 				player.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -71,7 +67,6 @@ public class SoundController {
 				player.prepare();
 				player.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -83,7 +78,6 @@ public class SoundController {
 				player.prepare();
 				player.start();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

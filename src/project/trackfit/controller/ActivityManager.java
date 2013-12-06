@@ -36,7 +36,6 @@ public class ActivityManager {
 	}
 
 	public boolean addHistory(int uid, int aid, float distance, int hour, int minute, int second, float calorie, float speed, int day, int month, int year) {
-		// TODO Auto-generated method stub
 		return db.insertHistory(uid, aid, distance, hour, minute, second, calorie, speed, day, month, year);
 	}
 }

@@ -63,7 +63,6 @@ public class MenuDashSpeed extends Activity implements OnClickListener {
 	}
 
 	private void showCalorieGraph() {
-		// TODO Auto-generated method stub
 		dashboardController = new DashboardController(context);
 		ArrayList<History> historyList = dashboardController.getHistoryList();
 		
@@ -76,7 +75,6 @@ public class MenuDashSpeed extends Activity implements OnClickListener {
 			String label = temp.getDay() + "/" + temp.getMonth();
 			dataSeries[i] = new GraphViewData(i + 1, val);
 			labelSeries[i] = label;
-			System.out.println("val = " + val);
 		}
 		
 		GraphViewSeries exampleSeries = new GraphViewSeries(dataSeries);  
@@ -109,7 +107,6 @@ public class MenuDashSpeed extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(home)) {
 			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			finish();

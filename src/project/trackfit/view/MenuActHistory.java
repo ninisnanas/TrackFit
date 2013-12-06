@@ -128,7 +128,21 @@ public class MenuActHistory extends Activity implements OnClickListener {
 				activityImage[i].setBackgroundResource(R.drawable.sports_regular_biking_icon);
 			}
 			
-			String temp = String.format("%.0f", history.getDistance()) + " m in " + history.getHour() + ":" + history.getMinute() + ":" + history.getSecond();
+			String time = "";
+			int hour = history.getHour();
+			int minutes = history.getMinute();
+			int seconds = history.getSecond();
+			if (hour < 10) {
+				time.concat("0" + hour);
+			}
+			if (minutes < 10) {
+				time.concat("0" + minutes);
+			}
+			if (seconds < 10) {
+				time.concat("0" + seconds);
+			}
+			time = hour + ":" + minutes + ":" + seconds;
+			String temp = String.format("%.0f", history.getDistance()) + " m in " +  time;
 			distanceTime[i].setText(temp);
 			temp = history.getCalorie() + " cal";
 			calorie[i].setText(temp);
@@ -162,11 +176,24 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		else if (aid == 2) activity = "running";
 		else activity = "walking";
 		
-		float distance = history.getDistance();
-		float calorie = history.getCalorie();
-		String time = history.getHour() + ":" + history.getMinute() + ":" +  history.getSecond();
+		String distance = String.format("%.0f", history.getDistance());
+		String calorie = String.format("%.0f", history.getCalorie());
+		int hour = history.getHour();
+		int minutes = history.getMinute();
+		int seconds = history.getSecond();
+		String time = "";
+		if (hour < 10) {
+			time.concat("0" + hour);
+		}
+		if (minutes < 10) {
+			time.concat("0" + minutes);
+		}
+		if (seconds < 10) {
+			time.concat("0" + seconds);
+		}
+		time = hour + ":" + minutes + ":" + seconds;
 		
-		return "I was out "+activity+" for " + distance + " km in " + time + ". I burnt " + calorie + " cal!";
+		return "I was out "+ activity +" for " + distance + " m in " + time + ". I burnt " + calorie + " cal! #TrackFit";
 	}
 
 	@Override
@@ -178,7 +205,6 @@ public class MenuActHistory extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(home)) {
 			startActivity(new Intent(getApplicationContext(), MenuHome.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_CLEAR_TOP));
 			finish();
@@ -204,54 +230,5 @@ public class MenuActHistory extends Activity implements OnClickListener {
 		super.onBackPressed();
 		overridePendingTransition(0,0);
 	}
-	/*
-	private final class ResponseListener implements DialogListener {
-		@Override
-		public void onComplete(Bundle values) {
 
-			Log.d("ShareButton", "Authentication Successful");
-
-			// Get name of provider after authentication
-			final String providerName = values.getString(SocialAuthAdapter.PROVIDER);
-			Log.d("ShareButton", "Provider Name = " + providerName);
-			Toast.makeText(MenuActHistory.this, providerName + " connected", Toast.LENGTH_LONG).show();
-
-			// Please avoid sending duplicate message. Social Media Providers
-			// block duplicate messages.
-			System.out.println("pesan = " + messageToShare[clickedHist]);
-			adapter.updateStatus(messageToShare[clickedHist], new MessageListener(), false);
-		}
-
-		@Override
-		public void onError(SocialAuthError error) {
-			Log.d("ShareButton", "Authentication Error: " + error.getMessage());
-		}
-
-		@Override
-		public void onCancel() {
-			Log.d("ShareButton", "Authentication Cancelled");
-		}
-
-		@Override
-		public void onBack() {
-			Log.d("Share-Button", "Dialog Closed by pressing Back Key");
-		}
-	}
-	
-	// To get status of message after authentication
-		private final class MessageListener implements SocialAuthListener<Integer> {
-			@Override
-			public void onExecute(String provider, Integer t) {
-				Integer status = t;
-				if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
-					Toast.makeText(MenuActHistory.this, "Message posted on " + provider, Toast.LENGTH_LONG).show();
-				else
-					Toast.makeText(MenuActHistory.this, "Message not posted on " + provider, Toast.LENGTH_LONG).show();
-			}
-
-			@Override
-			public void onError(SocialAuthError e) {
-
-			}
-		}*/
 }

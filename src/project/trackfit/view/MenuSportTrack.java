@@ -58,6 +58,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+@SuppressLint("DefaultLocale")
 public class MenuSportTrack extends Activity implements LocationListener, 
 		SensorEventListener, OnClickListener {
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
@@ -392,13 +393,24 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		return avg;
 	}
 
-	private double calculateCalories(int age, int weight, float timeMinute) {
-		int heartRate = 120;
-		double c = ((age * 0.2017) + (weight * 0.09036) + (heartRate * 0.6309) - 55.0969)
-				* timeMinute / 4.184;
-		// [(Age x 0.2017) + (Weight x 0.09036) + (Heart Rate x 0.6309) --
-		// 55.0969] x Time / 4.184.
-		return c;
+	private double calculateCalories(String act, int age, int weight, float timeMinute) {
+		int heartRateWalking = 100;
+		int heartRateRunning = 120;
+		int heartRateCycling= 110;
+		double cal = 0.0;
+		if (act.equals("Walking"))
+		{
+			cal = ((age * 0.2017) + (weight * 0.09036) + (heartRateWalking * 0.6309) - 55.0969)
+					* timeMinute / 5.184;
+		}else if (act.equals("Running")){
+			cal = ((age * 0.2017) + (weight * 0.09036) + (heartRateRunning * 0.6309) - 55.0969)
+					* timeMinute / 3.184;
+		}else if (act.equals("Cycling")){
+			cal = ((age * 0.2017) + (weight * 0.09036) + (heartRateCycling * 0.6309) - 55.0969)
+					* timeMinute / 4.184;
+		}
+		
+		return cal;
 	}
 
 	// enable features of the overlay
@@ -477,8 +489,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			initialLocation = currentLocation;
 			lastLocation = currentLocation;
 			finalLocation = currentLocation;
-			Toast.makeText(getApplicationContext(), "InitialMap",
-					Toast.LENGTH_SHORT).show();
 			Log.d("test", "Initiating Maps");
 			if (map == null) {
 				Toast.makeText(getApplicationContext(),
@@ -531,11 +541,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		
 
 	private void stopTrain() {
-		// Criteria crit = new Criteria();
-		// finalLocation =
-		// locationManager.getLastKnownLocation(locationManager.getBestProvider(crit,
-		// false));
-		// totalDistance = calculateDistance(initialLocation, finalLocation);
 		Criteria crit = new Criteria();
 		finalLocation = locationManager.getLastKnownLocation(locationManager
 				.getBestProvider(crit, false));
@@ -547,14 +552,17 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	@SuppressLint("SimpleDateFormat")
 	private void trainingSummary() {
+
+
+		boolean success = false;
 		jarakAwalAkhir = jarakSampeSekarang;
 		float calorie;
 		if (minutes!=0){
-			calorie = (float) calculateCalories(stc.getAge(),
+			calorie = (float) calculateCalories(selectedAct, stc.getAge(),
 					stc.getWeight(), minutes);
 		}else{
 			float menit = (float) 1/seconds;
-			calorie = (float) calculateCalories(stc.getAge(),
+			calorie = (float) calculateCalories(selectedAct, stc.getAge(),
 					stc.getWeight(), menit);
 		}
 		
@@ -566,18 +574,40 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		int month = Integer.parseInt(tanggal.substring(5, 7));
 		int year = Integer.parseInt(tanggal.substring(0, 4));
 		
-		boolean success = stc.addHistory(1, 2, totalDistance, hour, minutes,
-				seconds, calorie, avgSpeed, day, month, year);
+		if (selectedAct.equals("Walking")) {
+			success = stc.addHistory(1, 1, totalDistance, hour, minutes,
+					seconds, calorie, avgSpeed, day, month, year);
+		} else if (selectedAct.equals("Running")) {
+			success = stc.addHistory(1, 2, totalDistance, hour, minutes,
+					seconds, calorie, avgSpeed, day, month, year);
+		} else if (selectedAct.equals("Cycling")) {
+			success = stc.addHistory(1, 3, totalDistance, hour, minutes,
+					seconds, calorie, avgSpeed, day, month, year);
+		}
+		
+		
 		if (success) {
-			Toast.makeText(getApplicationContext(), "berhasil", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "History saved!", Toast.LENGTH_LONG).show();
+			if (hour < 10) {
+				time.concat("0" + hour);
+			}
+			if (minutes < 10) {
+				time.concat("0" + minutes);
+			}
+			if (seconds < 10) {
+				time.concat("0" + seconds);
+			}
 			time = hour + ":" + minutes + ":" + seconds;
-			shareMessage = "I was out "+ selectedAct +" for " + totalDistance + " m in " + time + ". I burnt " + calorie + " cal! #TrackFit";
+			
+			String distance = String.format("%.0f", totalDistance);
+			String cal = String.format("%.0f", calorie);
+			shareMessage = "I was out "+ selectedAct +" for " + distance + " m in " + time + ". I burnt " + cal + " cal! #TrackFit";
 			Intent intent = new Intent(context, SharePopUp.class);
 			intent.putExtra("message", shareMessage);
 			startActivity(intent);
 		}
 		else
-			Toast.makeText(getApplicationContext(), "gagal", Toast.LENGTH_LONG)
+			Toast.makeText(getApplicationContext(), "History cannot be saved", Toast.LENGTH_LONG)
 					.show();
 	}
 	
@@ -621,14 +651,10 @@ public class MenuSportTrack extends Activity implements LocationListener,
 					startPos = loca;
 				}
 				TVDistance.setText(String.format("%.0f",jarakSampeSekarang));
-				//TVAvgSpeed.setText("" + loc.getSpeed());
-				// Toast.makeText(getApplicationContext(),"JSS: "+jarakSampeSekarang+" Speed:"+loc.getSpeed(),
-				// Toast.LENGTH_SHORT).show();
 				Log.d("test",
 						"berubah" + loc.getLatitude() + ":" + loc.getLongitude());
 				point++;
 				avgSpeed = calculateAvgSpeed(loc.getSpeed());
-				// avgSpeed = calculateAvgSpeed(loc);
 			} catch (NullPointerException e){
 				Toast.makeText(this, "GPS not ready yet",
 						Toast.LENGTH_SHORT).show();
@@ -684,7 +710,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 								}else{
 									sc.PlaySound("WRONGCOMMAND");
 								}
-								//showToastMessage(voice + "setooop");
 							} else if (setStart.contains(voice)) {
 								if(isStart){
 									sc.PlaySound("START");
@@ -692,7 +717,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 								}else{
 									sc.PlaySound("WRONGCOMMAND");
 								}
-								//showToastMessage(voice + "muleee");
 							} else if (setResume.contains(voice)) {
 								if(isStart){
 									sc.PlaySound("RESUME");
@@ -700,7 +724,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 								}else{
 									sc.PlaySound("WRONGCOMMAND");
 								}
-								//showToastMessage(voice + "mule lagiiii");
 							} else if (setPause.contains(voice)) {
 								if(isStart){
 									sc.PlaySound("PAUSE");
@@ -708,9 +731,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 								}else{
 									sc.PlaySound("WRONGCOMMAND");
 								}
-								//showToastMessage(voice + "tepan bentaaaar");
 							} else{
-								//showToastMessage(voice+ " <-gak jelas ngomong apa");
 								sc.PlaySound("NOTCLEAR");
 							}
 								
