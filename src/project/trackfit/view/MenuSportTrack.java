@@ -407,13 +407,24 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		return avg;
 	}
 
-	private double calculateCalories(int age, int weight, float timeMinute) {
-		int heartRate = 120;
-		double c = ((age * 0.2017) + (weight * 0.09036) + (heartRate * 0.6309) - 55.0969)
-				* timeMinute / 4.184;
-		// [(Age x 0.2017) + (Weight x 0.09036) + (Heart Rate x 0.6309) --
-		// 55.0969] x Time / 4.184.
-		return c;
+	private double calculateCalories(String act, int age, int weight, float timeMinute) {
+		int heartRateWalking = 100;
+		int heartRateRunning = 120;
+		int heartRateCycling= 110;
+		double cal = 0.0;
+		if (act.equals("Walking"))
+		{
+			cal = ((age * 0.2017) + (weight * 0.09036) + (heartRateWalking * 0.6309) - 55.0969)
+					* timeMinute / 5.184;
+		}else if (act.equals("Running")){
+			cal = ((age * 0.2017) + (weight * 0.09036) + (heartRateRunning * 0.6309) - 55.0969)
+					* timeMinute / 3.184;
+		}else if (act.equals("Cycling")){
+			cal = ((age * 0.2017) + (weight * 0.09036) + (heartRateCycling * 0.6309) - 55.0969)
+					* timeMinute / 4.184;
+		}
+		
+		return cal;
 	}
 
 	// enable features of the overlay
@@ -563,14 +574,15 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	private void trainingSummary() {
 
+		boolean success = false;
 		jarakAwalAkhir = jarakSampeSekarang;
 		float calorie;
 		if (minutes!=0){
-			calorie = (float) calculateCalories(stc.getAge(),
+			calorie = (float) calculateCalories(selectedAct, stc.getAge(),
 					stc.getWeight(), minutes);
 		}else{
 			float menit = (float) 1/seconds;
-			calorie = (float) calculateCalories(stc.getAge(),
+			calorie = (float) calculateCalories(selectedAct, stc.getAge(),
 					stc.getWeight(), menit);
 		}
 		
@@ -588,10 +600,20 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		// System.out.println(day);
 		// System.out.println(month);
 		// System.out.println(year);
-		boolean success = stc.addHistory(1, 2, totalDistance, hours, minutes,
-				seconds, calorie, avgSpeed, day, month, year);
+		if (selectedAct.equals("Walking"))
+		{
+			success = stc.addHistory(1, 1, totalDistance, hours, minutes,
+					seconds, calorie, avgSpeed, day, month, year);
+		}else if (selectedAct.equals("Running")){
+			success = stc.addHistory(1, 2, totalDistance, hours, minutes,
+					seconds, calorie, avgSpeed, day, month, year);
+		}else if (selectedAct.equals("Cycling")){
+			success = stc.addHistory(1, 3, totalDistance, hours, minutes,
+					seconds, calorie, avgSpeed, day, month, year);
+		}
+		
 		if (success)
-			Toast.makeText(getApplicationContext(), "berhasil",
+			Toast.makeText(getApplicationContext(), "Activity Saved",
 					Toast.LENGTH_LONG).show();
 		else
 			Toast.makeText(getApplicationContext(), "gagal", Toast.LENGTH_LONG)
