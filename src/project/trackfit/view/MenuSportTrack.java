@@ -1,6 +1,5 @@
 package project.trackfit.view;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,8 +22,10 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -34,9 +35,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Bitmap.CompressFormat;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -45,8 +43,6 @@ import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +54,7 @@ import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+//import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -94,7 +90,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	int invisible = View.GONE;
 	int visible = View.VISIBLE;
 
-	private View frame;
+	//private View frame;
 	private TextView TVstopwatch;
 	private TextView TVAvgSpeed;
 	private TextView TVDistance;
@@ -112,8 +108,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	private long startTime = 0L;
 	private long updatedTime = 0L;
 	private long timeSwapBuff = 0L;
-	private long time = 0L;
-
+	
 	Location lokasLama;
 	Location initialLocation;
 	Location lastLocation;
@@ -128,13 +123,16 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	int minutes;
 	int seconds;
-	int hours;
+	int hour;
 
 	int point;
 	int counter = 0;
 	
 	String selectedAct;
-
+	String shareMessage;
+	Context context;
+	Bitmap peta;
+	
 	Handler timerHandler = new Handler();
 
 	@Override
@@ -142,6 +140,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sport_track);
 		mInitialized = false;
+		context = this;
 		
 		Intent intent = getIntent();
 		selectedAct = intent.getStringExtra("activity");
@@ -227,7 +226,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	}
 
 	private void setupView() {
-		frame = findViewById(R.id.frame);
+		//frame = findViewById(R.id.frame);
 		TVstopwatch = (TextView) findViewById(R.id.textViewDuration);
 		TVAvgSpeed = (TextView) findViewById(R.id.textViewAvgSpeed);
 		TVDistance = (TextView) findViewById(R.id.textViewDistance);
@@ -261,7 +260,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(home)) {
 			if (!isStart){
 				startActivity(new Intent(getApplicationContext(), MenuHome.class)
@@ -307,9 +305,9 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		} else if (v.equals(resume)) {
 			resumeRun();
 		} else if (v.equals(stop)) {
+			//map.snapshot(callback);
 			stopRun();
 			//PrintScreen();
-			map.snapshot(callback);
 			// Toast.makeText(getApplicationContext(), "" + updatedTime +
 			// "haha",
 			// Toast.LENGTH_LONG).show();
@@ -317,7 +315,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	}
 
 	private void stopRun() {
-		// TODO Auto-generated method stub
 		isStart = false;
 		start.setVisibility(visible);
 		pause.setVisibility(invisible);
@@ -325,13 +322,13 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		stop.setVisibility(invisible);
 		timeSwapBuff = 0;
 		timerHandler.removeCallbacks(timerRunnable);
+		//snapshot(GoogleMap.SnapshotReadyCallback callback);
 		stopTrain();
 		trainingSummary();
 		setVaribleToDefault();
 	}
 
 	private void resumeRun() {
-		// TODO Auto-generated method stub
 		isStart = true;
 		start.setVisibility(invisible);
 		pause.setVisibility(visible);
@@ -342,7 +339,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	}
 
 	private void pauseRun() {
-		// TODO Auto-generated method stub
 		isStart = false;
 		start.setVisibility(invisible);
 		pause.setVisibility(invisible);
@@ -353,7 +349,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	}
 
 	private void startRun() {
-		// TODO Auto-generated method stub
 		if (readyToRun()) {
 
 			isStart = true;
@@ -395,14 +390,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		return result[0];
 	}
 
-	private float calculateAvgSpeed(Location loc) {
-		float s = loc.getSpeed();
-		float avg = ((avgSpeed * (point - 1)) + s) / point;
-		return avg;
-	}
-
 	private float calculateAvgSpeed(float speed) {
-		// TODO Auto-generated method stub
 		float avg = ((avgSpeed * (point - 1)) + speed) / point;
 		return avg;
 	}
@@ -453,10 +441,9 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			int mins = secs / 60;
 			int hours = mins / 60;
 			secs = secs % 60;
-			int milliSecs = (int) (updatedTime % 1000);
 			TVstopwatch.setText("" + hours + ":" + String.format("%02d", mins)
 					+ ":" + String.format("%02d", secs));
-			hours = hours;
+			hour = hours;
 			minutes = mins;
 			seconds = secs;
 
@@ -572,7 +559,9 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		}
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	private void trainingSummary() {
+
 
 		boolean success = false;
 		jarakAwalAkhir = jarakSampeSekarang;
@@ -600,26 +589,36 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		// System.out.println(day);
 		// System.out.println(month);
 		// System.out.println(year);
+
 		if (selectedAct.equals("Walking"))
 		{
-			success = stc.addHistory(1, 1, totalDistance, hours, minutes,
+			success = stc.addHistory(1, 1, totalDistance, hour, minutes,
 					seconds, calorie, avgSpeed, day, month, year);
 		}else if (selectedAct.equals("Running")){
-			success = stc.addHistory(1, 2, totalDistance, hours, minutes,
+			success = stc.addHistory(1, 2, totalDistance, hour, minutes,
 					seconds, calorie, avgSpeed, day, month, year);
 		}else if (selectedAct.equals("Cycling")){
-			success = stc.addHistory(1, 3, totalDistance, hours, minutes,
+			success = stc.addHistory(1, 3, totalDistance, hour, minutes,
 					seconds, calorie, avgSpeed, day, month, year);
 		}
 		
-		if (success)
-			Toast.makeText(getApplicationContext(), "Activity Saved",
-					Toast.LENGTH_LONG).show();
+		
+		if (success) {
+			Toast.makeText(getApplicationContext(), "berhasil", Toast.LENGTH_LONG).show();
+			String time = hour + ":" + minutes + ":" + seconds;
+			shareMessage = "I was out "+ selectedAct +" for " + totalDistance + " km in " + time + ". I burnt " + calorie + " cal! #TrackFit";
+			/*Intent intent = new Intent(this, SharePopUp.class);
+			intent.putExtra("message", shareMessage);
+			intent.putExtra("bitmap", peta);
+			Log.d("debug", "uhu"+peta.getHeight()+":"+peta.getWidth()+":"+":"+peta.describeContents());
+			//System.out.println("bitmap = " + bitmap.describeContents());
+			startActivity(intent);*/
+		}
 		else
 			Toast.makeText(getApplicationContext(), "gagal", Toast.LENGTH_LONG)
 					.show();
 	}
-
+	
 	private boolean isGPSEnabled() {
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
@@ -633,59 +632,46 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	@Override
 	public void onLocationChanged(Location loc) {
 		if (isStart) {
-			/** Algoritma alternatif */
-			LatLng currentLocation = new LatLng(map.getMyLocation()
-					.getLatitude(), map.getMyLocation().getLongitude());
-			routePoints.add(currentLocation);
-			Polyline route = map.addPolyline(new PolylineOptions()
-					.geodesic(true));
-			route.setPoints(routePoints);
-			
-			Location loca = new Location("");
-			loca.setLatitude(currentLocation.latitude);
-			loca.setLongitude(currentLocation.longitude);
-			
-			/** Algoritma yang seharusnya */
-			/*
-			 * LatLng currentLatLng = new LatLng(loc.getLatitude(),
-			 * loc.getLongitude()); routePoints.add(currentLatLng); Polyline
-			 * route = map.addPolyline(new PolylineOptions() .geodesic(true));
-			 * route.setPoints(routePoints);
-			 */
-			if (startPos == null) {
-				startPos = loca;
-			} else {
-				jarakSampeSekarang += calculateDistance(startPos, loca);
-				startPos = loca;
+			try {
+				/** Algoritma alternatif */
+				LatLng currentLocation = new LatLng(map.getMyLocation()
+						.getLatitude(), map.getMyLocation().getLongitude());
+				routePoints.add(currentLocation);
+				Polyline route = map.addPolyline(new PolylineOptions()
+						.geodesic(true));
+				route.setPoints(routePoints);
+				
+				Location loca = new Location("");
+				loca.setLatitude(currentLocation.latitude);
+				loca.setLongitude(currentLocation.longitude);
+				
+				/** Algoritma yang seharusnya */
+				/*
+				 * LatLng currentLatLng = new LatLng(loc.getLatitude(),
+				 * loc.getLongitude()); routePoints.add(currentLatLng); Polyline
+				 * route = map.addPolyline(new PolylineOptions() .geodesic(true));
+				 * route.setPoints(routePoints);
+				 */
+				if (startPos == null) {
+					startPos = loca;
+				} else {
+					jarakSampeSekarang += calculateDistance(startPos, loca);
+					startPos = loca;
+				}
+				TVDistance.setText(String.format("%.0f",jarakSampeSekarang));
+				//TVAvgSpeed.setText("" + loc.getSpeed());
+				// Toast.makeText(getApplicationContext(),"JSS: "+jarakSampeSekarang+" Speed:"+loc.getSpeed(),
+				// Toast.LENGTH_SHORT).show();
+				Log.d("test",
+						"berubah" + loc.getLatitude() + ":" + loc.getLongitude());
+				point++;
+				avgSpeed = calculateAvgSpeed(loc.getSpeed());
+				// avgSpeed = calculateAvgSpeed(loc);
+			} catch (NullPointerException e){
+				Toast.makeText(this, "GPS not ready yet",
+						Toast.LENGTH_SHORT).show();
 			}
-			TVDistance.setText(String.format("%.0f",jarakSampeSekarang));
-			//TVAvgSpeed.setText("" + loc.getSpeed());
-			// Toast.makeText(getApplicationContext(),"JSS: "+jarakSampeSekarang+" Speed:"+loc.getSpeed(),
-			// Toast.LENGTH_SHORT).show();
-			Log.d("test",
-					"berubah" + loc.getLatitude() + ":" + loc.getLongitude());
-			point++;
-			avgSpeed = calculateAvgSpeed(loc.getSpeed());
-			// avgSpeed = calculateAvgSpeed(loc);
 		}
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void checkVoiceRecognition() {
@@ -827,13 +813,11 @@ public class MenuSportTrack extends Activity implements LocationListener,
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		// TODO Auto-generated method stub
 		float x = event.values[0];
 		float y = event.values[1];
 		float z = event.values[2];
@@ -880,7 +864,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 			// if (magnitude >1) {
 			// this.counter++;
 			if (isStart) {
-				Log.d("test", "kecepatan : " + magnitude);
 				TVAvgSpeed.setText(String.format("%.0f", magnitude));
 				// if (counter == 5) {
 				// int pointNow = Integer.parseInt(point.getText().toString());
@@ -891,53 +874,63 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		}
 	}
 	
+	/*
 	private void MakeMapsBaloon(LatLng position){
 		MarkerOptions marker = new MarkerOptions().position(
 				new LatLng(position.latitude, position
 						.longitude)).title("You're here");
 
 		map.addMarker(marker);
-	}
+	}*/
 	
-	private void PrintScreen(){
-		frame.setDrawingCacheEnabled(true);
-		   Bitmap bitmap = frame.getDrawingCache();
-		   File file = new File("/sdcard/"+"haha"+".png");    
-		   try  {
-		    if(!file.exists())
-		         {
-		         file.createNewFile();
-		         }
-		  FileOutputStream ostream = new FileOutputStream(file);
-		  bitmap.compress(CompressFormat.PNG, 10, ostream);                                        
-		  ostream.close();
-		                            frame.invalidate();                           
-		} 
-		 catch (Exception e) 
-		 { e.printStackTrace();
-		                        }finally
-		                        {
-
-		                            frame.setDrawingCacheEnabled(false);                          
-		                        }
-		 
-	}
+	/*public void captureMap() {
+		System.out.println("captureMap kepanggil");
+		SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+	        @Override
+	        public void onSnapshotReady(Bitmap snapshot) {
+	        	System.out.println("on snapshot ready");
+	            peta = snapshot;
+	            Log.d("debug", peta.getHeight()+":"+peta.getWidth()+":"+":"+peta.describeContents());
+	            System.out.println("bitmap = " + peta.describeContents());
+	            try {
+	                   FileOutputStream out = new FileOutputStream("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"trackFit2"+".png");
+	                   peta.compress(Bitmap.CompressFormat.PNG, 100, out);
+	            } catch (Exception e) {
+	                   e.printStackTrace();
+	            }
+	        }
+	    };
+	    map.snapshot(callback);
+	}*/
 	
-	private SnapshotReadyCallback callback = new SnapshotReadyCallback() {
-        Bitmap bitmap;
-
-        @Override
-        public void onSnapshotReady(Bitmap snapshot) {
-            // TODO Auto-generated method stub
-            bitmap = snapshot;
-            try {
-                   FileOutputStream out = new FileOutputStream("/sdcard/"+"haha"+".png");
-                   bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                   e.printStackTrace();
-            }
+	public void onSnapshotReady(Bitmap snapshot) {
+    	System.out.println("on snapshot ready");
+        peta = snapshot;
+        Log.d("debug", peta.getHeight()+":"+peta.getWidth()+":"+":"+peta.describeContents());
+        System.out.println("bitmap = " + peta.describeContents());
+        try {
+               FileOutputStream out = new FileOutputStream("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"trackFit2"+".png");
+               peta.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (Exception e) {
+               e.printStackTrace();
         }
-    };
+    }
+	 
+
+	@Override
+	public void onProviderDisabled(String arg0) {
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		
+	}
 
     //map.snapshot(callback);
 }

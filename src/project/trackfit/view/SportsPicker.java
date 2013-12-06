@@ -3,7 +3,9 @@ package project.trackfit.view;
 import project.trackfit.R;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -36,10 +38,26 @@ public class SportsPicker extends Activity {
 				int selected = rGroup.getCheckedRadioButtonId();
 				selectedAct = (RadioButton) findViewById(selected);
 				
-				Intent intent = new Intent(context, MenuSportTrack.class);
-				intent.putExtra("activity", selectedAct.getText());
-				startActivity(intent);
-				finish();
+				if (selectedAct != null) {
+					Intent intent = new Intent(context, MenuSportTrack.class);
+					intent.putExtra("activity", selectedAct.getText());
+					startActivity(intent);
+					finish();
+				} else {
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			        builder.setTitle("Attention!");
+					builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					builder.setMessage("You haven't choose any activity! Choose one first!");
+					AlertDialog dialog = builder.create();
+					dialog.show();
+				}
 			}
 			
 		});

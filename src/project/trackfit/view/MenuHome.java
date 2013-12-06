@@ -132,7 +132,7 @@ public class MenuHome extends Activity implements OnClickListener {
 			Log.d("ShareButton", "Authentication Successful");
 
 			// Get name of provider after authentication
-			final String providerName = values.getString(SocialAuthAdapter.PROVIDER);
+			String providerName = values.getString(SocialAuthAdapter.PROVIDER);
 			Log.d("ShareButton", "Provider Name = " + providerName);
 			Toast.makeText(MenuHome.this, providerName + " connected", Toast.LENGTH_LONG).show();
 
