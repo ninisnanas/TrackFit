@@ -132,6 +132,7 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	String shareMessage;
 	Context context;
 	Bitmap peta;
+	String time;
 	
 	Handler timerHandler = new Handler();
 
@@ -305,12 +306,9 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		} else if (v.equals(resume)) {
 			resumeRun();
 		} else if (v.equals(stop)) {
-			//map.snapshot(callback);
+			captureMapScreen();
 			stopRun();
-			//PrintScreen();
-			// Toast.makeText(getApplicationContext(), "" + updatedTime +
-			// "haha",
-			// Toast.LENGTH_LONG).show();
+			setVaribleToDefault();
 		}
 	}
 
@@ -325,7 +323,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		//snapshot(GoogleMap.SnapshotReadyCallback callback);
 		stopTrain();
 		trainingSummary();
-		setVaribleToDefault();
 	}
 
 	private void resumeRun() {
@@ -561,10 +558,6 @@ public class MenuSportTrack extends Activity implements LocationListener,
 					stc.getWeight(), menit);
 		}
 		
-		// Toast.makeText(
-		// getApplicationContext(),
-		// "speed: " + avgSpeed + " distance: " + totalDistance
-		// + "calories boong" +"age", Toast.LENGTH_LONG).show();
 		DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date currentDate = new Date();
 		String tanggal = format.format(currentDate);
@@ -572,21 +565,16 @@ public class MenuSportTrack extends Activity implements LocationListener,
 		int day = Integer.parseInt(tanggal.substring(8, 10));
 		int month = Integer.parseInt(tanggal.substring(5, 7));
 		int year = Integer.parseInt(tanggal.substring(0, 4));
-		// System.out.println(day);
-		// System.out.println(month);
-		// System.out.println(year);
+		
 		boolean success = stc.addHistory(1, 2, totalDistance, hour, minutes,
 				seconds, calorie, avgSpeed, day, month, year);
 		if (success) {
 			Toast.makeText(getApplicationContext(), "berhasil", Toast.LENGTH_LONG).show();
-			String time = hour + ":" + minutes + ":" + seconds;
-			shareMessage = "I was out "+ selectedAct +" for " + totalDistance + " km in " + time + ". I burnt " + calorie + " cal! #TrackFit";
-			/*Intent intent = new Intent(this, SharePopUp.class);
+			time = hour + ":" + minutes + ":" + seconds;
+			shareMessage = "I was out "+ selectedAct +" for " + totalDistance + " m in " + time + ". I burnt " + calorie + " cal! #TrackFit";
+			Intent intent = new Intent(context, SharePopUp.class);
 			intent.putExtra("message", shareMessage);
-			intent.putExtra("bitmap", peta);
-			Log.d("debug", "uhu"+peta.getHeight()+":"+peta.getWidth()+":"+":"+peta.describeContents());
-			//System.out.println("bitmap = " + bitmap.describeContents());
-			startActivity(intent);*/
+			startActivity(intent);
 		}
 		else
 			Toast.makeText(getApplicationContext(), "gagal", Toast.LENGTH_LONG)
@@ -877,17 +865,25 @@ public class MenuSportTrack extends Activity implements LocationListener,
 	    map.snapshot(callback);
 	}*/
 	
-	public void onSnapshotReady(Bitmap snapshot) {
-    	System.out.println("on snapshot ready");
-        peta = snapshot;
-        Log.d("debug", peta.getHeight()+":"+peta.getWidth()+":"+":"+peta.describeContents());
-        System.out.println("bitmap = " + peta.describeContents());
-        try {
-               FileOutputStream out = new FileOutputStream("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"trackFit2"+".png");
-               peta.compress(Bitmap.CompressFormat.PNG, 100, out);
-        } catch (Exception e) {
-               e.printStackTrace();
-        }
+	public void captureMapScreen() {
+        SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+            	peta = snapshot;
+            	System.out.println("peta = " + snapshot);
+    			try {
+	                   FileOutputStream out = new FileOutputStream("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"trackFit2"+".png");
+	                   peta.compress(Bitmap.CompressFormat.PNG, 100, out);
+	            } catch (Exception e) {
+	                   e.printStackTrace();
+	            }
+            }
+        };
+
+        map.snapshot(callback);
+        //System.out.println("peta = " + peta);
+
     }
 	 
 

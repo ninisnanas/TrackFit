@@ -1,5 +1,7 @@
 package project.trackfit.view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import org.brickred.socialauth.android.DialogListener;
@@ -14,14 +16,18 @@ import android.os.Environment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class SharePopUp extends Activity {
+public class SharePopUp extends Activity implements OnClickListener {
 	
 	private Button confirmButton;
+	private Button cancelButton;
 	private SocialAuthAdapter adapter;
 	private Bitmap bitmap;
 	private String shareMessage;
@@ -31,17 +37,17 @@ public class SharePopUp extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_share_pop_up);
 		
+		System.out.println("ini share popup");
+		
 		confirmButton = (Button) findViewById(R.id.yesButton);
+		cancelButton = (Button) findViewById(R.id.noButton);
+		
+		cancelButton.setOnClickListener(this);
 		
 		Intent intent = getIntent();
 		shareMessage = intent.getStringExtra("message");
-		bitmap = (Bitmap) intent.getParcelableExtra("bitmap");
-		try {
-            FileOutputStream out = new FileOutputStream("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"ngetes"+".png");
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-     } catch (Exception e) {
-            e.printStackTrace();
-     }
+		//FileInputStream in = new FileInputStream("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"trackFit2"+".png");
+		bitmap = BitmapFactory.decodeFile("/" + Environment.getExternalStorageDirectory().getPath() + "/"+"trackFit2"+".png");
 		
 		adapter = new SocialAuthAdapter(new ResponseListener());
 		adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
@@ -86,7 +92,7 @@ public class SharePopUp extends Activity {
 				e.printStackTrace();
 			}
 			
-			adapter.updateStatus(getShare(), new MessageListener(), false);
+			//adapter.updateStatus(getShare(), new MessageListener(), false);
 			finish();
 		}
 
@@ -147,5 +153,11 @@ public class SharePopUp extends Activity {
 		public void onError(SocialAuthError e) {
 	
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v.equals(cancelButton)) finish();
 	}
 }
