@@ -279,6 +279,7 @@ public class MenuHome extends Activity implements OnClickListener {
 		});
 		
 		builder.setMessage("You haven't created a profile! Create now?");
+		builder.setCancelable(false);
 		AlertDialog dialog = builder.create();
 		dialog.show();
 	}
@@ -305,8 +306,8 @@ public class MenuHome extends Activity implements OnClickListener {
 	}
 
 	public void onBackPressed() {
-		loadLastActivity();
 		super.onBackPressed();
+		loadLastActivity();
 		overridePendingTransition(0,0);
 	}
 }

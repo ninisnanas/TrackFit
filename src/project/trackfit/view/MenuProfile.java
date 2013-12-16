@@ -82,6 +82,7 @@ public class MenuProfile extends Activity implements OnClickListener {
 					
 				}
 			});
+    		builder.setCancelable(false);
     		builder.setMessage("Welcome to TrackFit! Please fill in your profile.");
     		AlertDialog dialog = builder.create();
     		dialog.show();
@@ -235,7 +236,11 @@ public class MenuProfile extends Activity implements OnClickListener {
 	}
 
 	public void onBackPressed() {
-		super.onBackPressed();
-		overridePendingTransition(0,0);
+		if (!newUser) {
+			super.onBackPressed();
+			overridePendingTransition(0,0);
+		} else {
+			showPopUp();
+		}
 	}
 }
